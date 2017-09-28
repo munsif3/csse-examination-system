@@ -20,6 +20,7 @@ public class DashboardStudent extends javax.swing.JFrame {
     public DashboardStudent() {
         initComponents();
         lblUser.setText(User.getName());
+        
 
     }
 
@@ -43,19 +44,37 @@ public class DashboardStudent extends javax.swing.JFrame {
         jPanel5 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
-        jLabel6 = new javax.swing.JLabel();
+        lblModules = new javax.swing.JLabel();
         jPanel7 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         jPanel8 = new javax.swing.JPanel();
         lblContactUs = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
+        jPanel10 = new javax.swing.JPanel();
+        jLabel8 = new javax.swing.JLabel();
         pnlHeader = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         lblUser = new javax.swing.JLabel();
         lblLogout = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
+        lblHeader = new javax.swing.JLabel();
+        pnlModuleContent = new javax.swing.JPanel();
+        lblViewHeading = new javax.swing.JLabel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        lstModules = new javax.swing.JList<>();
+        pnlQuizContent = new javax.swing.JPanel();
+        jLabel12 = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        lstQuiz = new javax.swing.JList<>();
+        pnlAttemptQuizContent = new javax.swing.JPanel();
+        jPanel3 = new javax.swing.JPanel();
+        lblSelectedQuiz = new javax.swing.JLabel();
+        jPanel4 = new javax.swing.JPanel();
+        jLabel14 = new javax.swing.JLabel();
+        jPanel9 = new javax.swing.JPanel();
+        jTextField2 = new javax.swing.JTextField();
+        jLabel13 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("LECTURER DASHBOARD");
@@ -153,10 +172,15 @@ public class DashboardStudent extends javax.swing.JFrame {
             }
         });
 
-        jLabel6.setFont(new java.awt.Font("Segoe UI Light", 0, 16)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel6.setText("My Courses");
-        jLabel6.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lblModules.setFont(new java.awt.Font("Segoe UI Light", 0, 16)); // NOI18N
+        lblModules.setForeground(new java.awt.Color(255, 255, 255));
+        lblModules.setText("My Modules");
+        lblModules.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lblModules.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblModulesMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -164,14 +188,14 @@ public class DashboardStudent extends javax.swing.JFrame {
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, 106, Short.MAX_VALUE)
+                .addComponent(lblModules, javax.swing.GroupLayout.DEFAULT_SIZE, 106, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, 24, Short.MAX_VALUE)
+                .addComponent(lblModules, javax.swing.GroupLayout.DEFAULT_SIZE, 24, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -215,7 +239,7 @@ public class DashboardStudent extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        pnlNavigation.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 200, 130, 50));
+        pnlNavigation.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 250, 130, 50));
 
         jPanel8.setBackground(new java.awt.Color(70, 102, 144));
         jPanel8.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -255,7 +279,7 @@ public class DashboardStudent extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        pnlNavigation.add(jPanel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 250, 130, 50));
+        pnlNavigation.add(jPanel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 300, 130, 50));
 
         jPanel1.setBackground(new java.awt.Color(204, 217, 233));
 
@@ -279,6 +303,46 @@ public class DashboardStudent extends javax.swing.JFrame {
         );
 
         pnlNavigation.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 130, 100));
+
+        jPanel10.setBackground(new java.awt.Color(70, 102, 144));
+        jPanel10.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jPanel10.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jPanel10.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jPanel10MousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jPanel10MouseReleased(evt);
+            }
+        });
+
+        jLabel8.setFont(new java.awt.Font("Segoe UI Light", 0, 16)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel8.setText("Exams");
+        jLabel8.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel8MouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
+        jPanel10.setLayout(jPanel10Layout);
+        jPanel10Layout.setHorizontalGroup(
+            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel10Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, 106, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel10Layout.setVerticalGroup(
+            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, 24, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        pnlNavigation.add(jPanel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 200, 130, 50));
 
         getContentPane().add(pnlNavigation, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 620));
 
@@ -310,9 +374,9 @@ public class DashboardStudent extends javax.swing.JFrame {
 
         jPanel2.setBackground(new java.awt.Color(70, 102, 144));
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("Student Dashboard");
+        lblHeader.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        lblHeader.setForeground(new java.awt.Color(255, 255, 255));
+        lblHeader.setText("Student Dashboard");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -320,19 +384,151 @@ public class DashboardStudent extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 756, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lblHeader, javax.swing.GroupLayout.PREFERRED_SIZE, 756, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(64, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(lblHeader, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pnlHeader.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, 830, 40));
 
         getContentPane().add(pnlHeader, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 0, 830, -1));
+
+        pnlModuleContent.setBackground(new java.awt.Color(204, 217, 233));
+        pnlModuleContent.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        lblViewHeading.setBackground(new java.awt.Color(70, 102, 144));
+        lblViewHeading.setFont(new java.awt.Font("Segoe UI Light", 0, 24)); // NOI18N
+        lblViewHeading.setForeground(new java.awt.Color(70, 102, 144));
+        lblViewHeading.setText("Modules");
+        pnlModuleContent.add(lblViewHeading, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 50, 100, 30));
+
+        lstModules.setBackground(new java.awt.Color(204, 217, 233));
+        lstModules.setFont(new java.awt.Font("Segoe UI Light", 0, 16)); // NOI18N
+        lstModules.setForeground(new java.awt.Color(51, 102, 255));
+        lstModules.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = { "SPM", "UEE", "DBS", "CSSE" };
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        lstModules.setSelectionBackground(new java.awt.Color(204, 204, 204));
+        lstModules.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                lstModulesValueChanged(evt);
+            }
+        });
+        jScrollPane4.setViewportView(lstModules);
+
+        pnlModuleContent.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 90, 310, 130));
+
+        getContentPane().add(pnlModuleContent, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 100, 830, 520));
+
+        pnlQuizContent.setBackground(new java.awt.Color(204, 217, 233));
+        pnlQuizContent.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel12.setBackground(new java.awt.Color(70, 102, 144));
+        jLabel12.setFont(new java.awt.Font("Segoe UI Light", 0, 24)); // NOI18N
+        jLabel12.setForeground(new java.awt.Color(70, 102, 144));
+        jLabel12.setText("Selected Module");
+        pnlQuizContent.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 50, 200, 30));
+
+        lstQuiz.setBackground(new java.awt.Color(204, 217, 233));
+        lstQuiz.setFont(new java.awt.Font("Segoe UI Light", 0, 16)); // NOI18N
+        lstQuiz.setForeground(new java.awt.Color(51, 102, 255));
+        lstQuiz.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = { "SPM-Quiz-1", "UEE-Quiz-1", "DBS-Quiz-1", "CSSE-Quiz-1" };
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        lstQuiz.setSelectionBackground(new java.awt.Color(204, 204, 204));
+        lstQuiz.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                lstQuizValueChanged(evt);
+            }
+        });
+        jScrollPane3.setViewportView(lstQuiz);
+
+        pnlQuizContent.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 90, 310, 130));
+
+        getContentPane().add(pnlQuizContent, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 100, 830, 520));
+
+        pnlAttemptQuizContent.setBackground(new java.awt.Color(204, 217, 233));
+        pnlAttemptQuizContent.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jPanel3.setBackground(new java.awt.Color(51, 153, 255));
+
+        lblSelectedQuiz.setBackground(new java.awt.Color(70, 102, 144));
+        lblSelectedQuiz.setFont(new java.awt.Font("Segoe UI Light", 0, 36)); // NOI18N
+        lblSelectedQuiz.setForeground(new java.awt.Color(51, 51, 51));
+        lblSelectedQuiz.setText("Selected Quiz");
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap(31, Short.MAX_VALUE)
+                .addComponent(lblSelectedQuiz, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(19, 19, 19))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblSelectedQuiz, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(19, Short.MAX_VALUE))
+        );
+
+        pnlAttemptQuizContent.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 30, 280, 60));
+
+        jLabel14.setBackground(new java.awt.Color(70, 102, 144));
+        jLabel14.setFont(new java.awt.Font("Segoe UI Light", 0, 36)); // NOI18N
+        jLabel14.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel14.setText("Attemp Quiz");
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addContainerGap(27, Short.MAX_VALUE)
+                .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(23, 23, 23))
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel14)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        pnlAttemptQuizContent.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 240, 250, 70));
+
+        jPanel9.setBackground(new java.awt.Color(204, 217, 233));
+        jPanel9.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jTextField2.setText("jTextField2");
+        jTextField2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField2ActionPerformed(evt);
+            }
+        });
+        jPanel9.add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 120, 30));
+
+        pnlAttemptQuizContent.add(jPanel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 140, 150, 50));
+
+        jLabel13.setBackground(new java.awt.Color(70, 102, 144));
+        jLabel13.setFont(new java.awt.Font("Segoe UI Light", 0, 24)); // NOI18N
+        jLabel13.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel13.setText("Quizz Password");
+        pnlAttemptQuizContent.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 140, 200, 30));
+
+        getContentPane().add(pnlAttemptQuizContent, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 100, 830, 520));
 
         setSize(new java.awt.Dimension(966, 639));
         setLocationRelativeTo(null);
@@ -415,6 +611,46 @@ public class DashboardStudent extends javax.swing.JFrame {
         contact.setVisible(true);
     }//GEN-LAST:event_lblContactUsMouseClicked
 
+    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField2ActionPerformed
+
+    private void lstQuizValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lstQuizValueChanged
+
+        lblHeader.setText(lblModules.getText()+" - "+lstQuiz.getSelectedValue());
+        lblSelectedQuiz.setText(lstQuiz.getSelectedValue());
+        pnlQuizContent.setVisible(false);
+        pnlAttemptQuizContent.setVisible(true);
+       
+    }//GEN-LAST:event_lstQuizValueChanged
+
+    private void lstModulesValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lstModulesValueChanged
+        lblHeader.setText(lblModules.getText()+" - "+lstModules.getSelectedValue());
+        pnlModuleContent.setVisible(false);
+        pnlQuizContent.setVisible(true);
+    }//GEN-LAST:event_lstModulesValueChanged
+
+    private void jLabel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jLabel8MouseClicked
+
+    private void jPanel10MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel10MousePressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jPanel10MousePressed
+
+    private void jPanel10MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel10MouseReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jPanel10MouseReleased
+
+    private void lblModulesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblModulesMouseClicked
+        
+        lblHeader.setText(lblModules.getText());
+        pnlContent.setVisible(false);
+        pnlModuleContent.setVisible(true);
+        lstModules.clearSelection();
+        lstQuiz.clearSelection();
+    }//GEN-LAST:event_lblModulesMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -459,28 +695,46 @@ public class DashboardStudent extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JList<String> jList1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
+    private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JTextField jTextField2;
     private javax.swing.JLabel lblContactUs;
+    private javax.swing.JLabel lblHeader;
     private javax.swing.JLabel lblLogout;
+    private javax.swing.JLabel lblModules;
     private javax.swing.JLabel lblRecentActivity;
+    private javax.swing.JLabel lblSelectedQuiz;
     private javax.swing.JLabel lblUpcomingEvents;
     private javax.swing.JLabel lblUser;
+    private javax.swing.JLabel lblViewHeading;
+    private javax.swing.JList<String> lstModules;
+    private javax.swing.JList<String> lstQuiz;
     private javax.swing.JList<String> lstUpcomingEvents;
+    private javax.swing.JPanel pnlAttemptQuizContent;
     private javax.swing.JPanel pnlContent;
     private javax.swing.JPanel pnlHeader;
+    private javax.swing.JPanel pnlModuleContent;
     private javax.swing.JPanel pnlNavigation;
+    private javax.swing.JPanel pnlQuizContent;
     // End of variables declaration//GEN-END:variables
 }
