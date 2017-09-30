@@ -12,13 +12,13 @@ import java.awt.Color;
  *
  * @author user
  */
-public class DashboardStudent extends javax.swing.JFrame {
+public class ModuleEnrollment extends javax.swing.JFrame {
 
     /**
      * Creates new form Dashboard
      */
-    ModuleContent moduleContent = new ModuleContent();
-    public DashboardStudent() {
+   
+    public ModuleEnrollment() {
         initComponents();
         lblUser.setText(User.getName());
         
@@ -34,22 +34,11 @@ public class DashboardStudent extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        pnlContent = new javax.swing.JPanel();
-        lblUpcomingEvents = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        lstUpcomingEvents = new javax.swing.JList<>();
-        lblRecentActivity = new javax.swing.JLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
         pnlNavigation = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
-        lblHomeSD = new javax.swing.JLabel();
+        lblHomeME = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
-        lblModulesSD = new javax.swing.JLabel();
-        jPanel7 = new javax.swing.JPanel();
-        jLabel7 = new javax.swing.JLabel();
-        jPanel8 = new javax.swing.JPanel();
-        lblContactUs = new javax.swing.JLabel();
+        lblModulesME = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
         jPanel10 = new javax.swing.JPanel();
@@ -59,18 +48,10 @@ public class DashboardStudent extends javax.swing.JFrame {
         lblUser = new javax.swing.JLabel();
         lblLogout = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
-        lblHeader = new javax.swing.JLabel();
-        pnlModuleContent = new javax.swing.JPanel();
-        lblViewHeading = new javax.swing.JLabel();
-        jScrollPane4 = new javax.swing.JScrollPane();
-        lstModules = new javax.swing.JList<>();
-        pnlQuizContent = new javax.swing.JPanel();
-        jLabel12 = new javax.swing.JLabel();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        lstQuiz = new javax.swing.JList<>();
+        lblHeaderME = new javax.swing.JLabel();
         pnlAttemptQuizContent = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
-        lblSelectedQuiz = new javax.swing.JLabel();
+        lblSelectedQuizME = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jLabel14 = new javax.swing.JLabel();
         jPanel9 = new javax.swing.JPanel();
@@ -82,37 +63,6 @@ public class DashboardStudent extends javax.swing.JFrame {
         setMinimumSize(new java.awt.Dimension(950, 600));
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        pnlContent.setBackground(new java.awt.Color(204, 217, 233));
-        pnlContent.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        lblUpcomingEvents.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        lblUpcomingEvents.setText("Upcoming Events");
-        pnlContent.add(lblUpcomingEvents, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 30, -1, -1));
-
-        lstUpcomingEvents.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane1.setViewportView(lstUpcomingEvents);
-
-        pnlContent.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 60, 240, 280));
-
-        lblRecentActivity.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        lblRecentActivity.setText("Recent Activity");
-        pnlContent.add(lblRecentActivity, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 30, -1, -1));
-
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane2.setViewportView(jList1);
-
-        pnlContent.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 60, 210, 280));
-
-        getContentPane().add(pnlContent, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 100, 820, 520));
 
         pnlNavigation.setBackground(new java.awt.Color(105, 135, 170));
         pnlNavigation.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -138,22 +88,27 @@ public class DashboardStudent extends javax.swing.JFrame {
             }
         });
 
-        lblHomeSD.setFont(new java.awt.Font("Segoe UI Light", 0, 16)); // NOI18N
-        lblHomeSD.setForeground(new java.awt.Color(255, 255, 255));
-        lblHomeSD.setText("Home");
+        lblHomeME.setFont(new java.awt.Font("Segoe UI Light", 0, 16)); // NOI18N
+        lblHomeME.setForeground(new java.awt.Color(255, 255, 255));
+        lblHomeME.setText("Home");
+        lblHomeME.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblHomeMEMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+            .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lblHomeSD, javax.swing.GroupLayout.DEFAULT_SIZE, 106, Short.MAX_VALUE)
+                .addComponent(lblHomeME, javax.swing.GroupLayout.DEFAULT_SIZE, 106, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(lblHomeSD, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 46, Short.MAX_VALUE)
+            .addComponent(lblHomeME, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 46, Short.MAX_VALUE)
         );
 
         pnlNavigation.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 100, 130, 50));
@@ -170,13 +125,13 @@ public class DashboardStudent extends javax.swing.JFrame {
             }
         });
 
-        lblModulesSD.setFont(new java.awt.Font("Segoe UI Light", 0, 16)); // NOI18N
-        lblModulesSD.setForeground(new java.awt.Color(255, 255, 255));
-        lblModulesSD.setText("My Modules");
-        lblModulesSD.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        lblModulesSD.addMouseListener(new java.awt.event.MouseAdapter() {
+        lblModulesME.setFont(new java.awt.Font("Segoe UI Light", 0, 16)); // NOI18N
+        lblModulesME.setForeground(new java.awt.Color(255, 255, 255));
+        lblModulesME.setText("My Modules");
+        lblModulesME.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lblModulesME.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblModulesSDMouseClicked(evt);
+                lblModulesMEMouseClicked(evt);
             }
         });
 
@@ -186,89 +141,15 @@ public class DashboardStudent extends javax.swing.JFrame {
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lblModulesSD, javax.swing.GroupLayout.DEFAULT_SIZE, 106, Short.MAX_VALUE)
+                .addComponent(lblModulesME, javax.swing.GroupLayout.DEFAULT_SIZE, 106, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(lblModulesSD, javax.swing.GroupLayout.DEFAULT_SIZE, 46, Short.MAX_VALUE)
+            .addComponent(lblModulesME, javax.swing.GroupLayout.DEFAULT_SIZE, 46, Short.MAX_VALUE)
         );
 
         pnlNavigation.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 150, 130, 50));
-
-        jPanel7.setBackground(new java.awt.Color(70, 102, 144));
-        jPanel7.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jPanel7.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jPanel7.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                jPanel7MousePressed(evt);
-            }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                jPanel7MouseReleased(evt);
-            }
-        });
-
-        jLabel7.setFont(new java.awt.Font("Segoe UI Light", 0, 16)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel7.setText("About");
-        jLabel7.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel7MouseClicked(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
-        jPanel7.setLayout(jPanel7Layout);
-        jPanel7Layout.setHorizontalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel7Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, 106, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        jPanel7Layout.setVerticalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, 46, Short.MAX_VALUE)
-        );
-
-        pnlNavigation.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 250, 130, 50));
-
-        jPanel8.setBackground(new java.awt.Color(70, 102, 144));
-        jPanel8.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jPanel8.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jPanel8.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                jPanel8MousePressed(evt);
-            }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                jPanel8MouseReleased(evt);
-            }
-        });
-
-        lblContactUs.setFont(new java.awt.Font("Segoe UI Light", 0, 16)); // NOI18N
-        lblContactUs.setForeground(new java.awt.Color(255, 255, 255));
-        lblContactUs.setText("Contact Us");
-        lblContactUs.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblContactUsMouseClicked(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
-        jPanel8.setLayout(jPanel8Layout);
-        jPanel8Layout.setHorizontalGroup(
-            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel8Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(lblContactUs, javax.swing.GroupLayout.DEFAULT_SIZE, 106, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        jPanel8Layout.setVerticalGroup(
-            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(lblContactUs, javax.swing.GroupLayout.DEFAULT_SIZE, 46, Short.MAX_VALUE)
-        );
-
-        pnlNavigation.add(jPanel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 300, 130, 50));
 
         jPanel1.setBackground(new java.awt.Color(204, 217, 233));
 
@@ -360,9 +241,9 @@ public class DashboardStudent extends javax.swing.JFrame {
 
         jPanel2.setBackground(new java.awt.Color(70, 102, 144));
 
-        lblHeader.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        lblHeader.setForeground(new java.awt.Color(255, 255, 255));
-        lblHeader.setText("Student Dashboard");
+        lblHeaderME.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        lblHeaderME.setForeground(new java.awt.Color(255, 255, 255));
+        lblHeaderME.setText("Student Dashboard");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -370,87 +251,29 @@ public class DashboardStudent extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lblHeader, javax.swing.GroupLayout.PREFERRED_SIZE, 756, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lblHeaderME, javax.swing.GroupLayout.PREFERRED_SIZE, 756, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(64, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(lblHeader, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(lblHeaderME, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pnlHeader.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, 830, 40));
 
         getContentPane().add(pnlHeader, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 0, 830, -1));
 
-        pnlModuleContent.setBackground(new java.awt.Color(204, 217, 233));
-        pnlModuleContent.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        lblViewHeading.setBackground(new java.awt.Color(70, 102, 144));
-        lblViewHeading.setFont(new java.awt.Font("Segoe UI Light", 0, 24)); // NOI18N
-        lblViewHeading.setForeground(new java.awt.Color(70, 102, 144));
-        lblViewHeading.setText("Modules");
-        pnlModuleContent.add(lblViewHeading, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 50, 100, 30));
-
-        lstModules.setBackground(new java.awt.Color(204, 217, 233));
-        lstModules.setFont(new java.awt.Font("Segoe UI Light", 0, 16)); // NOI18N
-        lstModules.setForeground(new java.awt.Color(51, 102, 255));
-        lstModules.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "SPM", "UEE", "DBS", "CSSE" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        lstModules.setSelectionBackground(new java.awt.Color(204, 204, 204));
-        lstModules.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
-            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
-                lstModulesValueChanged(evt);
-            }
-        });
-        jScrollPane4.setViewportView(lstModules);
-
-        pnlModuleContent.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 90, 310, 130));
-
-        getContentPane().add(pnlModuleContent, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 100, 830, 520));
-
-        pnlQuizContent.setBackground(new java.awt.Color(204, 217, 233));
-        pnlQuizContent.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel12.setBackground(new java.awt.Color(70, 102, 144));
-        jLabel12.setFont(new java.awt.Font("Segoe UI Light", 0, 24)); // NOI18N
-        jLabel12.setForeground(new java.awt.Color(70, 102, 144));
-        jLabel12.setText("Selected Module");
-        pnlQuizContent.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 50, 200, 30));
-
-        lstQuiz.setBackground(new java.awt.Color(204, 217, 233));
-        lstQuiz.setFont(new java.awt.Font("Segoe UI Light", 0, 16)); // NOI18N
-        lstQuiz.setForeground(new java.awt.Color(51, 102, 255));
-        lstQuiz.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "SPM-Quiz-1", "UEE-Quiz-1", "DBS-Quiz-1", "CSSE-Quiz-1" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        lstQuiz.setSelectionBackground(new java.awt.Color(204, 204, 204));
-        lstQuiz.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
-            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
-                lstQuizValueChanged(evt);
-            }
-        });
-        jScrollPane3.setViewportView(lstQuiz);
-
-        pnlQuizContent.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 90, 310, 130));
-
-        getContentPane().add(pnlQuizContent, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 100, 830, 520));
-
         pnlAttemptQuizContent.setBackground(new java.awt.Color(204, 217, 233));
         pnlAttemptQuizContent.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel3.setBackground(new java.awt.Color(51, 153, 255));
 
-        lblSelectedQuiz.setBackground(new java.awt.Color(70, 102, 144));
-        lblSelectedQuiz.setFont(new java.awt.Font("Segoe UI Light", 0, 36)); // NOI18N
-        lblSelectedQuiz.setForeground(new java.awt.Color(51, 51, 51));
-        lblSelectedQuiz.setText("Selected Quiz");
+        lblSelectedQuizME.setBackground(new java.awt.Color(70, 102, 144));
+        lblSelectedQuizME.setFont(new java.awt.Font("Segoe UI Light", 0, 36)); // NOI18N
+        lblSelectedQuizME.setForeground(new java.awt.Color(51, 51, 51));
+        lblSelectedQuizME.setText("Selected Module");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -458,32 +281,32 @@ public class DashboardStudent extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap(31, Short.MAX_VALUE)
-                .addComponent(lblSelectedQuiz, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lblSelectedQuizME)
                 .addGap(19, 19, 19))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lblSelectedQuiz, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lblSelectedQuizME, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(19, Short.MAX_VALUE))
         );
 
-        pnlAttemptQuizContent.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 30, 280, 60));
+        pnlAttemptQuizContent.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 30, 300, 60));
 
         jLabel14.setBackground(new java.awt.Color(70, 102, 144));
         jLabel14.setFont(new java.awt.Font("Segoe UI Light", 0, 36)); // NOI18N
         jLabel14.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel14.setText("Attemp Quiz");
+        jLabel14.setText("Enroll Me");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addContainerGap(27, Short.MAX_VALUE)
-                .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(23, 23, 23))
+                .addContainerGap(57, Short.MAX_VALUE)
+                .addComponent(jLabel14)
+                .addGap(52, 52, 52))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -493,12 +316,11 @@ public class DashboardStudent extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        pnlAttemptQuizContent.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 240, 250, 70));
+        pnlAttemptQuizContent.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 230, 250, 70));
 
         jPanel9.setBackground(new java.awt.Color(204, 217, 233));
         jPanel9.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jTextField2.setText("jTextField2");
         jTextField2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField2ActionPerformed(evt);
@@ -506,13 +328,13 @@ public class DashboardStudent extends javax.swing.JFrame {
         });
         jPanel9.add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 120, 30));
 
-        pnlAttemptQuizContent.add(jPanel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 140, 150, 50));
+        pnlAttemptQuizContent.add(jPanel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 130, 150, 50));
 
         jLabel13.setBackground(new java.awt.Color(70, 102, 144));
         jLabel13.setFont(new java.awt.Font("Segoe UI Light", 0, 24)); // NOI18N
         jLabel13.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel13.setText("Quizz Password");
-        pnlAttemptQuizContent.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 140, 200, 30));
+        jLabel13.setText("Enrollment key");
+        pnlAttemptQuizContent.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 140, 200, 30));
 
         getContentPane().add(pnlAttemptQuizContent, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 100, 830, 520));
 
@@ -555,26 +377,6 @@ public class DashboardStudent extends javax.swing.JFrame {
         jPanel6.setBackground(new Color(70, 102, 144));
     }//GEN-LAST:event_jPanel6MouseReleased
 
-    private void jPanel7MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel7MousePressed
-        // TODO add your handling code here:
-        jPanel7.setBackground(new Color(204, 217, 233));
-    }//GEN-LAST:event_jPanel7MousePressed
-
-    private void jPanel7MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel7MouseReleased
-        // TODO add your handling code here:
-        jPanel7.setBackground(new Color(70, 102, 144));
-    }//GEN-LAST:event_jPanel7MouseReleased
-
-    private void jPanel8MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel8MousePressed
-        // TODO add your handling code here:
-        jPanel8.setBackground(new Color(204, 217, 233));
-    }//GEN-LAST:event_jPanel8MousePressed
-
-    private void jPanel8MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel8MouseReleased
-        // TODO add your handling code here:
-        jPanel8.setBackground(new Color(70, 102, 144));
-    }//GEN-LAST:event_jPanel8MouseReleased
-
     private void lblLogoutMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblLogoutMouseClicked
         // TODO add your handling code here:
         User.logout();
@@ -583,43 +385,15 @@ public class DashboardStudent extends javax.swing.JFrame {
         login.setVisible(true);
     }//GEN-LAST:event_lblLogoutMouseClicked
 
-    private void jLabel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel7MouseClicked
-        // TODO add your handling code here:
-        AboutUs about = new AboutUs();
-        this.setVisible(false);
-        about.setVisible(true);
-    }//GEN-LAST:event_jLabel7MouseClicked
-
-    private void lblContactUsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblContactUsMouseClicked
-        // TODO add your handling code here:
-        ContactUs contact = new ContactUs();
-        this.setVisible(false);
-        contact.setVisible(true);
-    }//GEN-LAST:event_lblContactUsMouseClicked
-
     private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField2ActionPerformed
 
-    private void lstQuizValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lstQuizValueChanged
-
-        lblHeader.setText(lblModulesSD.getText()+" - "+lstQuiz.getSelectedValue());
-        lblSelectedQuiz.setText(lstQuiz.getSelectedValue());
-        pnlQuizContent.setVisible(false);
-        pnlAttemptQuizContent.setVisible(true);
-       
-    }//GEN-LAST:event_lstQuizValueChanged
-
-    private void lstModulesValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lstModulesValueChanged
-        lblHeader.setText(lblModulesSD.getText()+" - "+lstModules.getSelectedValue());
-        pnlModuleContent.setVisible(false);
-        pnlQuizContent.setVisible(true);
-    }//GEN-LAST:event_lstModulesValueChanged
-
     private void jLabel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MouseClicked
-      ExamModuleContent examModuleContent = new ExamModuleContent();
+       ExamModuleContent examModuleContent = new ExamModuleContent();
        this.setVisible(false);
        examModuleContent.setVisible(true);
+        // TODO add your handling code here:
     }//GEN-LAST:event_jLabel8MouseClicked
 
     private void jPanel10MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel10MousePressed
@@ -630,11 +404,18 @@ public class DashboardStudent extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jPanel10MouseReleased
 
-    private void lblModulesSDMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblModulesSDMouseClicked
+    private void lblModulesMEMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblModulesMEMouseClicked
+         ModuleContent moduleContent = new ModuleContent();
         this.setVisible(false);
         moduleContent.setVisible(true);
-     
-    }//GEN-LAST:event_lblModulesSDMouseClicked
+        
+    }//GEN-LAST:event_lblModulesMEMouseClicked
+
+    private void lblHomeMEMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblHomeMEMouseClicked
+        DashboardStudent dashboardStudent = new DashboardStudent();
+        this.setVisible(false);
+        dashboardStudent.setVisible(true);
+    }//GEN-LAST:event_lblHomeMEMouseClicked
 
     /**
      * @param args the command line arguments
@@ -653,14 +434,38 @@ public class DashboardStudent extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(DashboardStudent.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ModuleEnrollment.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(DashboardStudent.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ModuleEnrollment.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(DashboardStudent.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ModuleEnrollment.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(DashboardStudent.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ModuleEnrollment.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -673,53 +478,34 @@ public class DashboardStudent extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new DashboardStudent().setVisible(true);
+                new ModuleEnrollment().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
+    public javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JList<String> jList1;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel10;
+    public javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel6;
-    private javax.swing.JPanel jPanel7;
-    private javax.swing.JPanel jPanel8;
+    public javax.swing.JPanel jPanel5;
+    public javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel9;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTextField jTextField2;
-    private javax.swing.JLabel lblContactUs;
-    private javax.swing.JLabel lblHeader;
-    private javax.swing.JLabel lblHomeSD;
+    public javax.swing.JLabel lblHeaderME;
+    public javax.swing.JLabel lblHomeME;
     private javax.swing.JLabel lblLogout;
-    private javax.swing.JLabel lblModulesSD;
-    private javax.swing.JLabel lblRecentActivity;
-    private javax.swing.JLabel lblSelectedQuiz;
-    private javax.swing.JLabel lblUpcomingEvents;
+    public javax.swing.JLabel lblModulesME;
+    public javax.swing.JLabel lblSelectedQuizME;
     private javax.swing.JLabel lblUser;
-    private javax.swing.JLabel lblViewHeading;
-    private javax.swing.JList<String> lstModules;
-    private javax.swing.JList<String> lstQuiz;
-    private javax.swing.JList<String> lstUpcomingEvents;
     private javax.swing.JPanel pnlAttemptQuizContent;
-    private javax.swing.JPanel pnlContent;
     private javax.swing.JPanel pnlHeader;
-    private javax.swing.JPanel pnlModuleContent;
     private javax.swing.JPanel pnlNavigation;
-    private javax.swing.JPanel pnlQuizContent;
     // End of variables declaration//GEN-END:variables
 }
