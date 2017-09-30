@@ -53,5 +53,32 @@ public class Validation {
             }
         }
         
+        /**
+     * 
+     * @param number
+     * @return 
+     */
+    public boolean checkNumberBox(String number)
+    {        
+        return (number.matches("[0-9]+"));   
+    }
+    
+    /**
+     * 
+     * @param numbers[]
+     * @return 
+     */
+    public boolean checkOverAllNumberBox(String numbers[])
+    {
+        boolean value=true;
+        for(String number : numbers)
+        {
+            value  = checkNumberBox(number);
+            if(value==false)
+                return value;
+        }
+        return value;
+    }
+        
         
 }
