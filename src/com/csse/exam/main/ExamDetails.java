@@ -61,7 +61,6 @@ public class ExamDetails extends javax.swing.JFrame {
         txtDurationValue = new javax.swing.JTextField();
         txtQuestionNo = new javax.swing.JTextField();
         cmbDurationUnit = new javax.swing.JComboBox<>();
-        datePickerExamDate = new com.toedter.calendar.JDateChooser();
         btnClear = new javax.swing.JButton();
         btnAdd = new javax.swing.JButton();
         btnUpdate = new javax.swing.JButton();
@@ -343,7 +342,6 @@ public class ExamDetails extends javax.swing.JFrame {
         cmbDurationUnit.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         cmbDurationUnit.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "TIME UNIT", "mins", "hrs" }));
         pnlExamDetails.add(cmbDurationUnit, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 10, 100, 30));
-        pnlExamDetails.add(datePickerExamDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 130, 180, 30));
 
         btnClear.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnClear.setText("CLEAR");
@@ -491,7 +489,6 @@ public class ExamDetails extends javax.swing.JFrame {
     private javax.swing.JButton btnUpdate;
     private javax.swing.JComboBox<String> cmbDurationUnit;
     private javax.swing.JComboBox<String> cmbExamType;
-    private com.toedter.calendar.JDateChooser datePickerExamDate;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblAllocatedMarks;
     private javax.swing.JLabel lblCourse;

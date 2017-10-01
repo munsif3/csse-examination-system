@@ -20,7 +20,7 @@ import javax.swing.JOptionPane;
 
 public class Login extends javax.swing.JFrame {
     Connection conn = null;
-    User user;
+    public User user;
     /**
      * Creates new form Login
      */
