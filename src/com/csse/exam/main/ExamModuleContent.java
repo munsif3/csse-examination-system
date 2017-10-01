@@ -12,13 +12,13 @@ import java.awt.Color;
  *
  * @author user
  */
-public class ModuleContent extends javax.swing.JFrame {
+public class ExamModuleContent extends javax.swing.JFrame {
 
     /**
      * Creates new form Dashboard
      */
   
-    public ModuleContent() {
+    public ExamModuleContent() {
         initComponents();
         lblUser.setText(User.getName());
         
@@ -48,11 +48,11 @@ public class ModuleContent extends javax.swing.JFrame {
         lblUser = new javax.swing.JLabel();
         lblLogout = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
-        lblHeaderMM = new javax.swing.JLabel();
+        lblHeaderEM = new javax.swing.JLabel();
         pnlModuleContent = new javax.swing.JPanel();
         lblViewHeading = new javax.swing.JLabel();
         jScrollPane4 = new javax.swing.JScrollPane();
-        lstModules = new javax.swing.JList<>();
+        lstModulesEM = new javax.swing.JList<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("LECTURER DASHBOARD");
@@ -237,9 +237,9 @@ public class ModuleContent extends javax.swing.JFrame {
 
         jPanel2.setBackground(new java.awt.Color(70, 102, 144));
 
-        lblHeaderMM.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        lblHeaderMM.setForeground(new java.awt.Color(255, 255, 255));
-        lblHeaderMM.setText("My Modules");
+        lblHeaderEM.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        lblHeaderEM.setForeground(new java.awt.Color(255, 255, 255));
+        lblHeaderEM.setText("Exam Modules");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -247,14 +247,14 @@ public class ModuleContent extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lblHeaderMM, javax.swing.GroupLayout.PREFERRED_SIZE, 756, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lblHeaderEM, javax.swing.GroupLayout.PREFERRED_SIZE, 756, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(64, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(lblHeaderMM, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(lblHeaderEM, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pnlHeader.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, 830, 40));
@@ -270,21 +270,21 @@ public class ModuleContent extends javax.swing.JFrame {
         lblViewHeading.setText("Modules");
         pnlModuleContent.add(lblViewHeading, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 50, 100, 30));
 
-        lstModules.setBackground(new java.awt.Color(204, 217, 233));
-        lstModules.setFont(new java.awt.Font("Segoe UI Light", 0, 16)); // NOI18N
-        lstModules.setForeground(new java.awt.Color(51, 102, 255));
-        lstModules.setModel(new javax.swing.AbstractListModel<String>() {
+        lstModulesEM.setBackground(new java.awt.Color(204, 217, 233));
+        lstModulesEM.setFont(new java.awt.Font("Segoe UI Light", 0, 16)); // NOI18N
+        lstModulesEM.setForeground(new java.awt.Color(51, 102, 255));
+        lstModulesEM.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "SPM", "UEE", "DBS", "CSSE" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
-        lstModules.setSelectionBackground(new java.awt.Color(204, 204, 204));
-        lstModules.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+        lstModulesEM.setSelectionBackground(new java.awt.Color(204, 204, 204));
+        lstModulesEM.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
-                lstModulesValueChanged(evt);
+                lstModulesEMValueChanged(evt);
             }
         });
-        jScrollPane4.setViewportView(lstModules);
+        jScrollPane4.setViewportView(lstModulesEM);
 
         pnlModuleContent.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 90, 310, 130));
 
@@ -338,9 +338,7 @@ public class ModuleContent extends javax.swing.JFrame {
     }//GEN-LAST:event_lblLogoutMouseClicked
 
     private void jLabel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MouseClicked
-       ExamModuleContent examModuleContent = new ExamModuleContent();
-       this.setVisible(false);
-       examModuleContent.setVisible(true);
+        // TODO add your handling code here:
     }//GEN-LAST:event_jLabel8MouseClicked
 
     private void jPanel10MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel10MousePressed
@@ -352,19 +350,21 @@ public class ModuleContent extends javax.swing.JFrame {
     }//GEN-LAST:event_jPanel10MouseReleased
 
     private void lblModulesMMMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblModulesMMMouseClicked
-        
+       ModuleContent moduleContent = new ModuleContent();
+        this.setVisible(false);
+        moduleContent.setVisible(true);   
        
     }//GEN-LAST:event_lblModulesMMMouseClicked
 
-    private void lstModulesValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lstModulesValueChanged
-          ModuleEnrollment moduleEnrollment = new ModuleEnrollment();
-          this.setVisible(false);
-          moduleEnrollment.setVisible(true);
-          moduleEnrollment.lblHeaderME.setText("Enrollment - "+lstModules.getSelectedValue());
-          moduleEnrollment.lblSelectedQuizME.setText(lstModules.getSelectedValue());
+    private void lstModulesEMValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lstModulesEMValueChanged
         
+        QuizContent quizContent = new QuizContent();
+        this.setVisible(false);
+        quizContent.setVisible(true);
+        quizContent.lblHeaderME.setText(lblModulesMM.getText()+" - "+lstModulesEM.getSelectedValue());
+        quizContent.lblSelectedModule.setText(lstModulesEM.getSelectedValue());
         
-    }//GEN-LAST:event_lstModulesValueChanged
+    }//GEN-LAST:event_lstModulesEMValueChanged
 
     private void lblHomeMMMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblHomeMMMouseClicked
        DashboardStudent dashboardStudent = new DashboardStudent();
@@ -389,14 +389,30 @@ public class ModuleContent extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ModuleContent.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ExamModuleContent.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ModuleContent.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ExamModuleContent.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ModuleContent.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ExamModuleContent.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ModuleContent.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ExamModuleContent.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -417,7 +433,7 @@ public class ModuleContent extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ModuleContent().setVisible(true);
+                new ExamModuleContent().setVisible(true);
             }
         });
     }
@@ -432,13 +448,13 @@ public class ModuleContent extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane4;
-    public javax.swing.JLabel lblHeaderMM;
+    public javax.swing.JLabel lblHeaderEM;
     private javax.swing.JLabel lblHomeMM;
     private javax.swing.JLabel lblLogout;
     private javax.swing.JLabel lblModulesMM;
     private javax.swing.JLabel lblUser;
     private javax.swing.JLabel lblViewHeading;
-    public javax.swing.JList<String> lstModules;
+    public javax.swing.JList<String> lstModulesEM;
     private javax.swing.JPanel pnlHeader;
     private javax.swing.JPanel pnlModuleContent;
     private javax.swing.JPanel pnlNavigation;
