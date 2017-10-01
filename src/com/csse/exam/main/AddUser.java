@@ -32,7 +32,8 @@ public class AddUser extends javax.swing.JFrame {
     }
     public boolean validateValues()
     {
-        if (Validation.checkTextNull(txtName.getText()) || Validation.checkTextNull(txtUsername.getText()) || Validation.checkTextNull(pwdUserPassword.getText())) {
+        Validation validation = new Validation();
+        if (validation.checkTextNull(txtName.getText()) || validation.checkTextNull(txtUsername.getText()) || validation.checkTextNull(pwdUserPassword.getText())) {
             JOptionPane.showMessageDialog(null, "You can't keep fields empty");
             return false;
         } 

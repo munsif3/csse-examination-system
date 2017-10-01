@@ -22,36 +22,7 @@ import javax.swing.JTextField;
 public class Validation {
 
     Connection conn = null;
-<<<<<<< HEAD
-   
-        public static boolean checkTextNull(String text){
-            if(text.length()==0)// Checking for empty field
-            {  
-=======
-    User user;
 
-    //to check the login credentials 
-    public boolean validateLogin(String username, String password) {
-        try {
-            conn = (Connection) DBConnection.getConnection();
-            PreparedStatement pst = (PreparedStatement) conn.prepareStatement("Select * from user where username=? and userPassword=?");
-            pst.setString(1, username);
-            pst.setString(2, password);
-            ResultSet rs = pst.executeQuery();
-
-            if (rs.next()) {
-                user = new User(rs.getString("userId"), rs.getString("name"), rs.getString("role"), rs.getString("username"), rs.getString("userPassword"));
-//                    JOptionPane.showMessageDialog(null, "Name is" +rs.getString("name") );
->>>>>>> 4a0c5aaf1768a95f6b4b549b23617a2a409ffaa6
-                return true;
-            } else {
-                return false;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
 
     public boolean checkTextNull(String text) {
         if (text.length() == 0)// Checking for empty field

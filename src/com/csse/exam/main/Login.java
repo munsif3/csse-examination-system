@@ -126,16 +126,17 @@ public class Login extends javax.swing.JFrame {
         DashboardAdmin adminHome = null;
         DashboardLecturer lecturerHome = null;
         DashboardStudent studentHome = null;
+        Validation validation = new Validation();
         
         // Collecting the input
         String username = txtUsername.getText();   
         String password = txtPassword.getText(); 
 
         //validating empty fields
-        if(Validation.checkTextNull(username)){
+        if(validation.checkTextNull(username)){
             JOptionPane.showMessageDialog(null, "Please enter your username!");
         }
-        else if(Validation.checkTextNull(password))  // Checking for empty field
+        else if(validation.checkTextNull(password))  // Checking for empty field
         {
             JOptionPane.showMessageDialog(null, "Please enter your password");
         }
