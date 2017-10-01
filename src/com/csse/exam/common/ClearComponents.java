@@ -29,6 +29,7 @@ public class ClearComponents {
         }
     }
     
+    
      /**
       * 
       * @param panel 
@@ -38,8 +39,8 @@ public class ClearComponents {
         Component components[] = panel.getComponents();
         for (Component component : components) {
             if (component instanceof JComboBox) {
-                JComboBox comboBox = (JComboBox) component;
-                comboBox.setSelectedIndex(0);
+                JComboBox comboBox = (JComboBox) component;              
+                comboBox.setSelectedIndex(0);                
             }
         }
     }
