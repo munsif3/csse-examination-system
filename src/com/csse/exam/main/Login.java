@@ -7,7 +7,10 @@ package com.csse.exam.main;
 
 import com.csse.exam.model.User;
 import com.csse.exam.common.Validation;
+import com.csse.exam.config.DBConnection;
 import com.mysql.jdbc.Connection;
+import com.mysql.jdbc.PreparedStatement;
+import java.sql.ResultSet;
 import javax.swing.JOptionPane;
 
 /**
@@ -17,12 +20,33 @@ import javax.swing.JOptionPane;
 
 public class Login extends javax.swing.JFrame {
     Connection conn = null;
+    User user;
     /**
      * Creates new form Login
      */
     public Login() {
         initComponents();
     }
+    //to check the login credentials 
+        public boolean validateLogin(String username,String password) {
+            try{              
+                 conn = (Connection) DBConnection.getConnection();
+                PreparedStatement pst = (PreparedStatement) conn.prepareStatement("Select * from user where username=? and userPassword=?");
+                pst.setString(1, username); 
+                pst.setString(2, password);
+                ResultSet rs = pst.executeQuery(); 
+                
+                if(rs.next()){
+                    user= new User(rs.getString("userId"),rs.getString("name"),rs.getString("role"),rs.getString("username"),rs.getString("userPassword"));
+                    return true;    
+            }else
+                    return false;            
+            }
+            catch(Exception e){
+                e.printStackTrace();
+                return false;
+            }       
+} 
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -98,7 +122,7 @@ public class Login extends javax.swing.JFrame {
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
  
-        Validation validation = new Validation();
+      
         DashboardAdmin adminHome = null;
         DashboardLecturer lecturerHome = null;
         DashboardStudent studentHome = null;
@@ -108,16 +132,16 @@ public class Login extends javax.swing.JFrame {
         String password = txtPassword.getText(); 
 
         //validating empty fields
-        if(validation.checkTextNull(username)){
+        if(Validation.checkTextNull(username)){
             JOptionPane.showMessageDialog(null, "Please enter your username!");
         }
-        else if(validation.checkTextNull(password))  // Checking for empty field
+        else if(Validation.checkTextNull(password))  // Checking for empty field
         {
             JOptionPane.showMessageDialog(null, "Please enter your password");
         }
         else
         {            
-            if(validation.validateLogin(username,password))
+            if(validateLogin(username,password))
             {
               //JOptionPane.showMessageDialog(null, "Correct Login Credentials");
               if(User.checkRole() == 0)
