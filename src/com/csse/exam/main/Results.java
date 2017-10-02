@@ -230,8 +230,6 @@ public class Results extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(204, 217, 233));
 
-        jLabel9.setIcon(new javax.swing.ImageIcon("C:\\Users\\User\\Pictures\\SLIIT_Logo_Crest - Copy.png")); // NOI18N
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -311,7 +309,6 @@ public class Results extends javax.swing.JFrame {
 
         pnlContent.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 780, 210));
 
-        lblBack.setIcon(new javax.swing.ImageIcon("C:\\Users\\User\\Downloads\\left_24px.png")); // NOI18N
         lblBack.setToolTipText("Back");
         lblBack.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         lblBack.addMouseListener(new java.awt.event.MouseAdapter() {
