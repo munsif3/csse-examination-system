@@ -5,7 +5,12 @@
  */
 package com.csse.exam.main;
 
+import com.csse.exam.model.Result;
+import com.csse.exam.service.ResultService;
 import java.awt.Color;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.DefaultComboBoxModel;
 
 /**
  *
@@ -13,11 +18,22 @@ import java.awt.Color;
  */
 public class Results extends javax.swing.JFrame {
 
+    private final ResultService resultService = new ResultService();
+    private final ArrayList<Result> resultList = resultService.getResult();
+
     /**
      * Creates new form Result
      */
     public Results() {
+
         initComponents();
+
+        for (int i = 0; i < resultList.size(); i++) {
+            String userId = resultList.get(i).getUserId();
+            String studentId = cmbStudentId.getSelectedItem().toString();
+            cmbStudentId.addItem(userId);
+        }
+
     }
 
     /**
@@ -44,9 +60,9 @@ public class Results extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         jSeparator1 = new javax.swing.JSeparator();
         jLabel10 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        cmbStudentId = new javax.swing.JComboBox<>();
         jLabel11 = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox<>();
+        cmbExamId = new javax.swing.JComboBox<>();
         jLabel12 = new javax.swing.JLabel();
         txtModuleCode = new javax.swing.JTextField();
         jLabel13 = new javax.swing.JLabel();
@@ -56,6 +72,8 @@ public class Results extends javax.swing.JFrame {
         btnReset = new javax.swing.JButton();
         btnUpdate = new javax.swing.JButton();
         jTextField4 = new javax.swing.JTextField();
+        jLabel15 = new javax.swing.JLabel();
+        txtGrade = new javax.swing.JTextField();
         lblBack = new javax.swing.JLabel();
         pnlResultTable = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -263,17 +281,28 @@ public class Results extends javax.swing.JFrame {
         jLabel10.setText("STUDENT NUMBER");
         jPanel3.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, 40));
 
-        jComboBox1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SELECT STUDENT ID", "ST001", "ST002", "ST003" }));
-        jPanel3.add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 10, 190, 40));
+        cmbStudentId.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        cmbStudentId.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SELECT STUDENT ID" }));
+        cmbStudentId.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbStudentIdActionPerformed(evt);
+            }
+        });
+        jPanel3.add(cmbStudentId, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 10, 190, 40));
 
         jLabel11.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel11.setText("EXAMINATION CODE");
         jPanel3.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, -1, 40));
 
-        jComboBox2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SELECT EXAMINATION CODE", "EX001", "EX002", "EX003" }));
-        jPanel3.add(jComboBox2, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 60, 190, 40));
+        cmbExamId.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        cmbExamId.setMaximumRowCount(15);
+        cmbExamId.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SELECT EXAMINATION ID" }));
+        cmbExamId.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbExamIdActionPerformed(evt);
+            }
+        });
+        jPanel3.add(cmbExamId, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 60, 190, 40));
 
         jLabel12.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel12.setText("MODULE CODE");
@@ -283,7 +312,7 @@ public class Results extends javax.swing.JFrame {
         jPanel3.add(txtModuleCode, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 110, 190, 40));
 
         jLabel13.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel13.setText("MARKS");
+        jLabel13.setText("SCORE");
         jPanel3.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 10, -1, 40));
 
         txtMarks.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -306,6 +335,13 @@ public class Results extends javax.swing.JFrame {
 
         jTextField4.setText("jTextField1");
         jPanel3.add(jTextField4, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 110, 190, 40));
+
+        jLabel15.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel15.setText("GRADE");
+        jPanel3.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 110, -1, 40));
+
+        txtGrade.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jPanel3.add(txtGrade, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 110, 190, 40));
 
         pnlContent.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 780, 210));
 
@@ -449,6 +485,31 @@ public class Results extends javax.swing.JFrame {
         lblBack.setBackground(Color.WHITE);
     }//GEN-LAST:event_lblBackMousePressed
 
+    private void cmbStudentIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbStudentIdActionPerformed
+        String studentId = cmbStudentId.getSelectedItem().toString();
+        List<Result> examIdByStudentId = resultService.getExamIdByStudentId(studentId);
+
+        DefaultComboBoxModel comboBoxModel = new DefaultComboBoxModel();
+        comboBoxModel.addElement("SELECT EXAMINATION ID");
+        for (int i = 0; i < examIdByStudentId.size(); i++) {
+
+            comboBoxModel.addElement(examIdByStudentId.get(i).getExamId());
+        }
+        cmbExamId.setModel(comboBoxModel);
+
+    }//GEN-LAST:event_cmbStudentIdActionPerformed
+
+    private void cmbExamIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbExamIdActionPerformed
+
+        String studentId = cmbStudentId.getSelectedItem().toString();
+        String examId = cmbExamId.getSelectedItem().toString();
+        List<Result> scoreByStudentIdExamId = resultService.getScoreByStudentIdExamId(studentId, examId);
+        scoreByStudentIdExamId.forEach((result) -> {
+            txtMarks.setText(result.getScore());
+            txtModuleCode.setText(result.getExamId().split(" ")[0].split("-")[0]);
+        });
+    }//GEN-LAST:event_cmbExamIdActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -488,14 +549,15 @@ public class Results extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnReset;
     private javax.swing.JButton btnUpdate;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
+    private javax.swing.JComboBox<String> cmbExamId;
+    private javax.swing.JComboBox<String> cmbStudentId;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -521,6 +583,7 @@ public class Results extends javax.swing.JFrame {
     private javax.swing.JPanel pnlResultTable;
     private javax.swing.JTable tblResults;
     private javax.swing.JTextField txtFinalContrib;
+    private javax.swing.JTextField txtGrade;
     private javax.swing.JTextField txtMarks;
     private javax.swing.JTextField txtModuleCode;
     // End of variables declaration//GEN-END:variables

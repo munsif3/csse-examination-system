@@ -5,8 +5,17 @@
  */
 package com.csse.exam.main;
 
+import com.csse.exam.common.Validation;
+import com.csse.exam.config.DBConnection;
 import com.csse.exam.model.User;
+import com.mysql.jdbc.PreparedStatement;
 import java.awt.Color;
+import java.awt.HeadlessException;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -21,7 +30,50 @@ public class AddUser extends javax.swing.JFrame {
         initComponents();
         lblUser.setText(User.getName());
     }
+    public boolean validateValues()
+    {
+        Validation validation = new Validation();
+        if (validation.checkTextNull(txtName.getText()) || validation.checkTextNull(txtUsername.getText()) || validation.checkTextNull(pwdUserPassword.getText())) {
+            JOptionPane.showMessageDialog(null, "You can't keep fields empty");
+            return false;
+        } 
+        else {
+            return true;
+        }
+    }
+    
+    public String getNewId(boolean lecturer, boolean student){
+        String rolePrefix;
+        String lastUserId = null;
+        String newUserId = null;
+        if(lecturer)
+            rolePrefix = "LT%";
+        else
+            rolePrefix = "ST%";
+        try {
+               
+                Connection con = DBConnection.getConnection();
+                String query = " SELECT userId FROM user\n" +
+                                "where userId like ?\n" +
+                                "order by userId desc limit 1;";
+                PreparedStatement preparedStmt = (PreparedStatement) con.prepareStatement(query);
+                preparedStmt.setString (1, rolePrefix);
+                
+                // execute the preparedstatement
+                ResultSet rs = preparedStmt.executeQuery(); 
+                if(rs.next()){
+                    lastUserId = rs.getString("userId");
+                }
+                String last3 = lastUserId.substring(lastUserId.length() - 3);
+                newUserId = lastUserId.substring(0,4)+String.valueOf(Integer.parseInt(last3) + 1);
+                
+                con.close();
 
+                } catch (SQLException | HeadlessException e) {
+                    JOptionPane.showMessageDialog(null, e);
+                }
+        return newUserId;
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -31,19 +83,20 @@ public class AddUser extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        rdoButtonGroup = new javax.swing.ButtonGroup();
         pnlContent = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         lblPassword = new javax.swing.JLabel();
         txtUsername = new javax.swing.JTextField();
         lblName1 = new javax.swing.JLabel();
         rdoStudent = new javax.swing.JRadioButton();
-        rdoLecturer1 = new javax.swing.JRadioButton();
+        rdoLecturer = new javax.swing.JRadioButton();
         lblRole1 = new javax.swing.JLabel();
-        txtName1 = new javax.swing.JTextField();
+        txtName = new javax.swing.JTextField();
         lblUsername1 = new javax.swing.JLabel();
         pwdUserPassword = new javax.swing.JPasswordField();
-        jPanel9 = new javax.swing.JPanel();
-        lblContactUs1 = new javax.swing.JLabel();
+        pnlAdd = new javax.swing.JPanel();
+        btnAdd = new javax.swing.JLabel();
         jPanel10 = new javax.swing.JPanel();
         lblContactUs2 = new javax.swing.JLabel();
         pnlNavigation = new javax.swing.JPanel();
@@ -86,65 +139,71 @@ public class AddUser extends javax.swing.JFrame {
         lblName1.setText("Name");
         jPanel3.add(lblName1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 30, -1, -1));
 
+        rdoButtonGroup.add(rdoStudent);
         rdoStudent.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         rdoStudent.setText("Student");
         jPanel3.add(rdoStudent, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 90, -1, -1));
 
-        rdoLecturer1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        rdoLecturer1.setText("Lecturer");
-        jPanel3.add(rdoLecturer1, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 90, -1, -1));
+        rdoButtonGroup.add(rdoLecturer);
+        rdoLecturer.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        rdoLecturer.setSelected(true);
+        rdoLecturer.setText("Lecturer");
+        jPanel3.add(rdoLecturer, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 90, -1, -1));
 
         lblRole1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblRole1.setText("Role");
         jPanel3.add(lblRole1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 90, -1, -1));
-        jPanel3.add(txtName1, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 30, 180, 30));
+        jPanel3.add(txtName, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 30, 180, 30));
 
         lblUsername1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblUsername1.setText("Username");
         jPanel3.add(lblUsername1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 150, -1, -1));
         jPanel3.add(pwdUserPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 210, 180, -1));
 
-        jPanel9.setBackground(new java.awt.Color(70, 102, 144));
-        jPanel9.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jPanel9.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jPanel9.addMouseListener(new java.awt.event.MouseAdapter() {
+        pnlAdd.setBackground(new java.awt.Color(70, 102, 144));
+        pnlAdd.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        pnlAdd.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        pnlAdd.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                pnlAddMouseClicked(evt);
+            }
             public void mousePressed(java.awt.event.MouseEvent evt) {
-                jPanel9MousePressed(evt);
+                pnlAddMousePressed(evt);
             }
             public void mouseReleased(java.awt.event.MouseEvent evt) {
-                jPanel9MouseReleased(evt);
+                pnlAddMouseReleased(evt);
             }
         });
 
-        lblContactUs1.setFont(new java.awt.Font("Segoe UI Light", 0, 16)); // NOI18N
-        lblContactUs1.setForeground(new java.awt.Color(255, 255, 255));
-        lblContactUs1.setText("        ADD");
-        lblContactUs1.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnAdd.setFont(new java.awt.Font("Segoe UI Light", 0, 16)); // NOI18N
+        btnAdd.setForeground(new java.awt.Color(255, 255, 255));
+        btnAdd.setText("          ADD");
+        btnAdd.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblContactUs1MouseClicked(evt);
+                btnAddMouseClicked(evt);
             }
         });
 
-        javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
-        jPanel9.setLayout(jPanel9Layout);
-        jPanel9Layout.setHorizontalGroup(
-            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel9Layout.createSequentialGroup()
+        javax.swing.GroupLayout pnlAddLayout = new javax.swing.GroupLayout(pnlAdd);
+        pnlAdd.setLayout(pnlAddLayout);
+        pnlAddLayout.setHorizontalGroup(
+            pnlAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlAddLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lblContactUs1, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
+                .addComponent(btnAdd, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
                 .addContainerGap())
         );
-        jPanel9Layout.setVerticalGroup(
-            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel9Layout.createSequentialGroup()
+        pnlAddLayout.setVerticalGroup(
+            pnlAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlAddLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lblContactUs1, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
+                .addComponent(btnAdd, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
-        jPanel3.add(jPanel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 270, -1, -1));
+        jPanel3.add(pnlAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 270, -1, -1));
 
-        pnlContent.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 120, 650, 350));
+        pnlContent.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 110, 650, 350));
 
         jPanel10.setBackground(new java.awt.Color(70, 102, 144));
         jPanel10.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -160,7 +219,7 @@ public class AddUser extends javax.swing.JFrame {
 
         lblContactUs2.setFont(new java.awt.Font("Segoe UI Light", 0, 16)); // NOI18N
         lblContactUs2.setForeground(new java.awt.Color(255, 255, 255));
-        lblContactUs2.setText("Delete User");
+        lblContactUs2.setText("   Delete User");
         lblContactUs2.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblContactUs2MouseClicked(evt);
@@ -518,17 +577,55 @@ public class AddUser extends javax.swing.JFrame {
         contact.setVisible(true);
     }//GEN-LAST:event_lblContactUsMouseClicked
 
-    private void lblContactUs1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblContactUs1MouseClicked
+    private void btnAddMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddMouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_lblContactUs1MouseClicked
+                
+        String role;
+        if(validateValues())
+        {
+           String name = txtName.getText();
+           String username = txtUsername.getText();
+           String password = pwdUserPassword.getText();
+           boolean lecturer = rdoLecturer.isSelected();
+           boolean student = rdoStudent.isSelected();
+           
+           if(lecturer){
+               role = "lecturer";
+           }
+           else
+               role = "student";
+           
+           try {
+               
+                Connection con = DBConnection.getConnection();
+                String query = " insert into user (userId,name,role,username,userPassword)"
+                 + " values (?, ?, ?, ?, ?)";
+                PreparedStatement preparedStmt = (PreparedStatement) con.prepareStatement(query);
+                preparedStmt.setString (1,  getNewId(lecturer,student));
+                preparedStmt.setString (2, name);
+                preparedStmt.setString   (3, role);
+                preparedStmt.setString(4, username);
+                preparedStmt.setString    (5, password);
 
-    private void jPanel9MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel9MousePressed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jPanel9MousePressed
+                // execute the preparedstatement
+                preparedStmt.execute();
 
-    private void jPanel9MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel9MouseReleased
+                con.close();
+                JOptionPane.showMessageDialog(null, "Suceesfully Added!");
+                } catch (SQLException | HeadlessException e) {
+                    JOptionPane.showMessageDialog(null, e);
+                }
+
+        }
+    }//GEN-LAST:event_btnAddMouseClicked
+
+    private void pnlAddMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlAddMousePressed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jPanel9MouseReleased
+    }//GEN-LAST:event_pnlAddMousePressed
+
+    private void pnlAddMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlAddMouseReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_pnlAddMouseReleased
 
     private void lblContactUs2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblContactUs2MouseClicked
         // TODO add your handling code here:
@@ -541,6 +638,11 @@ public class AddUser extends javax.swing.JFrame {
     private void jPanel10MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel10MouseReleased
         // TODO add your handling code here:
     }//GEN-LAST:event_jPanel10MouseReleased
+
+    private void pnlAddMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlAddMouseClicked
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_pnlAddMouseClicked
 
     /**
      * @param args the command line arguments
@@ -705,6 +807,7 @@ public class AddUser extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel btnAdd;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel6;
@@ -717,10 +820,8 @@ public class AddUser extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
-    private javax.swing.JPanel jPanel9;
     private javax.swing.JLabel lblAbout;
     private javax.swing.JLabel lblContactUs;
-    private javax.swing.JLabel lblContactUs1;
     private javax.swing.JLabel lblContactUs2;
     private javax.swing.JLabel lblHome;
     private javax.swing.JLabel lblLogout;
@@ -729,13 +830,15 @@ public class AddUser extends javax.swing.JFrame {
     private javax.swing.JLabel lblRole1;
     private javax.swing.JLabel lblUser;
     private javax.swing.JLabel lblUsername1;
+    private javax.swing.JPanel pnlAdd;
     private javax.swing.JPanel pnlContent;
     private javax.swing.JPanel pnlHeader;
     private javax.swing.JPanel pnlNavigation;
     private javax.swing.JPasswordField pwdUserPassword;
-    private javax.swing.JRadioButton rdoLecturer1;
+    private javax.swing.ButtonGroup rdoButtonGroup;
+    private javax.swing.JRadioButton rdoLecturer;
     private javax.swing.JRadioButton rdoStudent;
-    private javax.swing.JTextField txtName1;
+    private javax.swing.JTextField txtName;
     private javax.swing.JTextField txtUsername;
     // End of variables declaration//GEN-END:variables
 }

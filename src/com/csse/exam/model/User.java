@@ -15,7 +15,7 @@ public class User {
     private static String role;
     private static String username;
     private static String userPassword;
-
+  
     public static String getName() {
         return name;
     }
@@ -50,8 +50,13 @@ public class User {
         this.username = username;
         this.userPassword = userPassword;
     }
+
+    public User() {
+    }
     
-    
+    public static  String getUserId(){
+        return userId;
+    }
     
     
 }
