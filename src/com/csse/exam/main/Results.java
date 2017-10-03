@@ -5,6 +5,7 @@
  */
 package com.csse.exam.main;
 
+import com.csse.exam.common.ClearComponents;
 import com.csse.exam.model.Result;
 import com.csse.exam.service.ResultService;
 import java.awt.Color;
@@ -20,6 +21,7 @@ public class Results extends javax.swing.JFrame {
 
     private final ResultService resultService = new ResultService();
     private final ArrayList<Result> resultList = resultService.getResult();
+    ClearComponents clear;
 
     /**
      * Creates new form Result
@@ -30,7 +32,6 @@ public class Results extends javax.swing.JFrame {
 
         for (int i = 0; i < resultList.size(); i++) {
             String userId = resultList.get(i).getUserId();
-            String studentId = cmbStudentId.getSelectedItem().toString();
             cmbStudentId.addItem(userId);
         }
 
@@ -57,7 +58,7 @@ public class Results extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
         pnlContent = new javax.swing.JPanel();
-        jPanel3 = new javax.swing.JPanel();
+        pnlDetails = new javax.swing.JPanel();
         jSeparator1 = new javax.swing.JSeparator();
         jLabel10 = new javax.swing.JLabel();
         cmbStudentId = new javax.swing.JComboBox<>();
@@ -272,14 +273,14 @@ public class Results extends javax.swing.JFrame {
         pnlContent.setBackground(new java.awt.Color(204, 217, 233));
         pnlContent.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel3.setBackground(new java.awt.Color(204, 217, 233));
-        jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        jPanel3.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 90, -1, -1));
+        pnlDetails.setBackground(new java.awt.Color(204, 217, 233));
+        pnlDetails.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        pnlDetails.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        pnlDetails.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 90, -1, -1));
 
         jLabel10.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel10.setText("STUDENT NUMBER");
-        jPanel3.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, 40));
+        pnlDetails.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, 40));
 
         cmbStudentId.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         cmbStudentId.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SELECT STUDENT ID" }));
@@ -288,11 +289,11 @@ public class Results extends javax.swing.JFrame {
                 cmbStudentIdActionPerformed(evt);
             }
         });
-        jPanel3.add(cmbStudentId, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 10, 190, 40));
+        pnlDetails.add(cmbStudentId, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 10, 190, 40));
 
         jLabel11.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel11.setText("EXAMINATION CODE");
-        jPanel3.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, -1, 40));
+        pnlDetails.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, -1, 40));
 
         cmbExamId.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         cmbExamId.setMaximumRowCount(15);
@@ -302,48 +303,53 @@ public class Results extends javax.swing.JFrame {
                 cmbExamIdActionPerformed(evt);
             }
         });
-        jPanel3.add(cmbExamId, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 60, 190, 40));
+        pnlDetails.add(cmbExamId, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 60, 190, 40));
 
         jLabel12.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel12.setText("MODULE CODE");
-        jPanel3.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 110, -1, 40));
+        pnlDetails.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 110, -1, 40));
 
         txtModuleCode.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jPanel3.add(txtModuleCode, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 110, 190, 40));
+        pnlDetails.add(txtModuleCode, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 110, 190, 40));
 
         jLabel13.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel13.setText("SCORE");
-        jPanel3.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 10, -1, 40));
+        pnlDetails.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 10, -1, 40));
 
         txtMarks.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jPanel3.add(txtMarks, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 10, 190, 40));
+        pnlDetails.add(txtMarks, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 10, 190, 40));
 
         jLabel14.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel14.setText("CONTRIBUTION - FINAL");
-        jPanel3.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 60, -1, 40));
+        pnlDetails.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 60, -1, 40));
 
         txtFinalContrib.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jPanel3.add(txtFinalContrib, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 60, 190, 40));
+        pnlDetails.add(txtFinalContrib, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 60, 190, 40));
 
         btnReset.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnReset.setText("RESET");
-        jPanel3.add(btnReset, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 160, 190, 40));
+        btnReset.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnResetActionPerformed(evt);
+            }
+        });
+        pnlDetails.add(btnReset, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 160, 190, 40));
 
         btnUpdate.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnUpdate.setText("UPDATE");
-        jPanel3.add(btnUpdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 160, 190, 40));
+        pnlDetails.add(btnUpdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 160, 190, 40));
 
         jTextField4.setText("jTextField1");
-        jPanel3.add(jTextField4, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 110, 190, 40));
+        pnlDetails.add(jTextField4, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 110, 190, 40));
 
         jLabel15.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel15.setText("GRADE");
-        jPanel3.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 110, -1, 40));
+        pnlDetails.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 110, -1, 40));
 
         txtGrade.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jPanel3.add(txtGrade, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 110, 190, 40));
+        pnlDetails.add(txtGrade, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 110, 190, 40));
 
-        pnlContent.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 780, 210));
+        pnlContent.add(pnlDetails, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 780, 210));
 
         lblBack.setToolTipText("Back");
         lblBack.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -507,8 +513,16 @@ public class Results extends javax.swing.JFrame {
         scoreByStudentIdExamId.forEach((result) -> {
             txtMarks.setText(result.getScore());
             txtModuleCode.setText(result.getExamId().split(" ")[0].split("-")[0]);
+            txtGrade.setText(String.valueOf(resultService.getGrade(Integer.parseInt(txtMarks.getText()))));
         });
     }//GEN-LAST:event_cmbExamIdActionPerformed
+
+    private void btnResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetActionPerformed
+        // TODO add your handling code here:
+        clear = new ClearComponents();
+        clear.clearTextFields(pnlDetails);
+        clear.resetComboBox(pnlDetails);
+    }//GEN-LAST:event_btnResetActionPerformed
 
     /**
      * @param args the command line arguments
@@ -568,7 +582,6 @@ public class Results extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
@@ -578,6 +591,7 @@ public class Results extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField4;
     private javax.swing.JLabel lblBack;
     private javax.swing.JPanel pnlContent;
+    private javax.swing.JPanel pnlDetails;
     private javax.swing.JPanel pnlHeader;
     private javax.swing.JPanel pnlNavigation;
     private javax.swing.JPanel pnlResultTable;
