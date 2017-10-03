@@ -64,4 +64,18 @@ public final class ResultService {
                 .collect(Collectors.toList());
     }
 
+    public char getGrade(int score) {
+
+        char grade;
+        if (score <= 100 && score > 75) {
+            grade = 'A';
+        } else if (score <= 75 && score > 50) {
+            grade = 'B';
+        } else if (score <= 50 && score > 35) {
+            grade = 'C';
+        } else {
+            grade = 'F';
+        }
+        return grade;
+    }
 }
