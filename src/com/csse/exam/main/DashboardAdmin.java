@@ -6,7 +6,6 @@
 package com.csse.exam.main;
 
 import com.csse.exam.config.DBConnection;
-import static com.csse.exam.main.SearchUser.table;
 import com.csse.exam.model.User;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -279,7 +278,7 @@ public class DashboardAdmin extends javax.swing.JFrame {
 
         jLabel6.setFont(new java.awt.Font("Segoe UI Light", 0, 16)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel6.setText("Users");
+        jLabel6.setText("Add User");
         jLabel6.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jLabel6.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {

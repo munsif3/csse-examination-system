@@ -97,8 +97,6 @@ public class AddUser extends javax.swing.JFrame {
         pwdUserPassword = new javax.swing.JPasswordField();
         pnlAdd = new javax.swing.JPanel();
         btnAdd = new javax.swing.JLabel();
-        jPanel10 = new javax.swing.JPanel();
-        lblContactUs2 = new javax.swing.JLabel();
         pnlNavigation = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         lblHome = new javax.swing.JLabel();
@@ -203,47 +201,7 @@ public class AddUser extends javax.swing.JFrame {
 
         jPanel3.add(pnlAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 270, -1, -1));
 
-        pnlContent.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 110, 650, 350));
-
-        jPanel10.setBackground(new java.awt.Color(70, 102, 144));
-        jPanel10.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jPanel10.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jPanel10.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                jPanel10MousePressed(evt);
-            }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                jPanel10MouseReleased(evt);
-            }
-        });
-
-        lblContactUs2.setFont(new java.awt.Font("Segoe UI Light", 0, 16)); // NOI18N
-        lblContactUs2.setForeground(new java.awt.Color(255, 255, 255));
-        lblContactUs2.setText("   Delete User");
-        lblContactUs2.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblContactUs2MouseClicked(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
-        jPanel10.setLayout(jPanel10Layout);
-        jPanel10Layout.setHorizontalGroup(
-            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel10Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(lblContactUs2, javax.swing.GroupLayout.DEFAULT_SIZE, 106, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        jPanel10Layout.setVerticalGroup(
-            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel10Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(lblContactUs2, javax.swing.GroupLayout.DEFAULT_SIZE, 24, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-
-        pnlContent.add(jPanel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 20, -1, -1));
+        pnlContent.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 40, 650, 350));
 
         getContentPane().add(pnlContent, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 100, 820, 520));
 
@@ -627,18 +585,6 @@ public class AddUser extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_pnlAddMouseReleased
 
-    private void lblContactUs2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblContactUs2MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_lblContactUs2MouseClicked
-
-    private void jPanel10MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel10MousePressed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jPanel10MousePressed
-
-    private void jPanel10MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel10MouseReleased
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jPanel10MouseReleased
-
     private void pnlAddMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlAddMouseClicked
         // TODO add your handling code here:
 
@@ -813,7 +759,6 @@ public class AddUser extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel5;
@@ -822,7 +767,6 @@ public class AddUser extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel8;
     private javax.swing.JLabel lblAbout;
     private javax.swing.JLabel lblContactUs;
-    private javax.swing.JLabel lblContactUs2;
     private javax.swing.JLabel lblHome;
     private javax.swing.JLabel lblLogout;
     private javax.swing.JLabel lblName1;
