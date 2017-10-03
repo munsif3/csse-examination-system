@@ -5,8 +5,21 @@
  */
 package com.csse.exam.main;
 
+import com.csse.exam.config.DBConnection;
+import static com.csse.exam.main.SearchUser.table;
 import com.csse.exam.model.User;
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -14,14 +27,55 @@ import java.awt.Color;
  */
 public class DashboardAdmin extends javax.swing.JFrame {
 
+    Connection conn = null;
+    private ResultSet result;
     /**
      * Creates new form Dashboard
      */
     public DashboardAdmin() {
         initComponents();
+        pnlDelete.setVisible(false);
         lblUser.setText(User.getName());
+         try{
+                conn = (Connection) DBConnection.getConnection();
+                Statement st=conn.createStatement();
+
+                String sqlst="select userId,name,role from user";
+                ResultSet rs=st.executeQuery(sqlst);
+                loadData(rs);
+                }
+                catch(Exception e){
+                    JOptionPane.showMessageDialog(null, e);
+                } 
     }
 
+    public void loadData(ResultSet rs){
+        result = rs;
+    
+        String[] tableColumnsName = {"UserID","Name","Role"}; 
+
+        DefaultTableModel aModel = (DefaultTableModel) tblUser.getModel();
+        //aModel.setColumnIdentifiers(tableColumnsName);
+        aModel.setRowCount(0);
+        try {
+            rs.beforeFirst();
+            // Loop through the ResultSet and transfer in the Model
+            java.sql.ResultSetMetaData rsmd = rs.getMetaData();
+            int colNo = rsmd.getColumnCount();
+            while(rs.next()){
+             Object[] objects = new Object[colNo];
+             
+             for(int i=0;i<colNo;i++){
+                objects[i]=rs.getObject(i+1);
+              }
+             
+             aModel.addRow(objects);
+            }
+            tblUser.setModel(aModel);
+        } catch(Exception e){
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -32,12 +86,15 @@ public class DashboardAdmin extends javax.swing.JFrame {
     private void initComponents() {
 
         pnlContent = new javax.swing.JPanel();
-        lblUpcomingEvents = new javax.swing.JLabel();
+        jPanel3 = new javax.swing.JPanel();
+        lblUserId = new javax.swing.JLabel();
+        txtUserId = new javax.swing.JTextField();
+        pnlSearch = new javax.swing.JPanel();
+        lblSearch = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        lstUpcomingEvents = new javax.swing.JList<>();
-        lblRecentActivity = new javax.swing.JLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
+        tblUser = new javax.swing.JTable();
+        pnlDelete = new javax.swing.JPanel();
+        lblDelete = new javax.swing.JLabel();
         pnlNavigation = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
@@ -65,31 +122,99 @@ public class DashboardAdmin extends javax.swing.JFrame {
         pnlContent.setBackground(new java.awt.Color(204, 217, 233));
         pnlContent.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        lblUpcomingEvents.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        lblUpcomingEvents.setText("Upcoming Events");
-        pnlContent.add(lblUpcomingEvents, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 30, -1, -1));
+        jPanel3.setBackground(new java.awt.Color(204, 217, 233));
+        jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        lstUpcomingEvents.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
+        lblUserId.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        lblUserId.setText("Enter UserId");
+        jPanel3.add(lblUserId, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 40, -1, -1));
+        jPanel3.add(txtUserId, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 40, 190, 30));
+
+        pnlSearch.setBackground(new java.awt.Color(70, 102, 144));
+        pnlSearch.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        pnlSearch.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        pnlSearch.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                pnlSearchMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                pnlSearchMouseReleased(evt);
+            }
         });
-        jScrollPane1.setViewportView(lstUpcomingEvents);
 
-        pnlContent.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 60, 240, 280));
-
-        lblRecentActivity.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        lblRecentActivity.setText("Recent Activity");
-        pnlContent.add(lblRecentActivity, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 30, -1, -1));
-
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
+        lblSearch.setFont(new java.awt.Font("Segoe UI Light", 0, 16)); // NOI18N
+        lblSearch.setForeground(new java.awt.Color(255, 255, 255));
+        lblSearch.setText("        Search");
+        lblSearch.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblSearchMouseClicked(evt);
+            }
         });
-        jScrollPane2.setViewportView(jList1);
 
-        pnlContent.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 60, 210, 280));
+        javax.swing.GroupLayout pnlSearchLayout = new javax.swing.GroupLayout(pnlSearch);
+        pnlSearch.setLayout(pnlSearchLayout);
+        pnlSearchLayout.setHorizontalGroup(
+            pnlSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lblSearch, javax.swing.GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
+        );
+        pnlSearchLayout.setVerticalGroup(
+            pnlSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlSearchLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblSearch, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        jPanel3.add(pnlSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 110, 140, 60));
+
+        tblUser.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "User ID", "Name", "Role"
+            }
+        ));
+        jScrollPane1.setViewportView(tblUser);
+
+        jPanel3.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 230, 630, 190));
+
+        pnlDelete.setBackground(new java.awt.Color(70, 102, 144));
+        pnlDelete.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        pnlDelete.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        pnlDelete.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                pnlDeleteMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                pnlDeleteMouseReleased(evt);
+            }
+        });
+
+        lblDelete.setFont(new java.awt.Font("Segoe UI Light", 0, 16)); // NOI18N
+        lblDelete.setForeground(new java.awt.Color(255, 255, 255));
+        lblDelete.setText("          Delete");
+        lblDelete.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblDeleteMouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout pnlDeleteLayout = new javax.swing.GroupLayout(pnlDelete);
+        pnlDelete.setLayout(pnlDeleteLayout);
+        pnlDeleteLayout.setHorizontalGroup(
+            pnlDeleteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lblDelete, javax.swing.GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE)
+        );
+        pnlDeleteLayout.setVerticalGroup(
+            pnlDeleteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lblDelete, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 56, Short.MAX_VALUE)
+        );
+
+        jPanel3.add(pnlDelete, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 110, 130, 60));
+
+        pnlContent.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 30, 720, 440));
 
         getContentPane().add(pnlContent, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 100, 820, 520));
 
@@ -426,6 +551,62 @@ public class DashboardAdmin extends javax.swing.JFrame {
         user.setVisible(true);
     }//GEN-LAST:event_jLabel6MouseClicked
 
+    private void lblSearchMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSearchMouseClicked
+        // TODO add your handling code here:
+        String userId = txtUserId.getText();
+        try{
+                conn = (Connection) DBConnection.getConnection();
+                Statement st=conn.createStatement();
+
+                String sqlst="select userId,name,role from user where userId=?";
+                PreparedStatement pst = (PreparedStatement) conn.prepareStatement(sqlst);
+                pst.setString(1, userId); 
+                ResultSet rs=pst.executeQuery();
+                loadData(rs);
+                pnlDelete.setVisible(true);
+            }
+                catch(Exception e){
+                    JOptionPane.showMessageDialog(null, e);
+                } 
+    }//GEN-LAST:event_lblSearchMouseClicked
+
+    private void pnlSearchMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlSearchMousePressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_pnlSearchMousePressed
+
+    private void pnlSearchMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlSearchMouseReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_pnlSearchMouseReleased
+
+    private void lblDeleteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblDeleteMouseClicked
+        // TODO add your handling code here:
+        String userId = txtUserId.getText();
+        try{
+                conn = (Connection) DBConnection.getConnection();
+                Statement st=conn.createStatement();
+
+                String sqlst="delete from sql12196110.user where userId=?";
+                PreparedStatement pst = (PreparedStatement) conn.prepareStatement(sqlst);
+                pst.setString(1, userId); 
+                pst.execute();
+                JOptionPane.showMessageDialog(null, "Record deleted successfully");
+                String sql="select userId,name,role from user";
+                ResultSet rs=st.executeQuery(sql);
+                loadData(rs);
+            }
+                catch(Exception e){
+                    JOptionPane.showMessageDialog(null, e);
+                } 
+    }//GEN-LAST:event_lblDeleteMouseClicked
+
+    private void pnlDeleteMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlDeleteMousePressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_pnlDeleteMousePressed
+
+    private void pnlDeleteMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlDeleteMouseReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_pnlDeleteMouseReleased
+
     /**
      * @param args the command line arguments
      */
@@ -483,23 +664,26 @@ public class DashboardAdmin extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JList<String> jList1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblContactUs;
+    private javax.swing.JLabel lblDelete;
     private javax.swing.JLabel lblLogout;
-    private javax.swing.JLabel lblRecentActivity;
-    private javax.swing.JLabel lblUpcomingEvents;
+    private javax.swing.JLabel lblSearch;
     private javax.swing.JLabel lblUser;
-    private javax.swing.JList<String> lstUpcomingEvents;
+    private javax.swing.JLabel lblUserId;
     private javax.swing.JPanel pnlContent;
+    private javax.swing.JPanel pnlDelete;
     private javax.swing.JPanel pnlHeader;
     private javax.swing.JPanel pnlNavigation;
+    private javax.swing.JPanel pnlSearch;
+    private javax.swing.JTable tblUser;
+    private javax.swing.JTextField txtUserId;
     // End of variables declaration//GEN-END:variables
 }
