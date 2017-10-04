@@ -6,7 +6,10 @@
 package com.csse.exam.main;
 
 import com.csse.exam.model.User;
+import com.csse.exam.service.ModuleService;
 import java.awt.Color;
+import java.util.Map;
+import javax.swing.DefaultListModel;
 
 /**
  *
@@ -17,12 +20,20 @@ public class ExamModuleContent extends javax.swing.JFrame {
     /**
      * Creates new form Dashboard
      */
-  
+    private ModuleService moduleService = new ModuleService();
+    private DefaultListModel defaultListModel = new DefaultListModel();
+
     public ExamModuleContent() {
         initComponents();
         lblUser.setText(User.getName());
-        
+        loadAllModules();
+    }
 
+    private void loadAllModules() {
+        for (Map.Entry<String, String> modules : moduleService.getModulesByStudentId().entrySet()) {
+            defaultListModel = (DefaultListModel) lstModulesEM.getModel();
+            defaultListModel.addElement(modules.getKey() + "-" + modules.getValue());
+        }
     }
 
     /**
@@ -273,11 +284,8 @@ public class ExamModuleContent extends javax.swing.JFrame {
         lstModulesEM.setBackground(new java.awt.Color(204, 217, 233));
         lstModulesEM.setFont(new java.awt.Font("Segoe UI Light", 0, 16)); // NOI18N
         lstModulesEM.setForeground(new java.awt.Color(51, 102, 255));
-        lstModulesEM.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "SPM", "UEE", "DBS", "CSSE" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
+        lstModulesEM.setModel(new DefaultListModel<String>());
+        lstModulesEM.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         lstModulesEM.setSelectionBackground(new java.awt.Color(204, 204, 204));
         lstModulesEM.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
@@ -350,26 +358,26 @@ public class ExamModuleContent extends javax.swing.JFrame {
     }//GEN-LAST:event_jPanel10MouseReleased
 
     private void lblModulesMMMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblModulesMMMouseClicked
-       ModuleContent moduleContent = new ModuleContent();
+        ModuleContent moduleContent = new ModuleContent();
         this.setVisible(false);
-        moduleContent.setVisible(true);   
-       
+        moduleContent.setVisible(true);
+
     }//GEN-LAST:event_lblModulesMMMouseClicked
 
     private void lstModulesEMValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lstModulesEMValueChanged
-        
+
         QuizContent quizContent = new QuizContent();
         this.setVisible(false);
         quizContent.setVisible(true);
-        quizContent.lblHeaderME.setText(lblModulesMM.getText()+" - "+lstModulesEM.getSelectedValue());
+        quizContent.lblHeaderME.setText(lblModulesMM.getText() + " - " + lstModulesEM.getSelectedValue());
         quizContent.lblSelectedModule.setText(lstModulesEM.getSelectedValue());
-        
+
     }//GEN-LAST:event_lstModulesEMValueChanged
 
     private void lblHomeMMMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblHomeMMMouseClicked
-       DashboardStudent dashboardStudent = new DashboardStudent();
-       this.setVisible(false);
-       dashboardStudent.setVisible(true);
+        DashboardStudent dashboardStudent = new DashboardStudent();
+        this.setVisible(false);
+        dashboardStudent.setVisible(true);
     }//GEN-LAST:event_lblHomeMMMouseClicked
 
     /**

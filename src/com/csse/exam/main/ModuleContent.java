@@ -6,7 +6,10 @@
 package com.csse.exam.main;
 
 import com.csse.exam.model.User;
+import com.csse.exam.service.ModuleService;
 import java.awt.Color;
+import java.util.Map;
+import javax.swing.DefaultListModel;
 
 /**
  *
@@ -17,14 +20,20 @@ public class ModuleContent extends javax.swing.JFrame {
     /**
      * Creates new form Dashboard
      */
-  
+   private ModuleService moduleService = new ModuleService();
+   private DefaultListModel defaultListModel = new DefaultListModel() ;
     public ModuleContent() {
         initComponents();
         lblUser.setText(User.getName());
-        
-
+        loadAllModules();
     }
 
+    private void loadAllModules(){
+        for(Map.Entry<String,String> modules: moduleService.getModulesByStudentId().entrySet()){
+           defaultListModel = (DefaultListModel)lstModules.getModel();
+           defaultListModel.addElement(modules.getKey()+"-"+modules.getValue());
+       }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -273,11 +282,9 @@ public class ModuleContent extends javax.swing.JFrame {
         lstModules.setBackground(new java.awt.Color(204, 217, 233));
         lstModules.setFont(new java.awt.Font("Segoe UI Light", 0, 16)); // NOI18N
         lstModules.setForeground(new java.awt.Color(51, 102, 255));
-        lstModules.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "SPM", "UEE", "DBS", "CSSE" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
+        lstModules.setModel(new DefaultListModel<String>()
+        );
+        lstModules.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         lstModules.setSelectionBackground(new java.awt.Color(204, 204, 204));
         lstModules.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
