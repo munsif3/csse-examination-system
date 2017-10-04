@@ -7,12 +7,13 @@ package com.csse.exam.service;
 
 import com.csse.exam.config.DBConnection;
 import com.csse.exam.main.Login;
-import com.csse.exam.model.User;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -21,39 +22,38 @@ import java.util.List;
 public class ModuleService {
 
     private  ResultSet resultSet;
-    private static  User user;
+    public static Login login = new Login();
+   // private static  String userId = login.getUser().getUserId();
     public ModuleService(){
-       this.user=new Login().user;
+       
         
     }
     public static void main(String[] args) {
         ModuleService moduleService= new ModuleService();
-       for(String modules: moduleService.getModulesByStudentId()){
-           System.out.println(modules);
+       for(Map.Entry<String,String> modules: moduleService.getModulesByStudentId().entrySet()){
+           System.out.println(modules.getKey()+" "+modules.getValue());
        }
-        System.out.println(user.getUserId());
+        //System.out.println(userId);
     }
-
-    public List<String> getModulesByStudentId() {
-        List<String> moduleList;
-        moduleList = new ArrayList<>();
+    public HashMap<String,String> getModulesByStudentId() {
+        Map<String,String>  moduleMap = new HashMap<String, String>();
         try (Connection dbConnection = DBConnection.getConnection()) {
-            resultSet = dbConnection.createStatement().executeQuery("select m.moduleName from student s, module m where s.currentYear=m.allocatedTo and s.userId='"+user.getUserId()+"'");
+            resultSet = dbConnection.createStatement().executeQuery("select m.moduleName , m.moduleId from student s, module m where s.currentYear=m.allocatedTo and s.userId='ST001'");
             while (resultSet.next()) {
-                moduleList.add(resultSet.getString("moduleName"));
+                moduleMap.put(resultSet.getString("moduleId"), resultSet.getString("moduleName"));
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return moduleList;
+        return (HashMap<String, String>) moduleMap;
     }
     
     private String getEnrollementKey(){
         String enrollmentKey = null;
         
         try (Connection dbConnection = DBConnection.getConnection()) {
-            resultSet = dbConnection.createStatement().executeQuery("select m.moduleName from student s, module m where s.currentYear=m.allocatedTo and s.userId='"+user.getUserId()+"'");
+            resultSet = dbConnection.createStatement().executeQuery("select m.moduleName from student s, module m where s.currentYear=m.allocatedTo and s.userId='ST001'");
             while (resultSet.next()) {
              enrollmentKey=resultSet.getString("moduleName");
             }
@@ -66,5 +66,19 @@ public class ModuleService {
     }
     public boolean enrollToModule(String enrollmentKey){
         return enrollmentKey.equals(getEnrollementKey());
+    }
+    
+    private HashMap<String,String> getExamsByModuleId(String moduleId){
+        Map<String,String> exams = new HashMap<String,String>();
+        try (Connection dbConnection = DBConnection.getConnection()) {
+            resultSet = dbConnection.createStatement().executeQuery("select examId,examPassword from exam where moduleId = '"+moduleId+"' and examState = 'Enabled'");
+            while (resultSet.next()) {
+                exams.put(resultSet.getString("examId"), resultSet.getString("examPassword"));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return (HashMap<String, String>) exams;
     }
 }
