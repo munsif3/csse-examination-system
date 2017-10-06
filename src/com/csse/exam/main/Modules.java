@@ -21,19 +21,19 @@ import javax.swing.JOptionPane;
  *
  * @author user
  */
-public class AddUser extends javax.swing.JFrame {
+public class Modules extends javax.swing.JFrame {
 
     /**
      * Creates new form Dashboard
      */
-    public AddUser() {
+    public Modules() {
         initComponents();
         lblUser.setText(User.getName());
     }
     public boolean validateValues()
     {
         Validation validation = new Validation();
-        if (validation.checkTextNull(txtName.getText()) || validation.checkTextNull(txtUsername.getText()) || validation.checkTextNull(pwdUserPassword.getText())) {
+        if (validation.checkTextNull(txtModuleName.getText()) || validation.checkTextNull(pwdModulePassword.getText())) {
             JOptionPane.showMessageDialog(null, "You can't keep fields empty");
             return false;
         } 
@@ -42,37 +42,56 @@ public class AddUser extends javax.swing.JFrame {
         }
     }
     
-    public String getNewId(boolean lecturer, boolean student){
-        String rolePrefix;
-        String lastUserId = null;
-        String newUserId = null;
-        if(lecturer)
-            rolePrefix = "LT%";
-        else
-            rolePrefix = "ST%";
+    public String getNewModuleId(){
+        String lastModuleId = null;
+        String newModuleId = null;
+
         try {
                
                 Connection con = DBConnection.getConnection();
-                String query = " SELECT userId FROM user\n" +
-                                "where userId like ?\n" +
-                                "order by userId desc limit 1;";
+                String query = " SELECT moduleId FROM module\n" +
+                                "order by moduleId desc limit 1;";
                 PreparedStatement preparedStmt = (PreparedStatement) con.prepareStatement(query);
-                preparedStmt.setString (1, rolePrefix);
                 
                 // execute the preparedstatement
                 ResultSet rs = preparedStmt.executeQuery(); 
                 if(rs.next()){
-                    lastUserId = rs.getString("userId");
+                    lastModuleId = rs.getString("moduleId");
                 }
-                String last3 = lastUserId.substring(lastUserId.length() - 3);
-                newUserId = lastUserId.substring(0,4)+String.valueOf(Integer.parseInt(last3) + 1);
+                String last3 = lastModuleId.substring(lastModuleId.length() - 3);
+                newModuleId = lastModuleId.substring(0,4)+String.valueOf(Integer.parseInt(last3) + 1);
                 
                 con.close();
 
                 } catch (SQLException | HeadlessException e) {
                     JOptionPane.showMessageDialog(null, e);
                 }
-        return newUserId;
+        return newModuleId;
+    }
+    
+    public String getAllocatedYearAndSemester(){
+        String yearPrefix = null;
+        String semesterPrefix = null;
+        String allocatedTo;
+        
+        int year = cmbYear.getSelectedIndex();
+        int semester = cmbSemester.getSelectedIndex();
+        
+        switch(year)
+        {
+            case(0):yearPrefix="Y1";break;
+            case(1):yearPrefix="Y2";break;
+            case(2):yearPrefix="Y3";break;
+            case(3):yearPrefix="Y4";break;
+        }
+       switch(semester)
+       {
+           case(0):semesterPrefix="S1";
+           case(1):semesterPrefix="S2";
+       }
+       
+       allocatedTo = yearPrefix+semesterPrefix;
+       return allocatedTo;
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -86,17 +105,22 @@ public class AddUser extends javax.swing.JFrame {
         rdoButtonGroup = new javax.swing.ButtonGroup();
         pnlContent = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
-        lblPassword = new javax.swing.JLabel();
-        txtUsername = new javax.swing.JTextField();
-        lblName1 = new javax.swing.JLabel();
-        rdoStudent = new javax.swing.JRadioButton();
-        rdoLecturer = new javax.swing.JRadioButton();
-        lblRole1 = new javax.swing.JLabel();
-        txtName = new javax.swing.JTextField();
-        lblUsername1 = new javax.swing.JLabel();
-        pwdUserPassword = new javax.swing.JPasswordField();
-        pnlAdd = new javax.swing.JPanel();
-        btnAdd = new javax.swing.JLabel();
+        lblModuleYear = new javax.swing.JLabel();
+        lblModuleName = new javax.swing.JLabel();
+        txtModuleName = new javax.swing.JTextField();
+        pwdModulePassword = new javax.swing.JPasswordField();
+        pnlModuleDelete = new javax.swing.JPanel();
+        btnModuleDelete = new javax.swing.JLabel();
+        lblModulePassword1 = new javax.swing.JLabel();
+        cmbSemester = new javax.swing.JComboBox<>();
+        lblModuleYear1 = new javax.swing.JLabel();
+        cmbYear = new javax.swing.JComboBox<>();
+        pnlModuleUpdate = new javax.swing.JPanel();
+        btnModuleUpdate = new javax.swing.JLabel();
+        pnlModuleAdd = new javax.swing.JPanel();
+        btnModuleAdd = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblModule = new javax.swing.JTable();
         pnlNavigation = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         lblHome = new javax.swing.JLabel();
@@ -130,80 +154,163 @@ public class AddUser extends javax.swing.JFrame {
         jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        lblPassword.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        lblPassword.setText("Password");
-        jPanel3.add(lblPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 210, -1, -1));
-        jPanel3.add(txtUsername, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 150, 180, 30));
+        lblModuleYear.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblModuleYear.setText("Semester");
+        jPanel3.add(lblModuleYear, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 200, -1, -1));
 
-        lblName1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        lblName1.setText("Name");
-        jPanel3.add(lblName1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 30, -1, -1));
+        lblModuleName.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblModuleName.setText("Name");
+        jPanel3.add(lblModuleName, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, -1, -1));
+        jPanel3.add(txtModuleName, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 30, 180, 30));
+        jPanel3.add(pwdModulePassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 100, 180, -1));
 
-        rdoButtonGroup.add(rdoStudent);
-        rdoStudent.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        rdoStudent.setText("Student");
-        jPanel3.add(rdoStudent, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 90, -1, -1));
-
-        rdoButtonGroup.add(rdoLecturer);
-        rdoLecturer.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        rdoLecturer.setSelected(true);
-        rdoLecturer.setText("Lecturer");
-        jPanel3.add(rdoLecturer, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 90, -1, -1));
-
-        lblRole1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        lblRole1.setText("Role");
-        jPanel3.add(lblRole1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 90, -1, -1));
-        jPanel3.add(txtName, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 30, 180, 30));
-
-        lblUsername1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        lblUsername1.setText("Username");
-        jPanel3.add(lblUsername1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 150, -1, -1));
-        jPanel3.add(pwdUserPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 210, 180, -1));
-
-        pnlAdd.setBackground(new java.awt.Color(70, 102, 144));
-        pnlAdd.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        pnlAdd.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        pnlAdd.addMouseListener(new java.awt.event.MouseAdapter() {
+        pnlModuleDelete.setBackground(new java.awt.Color(70, 102, 144));
+        pnlModuleDelete.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        pnlModuleDelete.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        pnlModuleDelete.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                pnlAddMouseClicked(evt);
+                pnlModuleDeleteMouseClicked(evt);
             }
             public void mousePressed(java.awt.event.MouseEvent evt) {
-                pnlAddMousePressed(evt);
+                pnlModuleDeleteMousePressed(evt);
             }
             public void mouseReleased(java.awt.event.MouseEvent evt) {
-                pnlAddMouseReleased(evt);
+                pnlModuleDeleteMouseReleased(evt);
             }
         });
 
-        btnAdd.setFont(new java.awt.Font("Segoe UI Light", 0, 16)); // NOI18N
-        btnAdd.setForeground(new java.awt.Color(255, 255, 255));
-        btnAdd.setText("          ADD");
-        btnAdd.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnModuleDelete.setFont(new java.awt.Font("Segoe UI Light", 0, 16)); // NOI18N
+        btnModuleDelete.setForeground(new java.awt.Color(255, 255, 255));
+        btnModuleDelete.setText("       DELETE");
+        btnModuleDelete.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnAddMouseClicked(evt);
+                btnModuleDeleteMouseClicked(evt);
             }
         });
 
-        javax.swing.GroupLayout pnlAddLayout = new javax.swing.GroupLayout(pnlAdd);
-        pnlAdd.setLayout(pnlAddLayout);
-        pnlAddLayout.setHorizontalGroup(
-            pnlAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlAddLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(btnAdd, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
-                .addContainerGap())
+        javax.swing.GroupLayout pnlModuleDeleteLayout = new javax.swing.GroupLayout(pnlModuleDelete);
+        pnlModuleDelete.setLayout(pnlModuleDeleteLayout);
+        pnlModuleDeleteLayout.setHorizontalGroup(
+            pnlModuleDeleteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(btnModuleDelete, javax.swing.GroupLayout.DEFAULT_SIZE, 106, Short.MAX_VALUE)
         );
-        pnlAddLayout.setVerticalGroup(
-            pnlAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlAddLayout.createSequentialGroup()
+        pnlModuleDeleteLayout.setVerticalGroup(
+            pnlModuleDeleteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlModuleDeleteLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(btnAdd, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
+                .addComponent(btnModuleDelete, javax.swing.GroupLayout.DEFAULT_SIZE, 39, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
-        jPanel3.add(pnlAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 270, -1, -1));
+        jPanel3.add(pnlModuleDelete, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 260, 110, -1));
 
-        pnlContent.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 40, 650, 350));
+        lblModulePassword1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblModulePassword1.setText("Password");
+        jPanel3.add(lblModulePassword1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 100, -1, -1));
+
+        cmbSemester.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Semester 1", "Semester 2", " " }));
+        jPanel3.add(cmbSemester, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 200, 90, 30));
+
+        lblModuleYear1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblModuleYear1.setText("Year");
+        jPanel3.add(lblModuleYear1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 150, -1, -1));
+
+        cmbYear.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Year 1", "Year 2", "Year 3", "Year 4" }));
+        jPanel3.add(cmbYear, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 150, 90, 30));
+
+        pnlModuleUpdate.setBackground(new java.awt.Color(70, 102, 144));
+        pnlModuleUpdate.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        pnlModuleUpdate.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        pnlModuleUpdate.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                pnlModuleUpdateMouseClicked(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                pnlModuleUpdateMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                pnlModuleUpdateMouseReleased(evt);
+            }
+        });
+
+        btnModuleUpdate.setFont(new java.awt.Font("Segoe UI Light", 0, 16)); // NOI18N
+        btnModuleUpdate.setForeground(new java.awt.Color(255, 255, 255));
+        btnModuleUpdate.setText("      UPDATE");
+        btnModuleUpdate.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnModuleUpdateMouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout pnlModuleUpdateLayout = new javax.swing.GroupLayout(pnlModuleUpdate);
+        pnlModuleUpdate.setLayout(pnlModuleUpdateLayout);
+        pnlModuleUpdateLayout.setHorizontalGroup(
+            pnlModuleUpdateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(btnModuleUpdate, javax.swing.GroupLayout.DEFAULT_SIZE, 106, Short.MAX_VALUE)
+        );
+        pnlModuleUpdateLayout.setVerticalGroup(
+            pnlModuleUpdateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlModuleUpdateLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(btnModuleUpdate, javax.swing.GroupLayout.DEFAULT_SIZE, 39, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        jPanel3.add(pnlModuleUpdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 260, -1, -1));
+
+        pnlModuleAdd.setBackground(new java.awt.Color(70, 102, 144));
+        pnlModuleAdd.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        pnlModuleAdd.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        pnlModuleAdd.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                pnlModuleAddMouseClicked(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                pnlModuleAddMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                pnlModuleAddMouseReleased(evt);
+            }
+        });
+
+        btnModuleAdd.setFont(new java.awt.Font("Segoe UI Light", 0, 16)); // NOI18N
+        btnModuleAdd.setForeground(new java.awt.Color(255, 255, 255));
+        btnModuleAdd.setText("         ADD");
+        btnModuleAdd.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnModuleAddMouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout pnlModuleAddLayout = new javax.swing.GroupLayout(pnlModuleAdd);
+        pnlModuleAdd.setLayout(pnlModuleAddLayout);
+        pnlModuleAddLayout.setHorizontalGroup(
+            pnlModuleAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(btnModuleAdd, javax.swing.GroupLayout.DEFAULT_SIZE, 106, Short.MAX_VALUE)
+        );
+        pnlModuleAddLayout.setVerticalGroup(
+            pnlModuleAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlModuleAddLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(btnModuleAdd, javax.swing.GroupLayout.DEFAULT_SIZE, 39, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        jPanel3.add(pnlModuleAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 260, 110, -1));
+
+        tblModule.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Module ID", "Name", "Password", "Allocated To"
+            }
+        ));
+        jScrollPane1.setViewportView(tblModule);
+
+        jPanel3.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 10, 390, 220));
+
+        pnlContent.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 790, 370));
 
         getContentPane().add(pnlContent, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 100, 820, 520));
 
@@ -275,6 +382,11 @@ public class AddUser extends javax.swing.JFrame {
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setText("Add User");
         jLabel6.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabel6.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel6MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -469,7 +581,7 @@ public class AddUser extends javax.swing.JFrame {
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("Add User");
+        jLabel2.setText("Modules");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -578,65 +690,63 @@ public class AddUser extends javax.swing.JFrame {
         contact.setVisible(true);
     }//GEN-LAST:event_lblContactUsMouseClicked
 
-    private void btnAddMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddMouseClicked
+    private void btnModuleDeleteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnModuleDeleteMouseClicked
         // TODO add your handling code here:
                 
-        String role;
-        if(validateValues())
-        {
-           String name = txtName.getText();
-           String username = txtUsername.getText();
-           String password = pwdUserPassword.getText();
-           boolean lecturer = rdoLecturer.isSelected();
-           boolean student = rdoStudent.isSelected();
-           
-           if(lecturer){
-               role = "lecturer";
-           }
-           else
-               role = "student";
-           
-           try {
-               
-                Connection con = DBConnection.getConnection();
-                String query = " insert into user (userId,name,role,username,userPassword)"
-                 + " values (?, ?, ?, ?, ?)";
-                PreparedStatement preparedStmt = (PreparedStatement) con.prepareStatement(query);
-                preparedStmt.setString (1,  getNewId(lecturer,student));
-                preparedStmt.setString (2, name);
-                preparedStmt.setString   (3, role);
-                preparedStmt.setString(4, username);
-                preparedStmt.setString    (5, password);
+//        String role;
+//        if(validateValues())
+//        {
+//           String name = txtModuleName.getText();
+//           //String username = txtUsername.getText();
+//           String password = pwdModulePassword.getText();
+//           //boolean lecturer = rdoLecturer.isSelected();
+//           //boolean student = rdoStudent.isSelected();
+//           
+//           if(lecturer){
+//               role = "lecturer";
+//           }
+//           else
+//               role = "student";
+//           
+//           try {
+//               
+//                Connection con = DBConnection.getConnection();
+//                String query = " insert into user (userId,name,role,username,userPassword)"
+//                 + " values (?, ?, ?, ?, ?)";
+//                PreparedStatement preparedStmt = (PreparedStatement) con.prepareStatement(query);
+//                preparedStmt.setString (1,  getNewId(lecturer,student));
+//                preparedStmt.setString (2, name);
+//                preparedStmt.setString   (3, role);
+//                preparedStmt.setString(4, username);
+//                preparedStmt.setString    (5, password);
+//
+//                // execute the preparedstatement
+//                preparedStmt.execute();
+//
+//                con.close();
+//                JOptionPane.showMessageDialog(null, "Suceesfully Added!");
+//                } catch (SQLException | HeadlessException e) {
+//                    JOptionPane.showMessageDialog(null, e);
+//                }
+//
+//        }
+    }//GEN-LAST:event_btnModuleDeleteMouseClicked
 
-                // execute the preparedstatement
-                preparedStmt.execute();
-
-                con.close();
-                JOptionPane.showMessageDialog(null, "Suceesfully Added!");
-                } catch (SQLException | HeadlessException e) {
-                    JOptionPane.showMessageDialog(null, e);
-                }
-
-        }
-    }//GEN-LAST:event_btnAddMouseClicked
-
-    private void pnlAddMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlAddMousePressed
+    private void pnlModuleDeleteMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlModuleDeleteMousePressed
         // TODO add your handling code here:
-    }//GEN-LAST:event_pnlAddMousePressed
+    }//GEN-LAST:event_pnlModuleDeleteMousePressed
 
-    private void pnlAddMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlAddMouseReleased
+    private void pnlModuleDeleteMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlModuleDeleteMouseReleased
         // TODO add your handling code here:
-    }//GEN-LAST:event_pnlAddMouseReleased
+    }//GEN-LAST:event_pnlModuleDeleteMouseReleased
 
-    private void pnlAddMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlAddMouseClicked
+    private void pnlModuleDeleteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlModuleDeleteMouseClicked
         // TODO add your handling code here:
 
-    }//GEN-LAST:event_pnlAddMouseClicked
+    }//GEN-LAST:event_pnlModuleDeleteMouseClicked
 
     private void lblModulesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblModulesMouseClicked
-        Modules module = new Modules();
-        this.setVisible(false);
-        module.setVisible(true);
+        // TODO add your handling code here:
     }//GEN-LAST:event_lblModulesMouseClicked
 
     private void pnlModuleMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlModuleMousePressed
@@ -646,6 +756,49 @@ public class AddUser extends javax.swing.JFrame {
     private void pnlModuleMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlModuleMouseReleased
         // TODO add your handling code here:
     }//GEN-LAST:event_pnlModuleMouseReleased
+
+    private void btnModuleUpdateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnModuleUpdateMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnModuleUpdateMouseClicked
+
+    private void pnlModuleUpdateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlModuleUpdateMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_pnlModuleUpdateMouseClicked
+
+    private void pnlModuleUpdateMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlModuleUpdateMousePressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_pnlModuleUpdateMousePressed
+
+    private void pnlModuleUpdateMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlModuleUpdateMouseReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_pnlModuleUpdateMouseReleased
+
+    private void btnModuleAddMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnModuleAddMouseClicked
+        // TODO add your handling code here:
+        String newID = getNewModuleId();
+        JOptionPane.showMessageDialog(null, "new ID is" + newID);
+        String allocated = getAllocatedYearAndSemester();
+        JOptionPane.showMessageDialog(null, "new all is" + allocated);
+    }//GEN-LAST:event_btnModuleAddMouseClicked
+
+    private void pnlModuleAddMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlModuleAddMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_pnlModuleAddMouseClicked
+
+    private void pnlModuleAddMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlModuleAddMousePressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_pnlModuleAddMousePressed
+
+    private void pnlModuleAddMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlModuleAddMouseReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_pnlModuleAddMouseReleased
+
+    private void jLabel6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel6MouseClicked
+        // TODO add your handling code here:
+        AddUser user = new AddUser();
+        this.setVisible(false);
+        user.setVisible(true);
+    }//GEN-LAST:event_jLabel6MouseClicked
 
     /**
      * @param args the command line arguments
@@ -664,14 +817,142 @@ public class AddUser extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AddUser.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Modules.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AddUser.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Modules.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AddUser.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Modules.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AddUser.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Modules.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -804,13 +1085,17 @@ public class AddUser extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new AddUser().setVisible(true);
+                new Modules().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel btnAdd;
+    private javax.swing.JLabel btnModuleAdd;
+    private javax.swing.JLabel btnModuleDelete;
+    private javax.swing.JLabel btnModuleUpdate;
+    private javax.swing.JComboBox<String> cmbSemester;
+    private javax.swing.JComboBox<String> cmbYear;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel6;
@@ -822,26 +1107,27 @@ public class AddUser extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblAbout;
     private javax.swing.JLabel lblContactUs;
     private javax.swing.JLabel lblHome;
     private javax.swing.JLabel lblLogout;
+    private javax.swing.JLabel lblModuleName;
+    private javax.swing.JLabel lblModulePassword1;
+    private javax.swing.JLabel lblModuleYear;
+    private javax.swing.JLabel lblModuleYear1;
     private javax.swing.JLabel lblModules;
-    private javax.swing.JLabel lblName1;
-    private javax.swing.JLabel lblPassword;
-    private javax.swing.JLabel lblRole1;
     private javax.swing.JLabel lblUser;
-    private javax.swing.JLabel lblUsername1;
-    private javax.swing.JPanel pnlAdd;
     private javax.swing.JPanel pnlContent;
     private javax.swing.JPanel pnlHeader;
     private javax.swing.JPanel pnlModule;
+    private javax.swing.JPanel pnlModuleAdd;
+    private javax.swing.JPanel pnlModuleDelete;
+    private javax.swing.JPanel pnlModuleUpdate;
     private javax.swing.JPanel pnlNavigation;
-    private javax.swing.JPasswordField pwdUserPassword;
+    private javax.swing.JPasswordField pwdModulePassword;
     private javax.swing.ButtonGroup rdoButtonGroup;
-    private javax.swing.JRadioButton rdoLecturer;
-    private javax.swing.JRadioButton rdoStudent;
-    private javax.swing.JTextField txtName;
-    private javax.swing.JTextField txtUsername;
+    private javax.swing.JTable tblModule;
+    private javax.swing.JTextField txtModuleName;
     // End of variables declaration//GEN-END:variables
 }
