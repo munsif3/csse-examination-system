@@ -15,7 +15,10 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 /**
  *
@@ -23,12 +26,17 @@ import javax.swing.JOptionPane;
  */
 public class Modules extends javax.swing.JFrame {
 
+    Connection conn;
+    private String moduleId;
+   
     /**
      * Creates new form Dashboard
      */
     public Modules() {
         initComponents();
+        displayModules();
         lblUser.setText(User.getName());
+        
     }
     public boolean validateValues()
     {
@@ -86,13 +94,65 @@ public class Modules extends javax.swing.JFrame {
         }
        switch(semester)
        {
-           case(0):semesterPrefix="S1";
-           case(1):semesterPrefix="S2";
+           case(0):semesterPrefix="S1";break;
+           case(1):semesterPrefix="S2";break;
        }
        
        allocatedTo = yearPrefix+semesterPrefix;
        return allocatedTo;
     }
+
+     public void executeQuery(String query){
+        
+        try{
+               conn = (Connection) DBConnection.getConnection();
+               Statement st=conn.createStatement();
+
+               PreparedStatement pst = (PreparedStatement) conn.prepareStatement(query); 
+               pst.execute();
+               ResultSet result = st.executeQuery("select * from module");
+               DefaultTableModel aModel = (DefaultTableModel) tblModule.getModel();
+               aModel.setRowCount(0);
+               try {
+                    result.beforeFirst();
+            
+                    // Loop through the ResultSet and transfer in the Model
+                    java.sql.ResultSetMetaData rsmd = result.getMetaData();
+                    int colNo = rsmd.getColumnCount();
+                    while(result.next())
+                    {   
+                        Object[] objects = new Object[colNo];
+
+                        for(int i=0;i<colNo;i++){
+                           objects[i]=result.getObject(i+1);
+                         }
+
+                        aModel.addRow(objects);
+                    }
+                    tblModule.setModel(aModel);
+                   } catch(Exception e){
+                    JOptionPane.showMessageDialog(null, e);
+                }
+            }
+            catch(Exception e){
+               JOptionPane.showMessageDialog(null, e);
+            } 
+   
+        
+    }
+     
+     public void displayModules()
+     {
+         String query="select * from module";
+         executeQuery(query);
+     }
+     public void setModuleID(String id)
+     {
+         moduleId = id;
+     }
+     public String getModuleID(){
+         return moduleId;
+     }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -209,14 +269,14 @@ public class Modules extends javax.swing.JFrame {
         jPanel3.add(lblModulePassword1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 100, -1, -1));
 
         cmbSemester.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Semester 1", "Semester 2", " " }));
-        jPanel3.add(cmbSemester, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 200, 90, 30));
+        jPanel3.add(cmbSemester, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 200, 130, 30));
 
         lblModuleYear1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblModuleYear1.setText("Year");
         jPanel3.add(lblModuleYear1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 150, -1, -1));
 
         cmbYear.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Year 1", "Year 2", "Year 3", "Year 4" }));
-        jPanel3.add(cmbYear, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 150, 90, 30));
+        jPanel3.add(cmbYear, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 150, 130, 30));
 
         pnlModuleUpdate.setBackground(new java.awt.Color(70, 102, 144));
         pnlModuleUpdate.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -306,6 +366,11 @@ public class Modules extends javax.swing.JFrame {
                 "Module ID", "Name", "Password", "Allocated To"
             }
         ));
+        tblModule.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblModuleMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblModule);
 
         jPanel3.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 10, 390, 220));
@@ -692,44 +757,9 @@ public class Modules extends javax.swing.JFrame {
 
     private void btnModuleDeleteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnModuleDeleteMouseClicked
         // TODO add your handling code here:
-                
-//        String role;
-//        if(validateValues())
-//        {
-//           String name = txtModuleName.getText();
-//           //String username = txtUsername.getText();
-//           String password = pwdModulePassword.getText();
-//           //boolean lecturer = rdoLecturer.isSelected();
-//           //boolean student = rdoStudent.isSelected();
-//           
-//           if(lecturer){
-//               role = "lecturer";
-//           }
-//           else
-//               role = "student";
-//           
-//           try {
-//               
-//                Connection con = DBConnection.getConnection();
-//                String query = " insert into user (userId,name,role,username,userPassword)"
-//                 + " values (?, ?, ?, ?, ?)";
-//                PreparedStatement preparedStmt = (PreparedStatement) con.prepareStatement(query);
-//                preparedStmt.setString (1,  getNewId(lecturer,student));
-//                preparedStmt.setString (2, name);
-//                preparedStmt.setString   (3, role);
-//                preparedStmt.setString(4, username);
-//                preparedStmt.setString    (5, password);
-//
-//                // execute the preparedstatement
-//                preparedStmt.execute();
-//
-//                con.close();
-//                JOptionPane.showMessageDialog(null, "Suceesfully Added!");
-//                } catch (SQLException | HeadlessException e) {
-//                    JOptionPane.showMessageDialog(null, e);
-//                }
-//
-//        }
+        String moduleId = getModuleID();
+        String query = "delete from sql12196110.module where moduleId='"+moduleId+"';";
+        executeQuery(query);
     }//GEN-LAST:event_btnModuleDeleteMouseClicked
 
     private void pnlModuleDeleteMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlModuleDeleteMousePressed
@@ -759,6 +789,17 @@ public class Modules extends javax.swing.JFrame {
 
     private void btnModuleUpdateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnModuleUpdateMouseClicked
         // TODO add your handling code here:
+        String moduleId = getModuleID();
+        String moduleName = txtModuleName.getText();
+        String password = pwdModulePassword.getText();
+        String allocated = getAllocatedYearAndSemester();
+        
+        if(validateValues())
+        {
+            String query = "update sql12196110.module set moduleName ='"+moduleName+"',modulePassword='"+password+"',allocatedTo='"+allocated+"' where moduleId='"+moduleId+"';";
+            executeQuery(query);
+        }
+        
     }//GEN-LAST:event_btnModuleUpdateMouseClicked
 
     private void pnlModuleUpdateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlModuleUpdateMouseClicked
@@ -774,11 +815,16 @@ public class Modules extends javax.swing.JFrame {
     }//GEN-LAST:event_pnlModuleUpdateMouseReleased
 
     private void btnModuleAddMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnModuleAddMouseClicked
-        // TODO add your handling code here:
         String newID = getNewModuleId();
-        JOptionPane.showMessageDialog(null, "new ID is" + newID);
+        String moduleName = txtModuleName.getText();
+        String password = pwdModulePassword.getText();
         String allocated = getAllocatedYearAndSemester();
-        JOptionPane.showMessageDialog(null, "new all is" + allocated);
+        
+        if(validateValues())
+        {
+            String query = "Insert into module values('"+newID+"','"+moduleName+"','"+password+"','"+allocated+"')";
+            executeQuery(query);
+        }
     }//GEN-LAST:event_btnModuleAddMouseClicked
 
     private void pnlModuleAddMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlModuleAddMouseClicked
@@ -799,6 +845,16 @@ public class Modules extends javax.swing.JFrame {
         this.setVisible(false);
         user.setVisible(true);
     }//GEN-LAST:event_jLabel6MouseClicked
+
+    private void tblModuleMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblModuleMouseClicked
+        // TODO add your handling code here:
+        int i = tblModule.getSelectedRow();
+        TableModel model = tblModule.getModel();
+        setModuleID(model.getValueAt(i, 0).toString());
+        txtModuleName.setText(model.getValueAt(i, 1).toString());
+        pwdModulePassword.setText(model.getValueAt(i, 2).toString());
+       
+    }//GEN-LAST:event_tblModuleMouseClicked
 
     /**
      * @param args the command line arguments
