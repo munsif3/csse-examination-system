@@ -8,8 +8,11 @@ package com.csse.exam.main;
 import com.csse.exam.model.User;
 import com.csse.exam.service.ModuleService;
 import java.awt.Color;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -20,20 +23,24 @@ public class ModuleContent extends javax.swing.JFrame {
     /**
      * Creates new form Dashboard
      */
-   private ModuleService moduleService = new ModuleService();
-   private DefaultListModel defaultListModel = new DefaultListModel() ;
+    private ModuleService moduleService = new ModuleService();
+    private DefaultListModel defaultListModel = new DefaultListModel();
+
     public ModuleContent() {
         initComponents();
         lblUser.setText(User.getName());
         loadAllModules();
     }
 
-    private void loadAllModules(){
-        for(Map.Entry<String,String> modules: moduleService.getModulesByStudentId().entrySet()){
-           defaultListModel = (DefaultListModel)lstModules.getModel();
-           defaultListModel.addElement(modules.getKey()+"-"+modules.getValue());
-       }
+    private void loadAllModules() {
+        for (Map.Entry<String, String> modules : moduleService.getModulesByStudentId(User.getUserId()).entrySet()) {
+            defaultListModel = (DefaultListModel) lstModules.getModel();
+            defaultListModel.addElement(modules.getKey() + "-" + modules.getValue());
+        }
     }
+
+    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -286,6 +293,11 @@ public class ModuleContent extends javax.swing.JFrame {
         );
         lstModules.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         lstModules.setSelectionBackground(new java.awt.Color(204, 204, 204));
+        lstModules.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lstModulesMouseClicked(evt);
+            }
+        });
         lstModules.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
                 lstModulesValueChanged(evt);
@@ -345,9 +357,9 @@ public class ModuleContent extends javax.swing.JFrame {
     }//GEN-LAST:event_lblLogoutMouseClicked
 
     private void jLabel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MouseClicked
-       ExamModuleContent examModuleContent = new ExamModuleContent();
-       this.setVisible(false);
-       examModuleContent.setVisible(true);
+        ExamModuleContent examModuleContent = new ExamModuleContent();
+        this.setVisible(false);
+        examModuleContent.setVisible(true);
     }//GEN-LAST:event_jLabel8MouseClicked
 
     private void jPanel10MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel10MousePressed
@@ -359,25 +371,33 @@ public class ModuleContent extends javax.swing.JFrame {
     }//GEN-LAST:event_jPanel10MouseReleased
 
     private void lblModulesMMMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblModulesMMMouseClicked
-        
-       
+
+
     }//GEN-LAST:event_lblModulesMMMouseClicked
 
     private void lstModulesValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lstModulesValueChanged
-          ModuleEnrollment moduleEnrollment = new ModuleEnrollment();
-          this.setVisible(false);
-          moduleEnrollment.setVisible(true);
-          moduleEnrollment.lblHeaderME.setText("Enrollment - "+lstModules.getSelectedValue());
-          moduleEnrollment.lblSelectedQuizME.setText(lstModules.getSelectedValue());
-        
-        
+
     }//GEN-LAST:event_lstModulesValueChanged
 
     private void lblHomeMMMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblHomeMMMouseClicked
-       DashboardStudent dashboardStudent = new DashboardStudent();
-       this.setVisible(false);
-       dashboardStudent.setVisible(true);
+        DashboardStudent dashboardStudent = new DashboardStudent();
+        this.setVisible(false);
+        dashboardStudent.setVisible(true);
     }//GEN-LAST:event_lblHomeMMMouseClicked
+
+    private void lstModulesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lstModulesMouseClicked
+        if (moduleService.checkEnrolledModule(lstModules.getSelectedValue().split("-")[0])) {
+            JOptionPane.showMessageDialog(null, "You have already enrolled to this module", "OK",
+                    JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            ModuleEnrollment moduleEnrollment = new ModuleEnrollment();
+            this.setVisible(false);
+            moduleEnrollment.setVisible(true);
+            moduleEnrollment.lblHeaderME.setText("Enrollment - " + lstModules.getSelectedValue());
+            moduleEnrollment.lblSelectedModuleName.setText(lstModules.getSelectedValue());
+        }
+
+    }//GEN-LAST:event_lstModulesMouseClicked
 
     /**
      * @param args the command line arguments

@@ -9,29 +9,39 @@ import com.csse.exam.model.Exam;
 import com.csse.exam.model.User;
 import com.csse.exam.service.ModuleService;
 import java.awt.Color;
-import javax.swing.DefaultListModel;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author user
  */
-public class QuizContent extends javax.swing.JFrame {
+public class ExamTimeTables extends javax.swing.JFrame {
 
     /**
      * Creates new form Dashboard
      */
     DashboardStudent dashboardStudent = new DashboardStudent();
     ExamModuleContent examModuleContent = new ExamModuleContent();
-    
     ModuleService moduleService = new ModuleService();
-    public QuizContent() {
+    private DefaultTableModel defaultTableModel;
+
+    public ExamTimeTables() {
         initComponents();
         lblUser.setText(User.getName());
-        
+        loadAllExams();
     }
 
-    
-   
+    private void loadAllExams() {
+        if (moduleService.getExamsByStudentId() != null) {
+            for (Exam exam : moduleService.getExamsByStudentId()) {
+                Object[] content = {exam.getExamId(), exam.getExamDate(), exam.getExamDuration(), exam.getNumberOfQuestions(), exam.getTotalMarks()};
+                defaultTableModel = (DefaultTableModel) tblExamTimeTable.getModel();
+                defaultTableModel.addRow(content);
+            }
+        }
+
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -43,13 +53,13 @@ public class QuizContent extends javax.swing.JFrame {
 
         pnlNavigation = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
-        lblHomeME = new javax.swing.JLabel();
+        lblHomeETT = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
-        lblModulesME = new javax.swing.JLabel();
+        lblModulesETT = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
         jPanel10 = new javax.swing.JPanel();
-        jLabel8 = new javax.swing.JLabel();
+        lblExamsETT = new javax.swing.JLabel();
         pnlHeader = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         lblUser = new javax.swing.JLabel();
@@ -57,9 +67,8 @@ public class QuizContent extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         lblHeaderME = new javax.swing.JLabel();
         pnlQuizContent = new javax.swing.JPanel();
-        lblSelectedModule = new javax.swing.JLabel();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        lstQuiz = new javax.swing.JList<>();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblExamTimeTable = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("LECTURER DASHBOARD");
@@ -91,12 +100,12 @@ public class QuizContent extends javax.swing.JFrame {
             }
         });
 
-        lblHomeME.setFont(new java.awt.Font("Segoe UI Light", 0, 16)); // NOI18N
-        lblHomeME.setForeground(new java.awt.Color(255, 255, 255));
-        lblHomeME.setText("Home");
-        lblHomeME.addMouseListener(new java.awt.event.MouseAdapter() {
+        lblHomeETT.setFont(new java.awt.Font("Segoe UI Light", 0, 16)); // NOI18N
+        lblHomeETT.setForeground(new java.awt.Color(255, 255, 255));
+        lblHomeETT.setText("Home");
+        lblHomeETT.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblHomeMEMouseClicked(evt);
+                lblHomeETTMouseClicked(evt);
             }
         });
 
@@ -106,12 +115,12 @@ public class QuizContent extends javax.swing.JFrame {
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lblHomeME, javax.swing.GroupLayout.DEFAULT_SIZE, 106, Short.MAX_VALUE)
+                .addComponent(lblHomeETT, javax.swing.GroupLayout.DEFAULT_SIZE, 106, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(lblHomeME, javax.swing.GroupLayout.DEFAULT_SIZE, 46, Short.MAX_VALUE)
+            .addComponent(lblHomeETT, javax.swing.GroupLayout.DEFAULT_SIZE, 46, Short.MAX_VALUE)
         );
 
         pnlNavigation.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 100, 130, 50));
@@ -128,13 +137,13 @@ public class QuizContent extends javax.swing.JFrame {
             }
         });
 
-        lblModulesME.setFont(new java.awt.Font("Segoe UI Light", 0, 16)); // NOI18N
-        lblModulesME.setForeground(new java.awt.Color(255, 255, 255));
-        lblModulesME.setText("My Modules");
-        lblModulesME.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        lblModulesME.addMouseListener(new java.awt.event.MouseAdapter() {
+        lblModulesETT.setFont(new java.awt.Font("Segoe UI Light", 0, 16)); // NOI18N
+        lblModulesETT.setForeground(new java.awt.Color(255, 255, 255));
+        lblModulesETT.setText("My Modules");
+        lblModulesETT.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lblModulesETT.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblModulesMEMouseClicked(evt);
+                lblModulesETTMouseClicked(evt);
             }
         });
 
@@ -144,12 +153,12 @@ public class QuizContent extends javax.swing.JFrame {
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lblModulesME, javax.swing.GroupLayout.DEFAULT_SIZE, 106, Short.MAX_VALUE)
+                .addComponent(lblModulesETT, javax.swing.GroupLayout.DEFAULT_SIZE, 106, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(lblModulesME, javax.swing.GroupLayout.DEFAULT_SIZE, 46, Short.MAX_VALUE)
+            .addComponent(lblModulesETT, javax.swing.GroupLayout.DEFAULT_SIZE, 46, Short.MAX_VALUE)
         );
 
         pnlNavigation.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 150, 130, 50));
@@ -189,12 +198,12 @@ public class QuizContent extends javax.swing.JFrame {
             }
         });
 
-        jLabel8.setFont(new java.awt.Font("Segoe UI Light", 0, 16)); // NOI18N
-        jLabel8.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel8.setText("Exams");
-        jLabel8.addMouseListener(new java.awt.event.MouseAdapter() {
+        lblExamsETT.setFont(new java.awt.Font("Segoe UI Light", 0, 16)); // NOI18N
+        lblExamsETT.setForeground(new java.awt.Color(255, 255, 255));
+        lblExamsETT.setText("Exams");
+        lblExamsETT.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel8MouseClicked(evt);
+                lblExamsETTMouseClicked(evt);
             }
         });
 
@@ -204,12 +213,12 @@ public class QuizContent extends javax.swing.JFrame {
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel10Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, 106, Short.MAX_VALUE)
+                .addComponent(lblExamsETT, javax.swing.GroupLayout.DEFAULT_SIZE, 106, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel10Layout.setVerticalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, 46, Short.MAX_VALUE)
+            .addComponent(lblExamsETT, javax.swing.GroupLayout.DEFAULT_SIZE, 46, Short.MAX_VALUE)
         );
 
         pnlNavigation.add(jPanel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 200, 130, 50));
@@ -271,25 +280,25 @@ public class QuizContent extends javax.swing.JFrame {
         pnlQuizContent.setBackground(new java.awt.Color(204, 217, 233));
         pnlQuizContent.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        lblSelectedModule.setBackground(new java.awt.Color(70, 102, 144));
-        lblSelectedModule.setFont(new java.awt.Font("Segoe UI Light", 0, 24)); // NOI18N
-        lblSelectedModule.setForeground(new java.awt.Color(70, 102, 144));
-        lblSelectedModule.setText("Selected Module");
-        pnlQuizContent.add(lblSelectedModule, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 50, 200, 30));
+        tblExamTimeTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
 
-        lstQuiz.setBackground(new java.awt.Color(204, 217, 233));
-        lstQuiz.setFont(new java.awt.Font("Segoe UI Light", 0, 16)); // NOI18N
-        lstQuiz.setForeground(new java.awt.Color(51, 102, 255));
-        lstQuiz.setModel(new DefaultListModel<String>());
-        lstQuiz.setSelectionBackground(new java.awt.Color(204, 204, 204));
-        lstQuiz.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
-            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
-                lstQuizValueChanged(evt);
+            },
+            new String [] {
+                "Exam", "Date", "Duration", "No Of Questions", "Total Marks"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
-        jScrollPane3.setViewportView(lstQuiz);
+        jScrollPane1.setViewportView(tblExamTimeTable);
 
-        pnlQuizContent.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 90, 310, 130));
+        pnlQuizContent.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 40, 640, 280));
 
         getContentPane().add(pnlQuizContent, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 100, 830, 520));
 
@@ -340,22 +349,11 @@ public class QuizContent extends javax.swing.JFrame {
         login.setVisible(true);
     }//GEN-LAST:event_lblLogoutMouseClicked
 
-    private void lstQuizValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lstQuizValueChanged
-        AttemptExam attemptExam = new AttemptExam();
-        this.setVisible(false);
-        attemptExam.setVisible(true);
-        attemptExam.lblHeaderAE.setText(lblSelectedModule.getText() + " - " + lstQuiz.getSelectedValue());
-        attemptExam.lblSelectedQuiz.setText(lstQuiz.getSelectedValue());
-
-
-    }//GEN-LAST:event_lstQuizValueChanged
-
-    private void jLabel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MouseClicked
-        // TODO add your handling code here:
+    private void lblExamsETTMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblExamsETTMouseClicked
         ExamModuleContent examModuleContent = new ExamModuleContent();
         this.setVisible(false);
         examModuleContent.setVisible(true);
-    }//GEN-LAST:event_jLabel8MouseClicked
+    }//GEN-LAST:event_lblExamsETTMouseClicked
 
     private void jPanel10MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel10MousePressed
         // TODO add your handling code here:
@@ -365,18 +363,18 @@ public class QuizContent extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jPanel10MouseReleased
 
-    private void lblModulesMEMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblModulesMEMouseClicked
+    private void lblModulesETTMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblModulesETTMouseClicked
         ModuleContent moduleContent = new ModuleContent();
         this.setVisible(false);
         moduleContent.setVisible(true);
-    }//GEN-LAST:event_lblModulesMEMouseClicked
+    }//GEN-LAST:event_lblModulesETTMouseClicked
 
-    private void lblHomeMEMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblHomeMEMouseClicked
+    private void lblHomeETTMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblHomeETTMouseClicked
 
         this.setVisible(false);
         dashboardStudent.setVisible(true);
 
-    }//GEN-LAST:event_lblHomeMEMouseClicked
+    }//GEN-LAST:event_lblHomeETTMouseClicked
 
     /**
      * @param args the command line arguments
@@ -395,14 +393,30 @@ public class QuizContent extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(QuizContent.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ExamTimeTables.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(QuizContent.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ExamTimeTables.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(QuizContent.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ExamTimeTables.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(QuizContent.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ExamTimeTables.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -423,30 +437,29 @@ public class QuizContent extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new QuizContent().setVisible(true);
+                new ExamTimeTables().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
-    public javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     public javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel2;
     public javax.swing.JPanel jPanel5;
     public javax.swing.JPanel jPanel6;
-    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane1;
+    public javax.swing.JLabel lblExamsETT;
     public javax.swing.JLabel lblHeaderME;
-    public javax.swing.JLabel lblHomeME;
+    public javax.swing.JLabel lblHomeETT;
     private javax.swing.JLabel lblLogout;
-    public javax.swing.JLabel lblModulesME;
-    public javax.swing.JLabel lblSelectedModule;
+    public javax.swing.JLabel lblModulesETT;
     private javax.swing.JLabel lblUser;
-    public javax.swing.JList<String> lstQuiz;
     private javax.swing.JPanel pnlHeader;
     private javax.swing.JPanel pnlNavigation;
     private javax.swing.JPanel pnlQuizContent;
+    private javax.swing.JTable tblExamTimeTable;
     // End of variables declaration//GEN-END:variables
 }

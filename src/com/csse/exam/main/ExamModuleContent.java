@@ -5,11 +5,13 @@
  */
 package com.csse.exam.main;
 
+import com.csse.exam.model.Exam;
 import com.csse.exam.model.User;
 import com.csse.exam.service.ModuleService;
 import java.awt.Color;
 import java.util.Map;
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -21,7 +23,8 @@ public class ExamModuleContent extends javax.swing.JFrame {
      * Creates new form Dashboard
      */
     private ModuleService moduleService = new ModuleService();
-    private DefaultListModel defaultListModel = new DefaultListModel();
+    private DefaultListModel defaultListModelLstModules = new DefaultListModel();
+    private DefaultListModel defaultListModelLstExams = new DefaultListModel();
 
     public ExamModuleContent() {
         initComponents();
@@ -30,9 +33,9 @@ public class ExamModuleContent extends javax.swing.JFrame {
     }
 
     private void loadAllModules() {
-        for (Map.Entry<String, String> modules : moduleService.getModulesByStudentId().entrySet()) {
-            defaultListModel = (DefaultListModel) lstModulesEM.getModel();
-            defaultListModel.addElement(modules.getKey() + "-" + modules.getValue());
+        for (Map.Entry<String, String> modules : moduleService.getModulesByStudentId(User.getUserId()).entrySet()) {
+            defaultListModelLstModules = (DefaultListModel) lstModulesEM.getModel();
+            defaultListModelLstModules.addElement(modules.getKey() + "-" + modules.getValue());
         }
     }
 
@@ -287,6 +290,11 @@ public class ExamModuleContent extends javax.swing.JFrame {
         lstModulesEM.setModel(new DefaultListModel<String>());
         lstModulesEM.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         lstModulesEM.setSelectionBackground(new java.awt.Color(204, 204, 204));
+        lstModulesEM.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lstModulesEMMouseClicked(evt);
+            }
+        });
         lstModulesEM.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
                 lstModulesEMValueChanged(evt);
@@ -366,11 +374,6 @@ public class ExamModuleContent extends javax.swing.JFrame {
 
     private void lstModulesEMValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lstModulesEMValueChanged
 
-        QuizContent quizContent = new QuizContent();
-        this.setVisible(false);
-        quizContent.setVisible(true);
-        quizContent.lblHeaderME.setText(lblModulesMM.getText() + " - " + lstModulesEM.getSelectedValue());
-        quizContent.lblSelectedModule.setText(lstModulesEM.getSelectedValue());
 
     }//GEN-LAST:event_lstModulesEMValueChanged
 
@@ -379,6 +382,30 @@ public class ExamModuleContent extends javax.swing.JFrame {
         this.setVisible(false);
         dashboardStudent.setVisible(true);
     }//GEN-LAST:event_lblHomeMMMouseClicked
+
+    private void lstModulesEMMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lstModulesEMMouseClicked
+        if (moduleService.checkEnrolledModule(lstModulesEM.getSelectedValue().split("-")[0])) {
+            QuizContent quizContent = new QuizContent();
+            this.setVisible(false);
+            quizContent.setVisible(true);
+            quizContent.lblHeaderME.setText("Exams - " + lstModulesEM.getSelectedValue());
+            quizContent.lblSelectedModule.setText(lstModulesEM.getSelectedValue());
+            System.out.println(lstModulesEM.getSelectedValue());
+            defaultListModelLstExams = (DefaultListModel) quizContent.lstQuiz.getModel();
+            for (Exam exam : moduleService.getExamsByModuleId(lstModulesEM.getSelectedValue().split("-")[0])) {
+                System.out.println(lstModulesEM.getSelectedValue());
+                System.out.println(exam.getExamId());
+                defaultListModelLstExams.addElement(exam.getExamId());
+            }
+        } else {
+            ModuleEnrollment moduleEnrollment = new ModuleEnrollment();
+            this.setVisible(false);
+            moduleEnrollment.setVisible(true);
+            moduleEnrollment.lblHeaderME.setText("Enrollment - " + lstModulesEM.getSelectedValue());
+            moduleEnrollment.lblSelectedModuleName.setText(lstModulesEM.getSelectedValue());
+        }
+
+    }//GEN-LAST:event_lstModulesEMMouseClicked
 
     /**
      * @param args the command line arguments

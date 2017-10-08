@@ -18,10 +18,10 @@ public class DashboardStudent extends javax.swing.JFrame {
      * Creates new form Dashboard
      */
     ModuleContent moduleContent = new ModuleContent();
+
     public DashboardStudent() {
         initComponents();
         lblUser.setText(User.getName());
-        
 
     }
 
@@ -54,6 +54,8 @@ public class DashboardStudent extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         jPanel10 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
+        jPanel11 = new javax.swing.JPanel();
+        lblExamTimeTable = new javax.swing.JLabel();
         pnlHeader = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         lblUser = new javax.swing.JLabel();
@@ -231,7 +233,7 @@ public class DashboardStudent extends javax.swing.JFrame {
             .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, 46, Short.MAX_VALUE)
         );
 
-        pnlNavigation.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 250, 130, 50));
+        pnlNavigation.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 300, 130, 50));
 
         jPanel8.setBackground(new java.awt.Color(70, 102, 144));
         jPanel8.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -268,7 +270,7 @@ public class DashboardStudent extends javax.swing.JFrame {
             .addComponent(lblContactUs, javax.swing.GroupLayout.DEFAULT_SIZE, 46, Short.MAX_VALUE)
         );
 
-        pnlNavigation.add(jPanel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 300, 130, 50));
+        pnlNavigation.add(jPanel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 350, 130, 50));
 
         jPanel1.setBackground(new java.awt.Color(204, 217, 233));
 
@@ -329,6 +331,43 @@ public class DashboardStudent extends javax.swing.JFrame {
         );
 
         pnlNavigation.add(jPanel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 200, 130, 50));
+
+        jPanel11.setBackground(new java.awt.Color(70, 102, 144));
+        jPanel11.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jPanel11.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jPanel11.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jPanel11MousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jPanel11MouseReleased(evt);
+            }
+        });
+
+        lblExamTimeTable.setFont(new java.awt.Font("Segoe UI Light", 0, 16)); // NOI18N
+        lblExamTimeTable.setForeground(new java.awt.Color(255, 255, 255));
+        lblExamTimeTable.setText("Time Tables");
+        lblExamTimeTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblExamTimeTableMouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
+        jPanel11.setLayout(jPanel11Layout);
+        jPanel11Layout.setHorizontalGroup(
+            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel11Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblExamTimeTable, javax.swing.GroupLayout.DEFAULT_SIZE, 106, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel11Layout.setVerticalGroup(
+            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lblExamTimeTable, javax.swing.GroupLayout.DEFAULT_SIZE, 46, Short.MAX_VALUE)
+        );
+
+        pnlNavigation.add(jPanel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 250, 130, 50));
 
         getContentPane().add(pnlNavigation, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 620));
 
@@ -603,23 +642,23 @@ public class DashboardStudent extends javax.swing.JFrame {
 
     private void lstQuizValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lstQuizValueChanged
 
-        lblHeader.setText(lblModulesSD.getText()+" - "+lstQuiz.getSelectedValue());
+        lblHeader.setText(lblModulesSD.getText() + " - " + lstQuiz.getSelectedValue());
         lblSelectedQuiz.setText(lstQuiz.getSelectedValue());
         pnlQuizContent.setVisible(false);
         pnlAttemptQuizContent.setVisible(true);
-       
+
     }//GEN-LAST:event_lstQuizValueChanged
 
     private void lstModulesValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lstModulesValueChanged
-        lblHeader.setText(lblModulesSD.getText()+" - "+lstModules.getSelectedValue());
+        lblHeader.setText(lblModulesSD.getText() + " - " + lstModules.getSelectedValue());
         pnlModuleContent.setVisible(false);
         pnlQuizContent.setVisible(true);
     }//GEN-LAST:event_lstModulesValueChanged
 
     private void jLabel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MouseClicked
-      ExamModuleContent examModuleContent = new ExamModuleContent();
-       this.setVisible(false);
-       examModuleContent.setVisible(true);
+        ExamModuleContent examModuleContent = new ExamModuleContent();
+        this.setVisible(false);
+        examModuleContent.setVisible(true);
     }//GEN-LAST:event_jLabel8MouseClicked
 
     private void jPanel10MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel10MousePressed
@@ -633,8 +672,22 @@ public class DashboardStudent extends javax.swing.JFrame {
     private void lblModulesSDMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblModulesSDMouseClicked
         this.setVisible(false);
         moduleContent.setVisible(true);
-     
+
     }//GEN-LAST:event_lblModulesSDMouseClicked
+
+    private void lblExamTimeTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblExamTimeTableMouseClicked
+        ExamTimeTables examTimeTables = new ExamTimeTables();
+        this.setVisible(false);
+        examTimeTables.setVisible(true);
+    }//GEN-LAST:event_lblExamTimeTableMouseClicked
+
+    private void jPanel11MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel11MousePressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jPanel11MousePressed
+
+    private void jPanel11MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel11MouseReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jPanel11MouseReleased
 
     /**
      * @param args the command line arguments
@@ -689,6 +742,7 @@ public class DashboardStudent extends javax.swing.JFrame {
     private javax.swing.JList<String> jList1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
+    private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
@@ -703,6 +757,7 @@ public class DashboardStudent extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JLabel lblContactUs;
+    private javax.swing.JLabel lblExamTimeTable;
     private javax.swing.JLabel lblHeader;
     private javax.swing.JLabel lblHomeSD;
     private javax.swing.JLabel lblLogout;
