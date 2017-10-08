@@ -105,6 +105,8 @@ public class DashboardAdmin extends javax.swing.JFrame {
         lblContactUs = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
+        pnlModule = new javax.swing.JPanel();
+        lblModules = new javax.swing.JLabel();
         pnlHeader = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         lblUser = new javax.swing.JLabel();
@@ -343,7 +345,7 @@ public class DashboardAdmin extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        pnlNavigation.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 200, 130, 50));
+        pnlNavigation.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 250, 130, 50));
 
         jPanel8.setBackground(new java.awt.Color(70, 102, 144));
         jPanel8.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -383,7 +385,7 @@ public class DashboardAdmin extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        pnlNavigation.add(jPanel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 250, 130, 50));
+        pnlNavigation.add(jPanel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 300, 130, 50));
 
         jPanel1.setBackground(new java.awt.Color(204, 217, 233));
 
@@ -407,6 +409,47 @@ public class DashboardAdmin extends javax.swing.JFrame {
         );
 
         pnlNavigation.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 130, 100));
+
+        pnlModule.setBackground(new java.awt.Color(70, 102, 144));
+        pnlModule.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        pnlModule.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        pnlModule.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                pnlModuleMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                pnlModuleMouseReleased(evt);
+            }
+        });
+
+        lblModules.setFont(new java.awt.Font("Segoe UI Light", 0, 16)); // NOI18N
+        lblModules.setForeground(new java.awt.Color(255, 255, 255));
+        lblModules.setText("Modules");
+        lblModules.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lblModules.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblModulesMouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout pnlModuleLayout = new javax.swing.GroupLayout(pnlModule);
+        pnlModule.setLayout(pnlModuleLayout);
+        pnlModuleLayout.setHorizontalGroup(
+            pnlModuleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlModuleLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblModules, javax.swing.GroupLayout.DEFAULT_SIZE, 106, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        pnlModuleLayout.setVerticalGroup(
+            pnlModuleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlModuleLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblModules, javax.swing.GroupLayout.DEFAULT_SIZE, 24, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        pnlNavigation.add(pnlModule, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 200, -1, -1));
 
         getContentPane().add(pnlNavigation, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 620));
 
@@ -606,6 +649,20 @@ public class DashboardAdmin extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_pnlDeleteMouseReleased
 
+    private void lblModulesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblModulesMouseClicked
+        Modules module = new Modules();
+        this.setVisible(false);
+        module.setVisible(true);
+    }//GEN-LAST:event_lblModulesMouseClicked
+
+    private void pnlModuleMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlModuleMousePressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_pnlModuleMousePressed
+
+    private void pnlModuleMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlModuleMouseReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_pnlModuleMouseReleased
+
     /**
      * @param args the command line arguments
      */
@@ -674,12 +731,14 @@ public class DashboardAdmin extends javax.swing.JFrame {
     private javax.swing.JLabel lblContactUs;
     private javax.swing.JLabel lblDelete;
     private javax.swing.JLabel lblLogout;
+    private javax.swing.JLabel lblModules;
     private javax.swing.JLabel lblSearch;
     private javax.swing.JLabel lblUser;
     private javax.swing.JLabel lblUserId;
     private javax.swing.JPanel pnlContent;
     private javax.swing.JPanel pnlDelete;
     private javax.swing.JPanel pnlHeader;
+    private javax.swing.JPanel pnlModule;
     private javax.swing.JPanel pnlNavigation;
     private javax.swing.JPanel pnlSearch;
     private javax.swing.JTable tblUser;
