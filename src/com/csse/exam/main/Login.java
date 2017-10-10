@@ -146,19 +146,22 @@ public class Login extends javax.swing.JFrame {
         } else {
             if (validateLogin(username, password)) {
                 //JOptionPane.showMessageDialog(null, "Correct Login Credentials");
-                if (User.checkRole() == 0) {
-                    adminHome = new DashboardAdmin();
-                    this.setVisible(false);
-                    adminHome.setVisible(true);
-                } else if (User.checkRole() == 1) {
-                    lecturerHome = new DashboardLecturer();
-                    this.setVisible(false);
-                    lecturerHome.setVisible(true);
-                } else {
-                    studentHome = new DashboardStudent();
-                    this.setVisible(false);
-                    studentHome.setVisible(true);
-
+                switch (User.checkRole()) {
+                    case 0:
+                        adminHome = new DashboardAdmin();
+                        this.setVisible(false);
+                        adminHome.setVisible(true);
+                        break;
+                    case 1:
+                        lecturerHome = new DashboardLecturer();
+                        this.setVisible(false);
+                        lecturerHome.setVisible(true);
+                        break;
+                    default:
+                        studentHome = new DashboardStudent();
+                        this.setVisible(false);
+                        studentHome.setVisible(true);
+                        break;
                 }
 
             } else {
