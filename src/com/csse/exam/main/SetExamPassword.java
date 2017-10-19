@@ -15,33 +15,48 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 
 /**
  *
  * @author user
  */
-public class Modules extends javax.swing.JFrame {
+public class SetExamPassword extends javax.swing.JFrame {
 
-    Connection conn;
-    private String moduleId;
-   
+     Connection conn;
     /**
      * Creates new form Dashboard
      */
-    public Modules() {
+    public SetExamPassword() {
         initComponents();
-        displayModules();
         lblUser.setText(User.getName());
-        
+        fillCombo();
     }
+
+    public void fillCombo()
+    {
+        try{
+            conn = DBConnection.getConnection();
+            String query = "select examId from exam";
+            PreparedStatement preparedStmt = (PreparedStatement) conn.prepareStatement(query);
+            ResultSet rs = preparedStmt.executeQuery(); 
+            while(rs.next())
+            {
+                String examId = rs.getString("examId");
+                cmbExamID.addItem(examId);
+            }
+        }
+        catch(SQLException | HeadlessException e){
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }
+    
+    
     public boolean validateValues()
     {
         Validation validation = new Validation();
-        if (validation.checkTextNull(txtModuleName.getText()) || validation.checkTextNull(pwdModulePassword.getText())) {
+        if (validation.checkTextNull(pwdExamPassword.getText())) {
             JOptionPane.showMessageDialog(null, "You can't keep fields empty");
             return false;
         } 
@@ -50,109 +65,20 @@ public class Modules extends javax.swing.JFrame {
         }
     }
     
-    public String getNewModuleId(){
-        String lastModuleId = null;
-        String newModuleId = null;
-
-        try {
-               
-                Connection con = DBConnection.getConnection();
-                String query = " SELECT moduleId FROM module\n" +
-                                "order by moduleId desc limit 1;";
-                PreparedStatement preparedStmt = (PreparedStatement) con.prepareStatement(query);
-                
-                // execute the preparedstatement
-                ResultSet rs = preparedStmt.executeQuery(); 
-                if(rs.next()){
-                    lastModuleId = rs.getString("moduleId");
-                }
-                String last3 = lastModuleId.substring(lastModuleId.length() - 3);
-                newModuleId = lastModuleId.substring(0,4)+String.valueOf(Integer.parseInt(last3) + 1);
-                
-                con.close();
-
-                } catch (SQLException | HeadlessException e) {
-                    JOptionPane.showMessageDialog(null, e);
-                }
-        return newModuleId;
-    }
     
-    public String getAllocatedYearAndSemester(){
-        String yearPrefix = null;
-        String semesterPrefix = null;
-        String allocatedTo;
-        
-        int year = cmbYear.getSelectedIndex();
-        int semester = cmbSemester.getSelectedIndex();
-        
-        switch(year)
-        {
-            case(0):yearPrefix="Y1";break;
-            case(1):yearPrefix="Y2";break;
-            case(2):yearPrefix="Y3";break;
-            case(3):yearPrefix="Y4";break;
-        }
-       switch(semester)
-       {
-           case(0):semesterPrefix="S1";break;
-           case(1):semesterPrefix="S2";break;
-       }
-       
-       allocatedTo = yearPrefix+semesterPrefix;
-       return allocatedTo;
-    }
-
-     public void executeQuery(String query){
-        
+    public void executeQuery(String query){
         try{
                conn = (Connection) DBConnection.getConnection();
-               Statement st=conn.createStatement();
-
+               
                PreparedStatement pst = (PreparedStatement) conn.prepareStatement(query); 
                pst.execute();
-               ResultSet result = st.executeQuery("select * from module");
-               DefaultTableModel aModel = (DefaultTableModel) tblModule.getModel();
-               aModel.setRowCount(0);
-               try {
-                    result.beforeFirst();
-            
-                    // Loop through the ResultSet and transfer in the Model
-                    java.sql.ResultSetMetaData rsmd = result.getMetaData();
-                    int colNo = rsmd.getColumnCount();
-                    while(result.next())
-                    {   
-                        Object[] objects = new Object[colNo];
-
-                        for(int i=0;i<colNo;i++){
-                           objects[i]=result.getObject(i+1);
-                         }
-
-                        aModel.addRow(objects);
-                    }
-                    tblModule.setModel(aModel);
-                   } catch(Exception e){
-                    JOptionPane.showMessageDialog(null, e);
-                }
+               JOptionPane.showMessageDialog(null, "Exam password is updated");
             }
-            catch(Exception e){
+            catch(SQLException | HeadlessException e){
                JOptionPane.showMessageDialog(null, e);
             } 
-   
-        
     }
-     
-     public void displayModules()
-     {
-         String query="select * from module";
-         executeQuery(query);
-     }
-     public void setModuleID(String id)
-     {
-         moduleId = id;
-     }
-     public String getModuleID(){
-         return moduleId;
-     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -165,22 +91,12 @@ public class Modules extends javax.swing.JFrame {
         rdoButtonGroup = new javax.swing.ButtonGroup();
         pnlContent = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
-        lblModuleYear = new javax.swing.JLabel();
-        lblModuleName = new javax.swing.JLabel();
-        txtModuleName = new javax.swing.JTextField();
-        pwdModulePassword = new javax.swing.JPasswordField();
-        pnlModuleDelete = new javax.swing.JPanel();
-        btnModuleDelete = new javax.swing.JLabel();
-        lblModulePassword1 = new javax.swing.JLabel();
-        cmbSemester = new javax.swing.JComboBox<>();
-        lblModuleYear1 = new javax.swing.JLabel();
-        cmbYear = new javax.swing.JComboBox<>();
-        pnlModuleUpdate = new javax.swing.JPanel();
-        btnModuleUpdate = new javax.swing.JLabel();
-        pnlModuleAdd = new javax.swing.JPanel();
-        btnModuleAdd = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tblModule = new javax.swing.JTable();
+        lblExamPassword = new javax.swing.JLabel();
+        lblExamID = new javax.swing.JLabel();
+        pwdExamPassword = new javax.swing.JPasswordField();
+        cmbExamID = new javax.swing.JComboBox<>();
+        pnlUpdate = new javax.swing.JPanel();
+        btnUpdate = new javax.swing.JLabel();
         pnlNavigation = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         lblHome = new javax.swing.JLabel();
@@ -190,10 +106,10 @@ public class Modules extends javax.swing.JFrame {
         lblContactUs = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
-        pnlModule = new javax.swing.JPanel();
-        lblModules = new javax.swing.JLabel();
         jPanel7 = new javax.swing.JPanel();
         lblAbout = new javax.swing.JLabel();
+        pnlModule = new javax.swing.JPanel();
+        lblModules = new javax.swing.JLabel();
         jPanel9 = new javax.swing.JPanel();
         lblExamPasswordPanel = new javax.swing.JLabel();
         pnlHeader = new javax.swing.JPanel();
@@ -216,168 +132,61 @@ public class Modules extends javax.swing.JFrame {
         jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        lblModuleYear.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        lblModuleYear.setText("Semester");
-        jPanel3.add(lblModuleYear, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 200, -1, -1));
+        lblExamPassword.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblExamPassword.setText("Password");
+        jPanel3.add(lblExamPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 90, -1, -1));
 
-        lblModuleName.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        lblModuleName.setText("Name");
-        jPanel3.add(lblModuleName, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, -1, -1));
-        jPanel3.add(txtModuleName, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 30, 180, 30));
-        jPanel3.add(pwdModulePassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 100, 180, -1));
+        lblExamID.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblExamID.setText("Exam ID");
+        jPanel3.add(lblExamID, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 30, -1, -1));
+        jPanel3.add(pwdExamPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 90, 250, -1));
 
-        pnlModuleDelete.setBackground(new java.awt.Color(70, 102, 144));
-        pnlModuleDelete.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        pnlModuleDelete.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        pnlModuleDelete.addMouseListener(new java.awt.event.MouseAdapter() {
+        jPanel3.add(cmbExamID, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 30, 250, -1));
+
+        pnlUpdate.setBackground(new java.awt.Color(70, 102, 144));
+        pnlUpdate.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        pnlUpdate.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        pnlUpdate.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                pnlModuleDeleteMouseClicked(evt);
+                pnlUpdateMouseClicked(evt);
             }
             public void mousePressed(java.awt.event.MouseEvent evt) {
-                pnlModuleDeleteMousePressed(evt);
+                pnlUpdateMousePressed(evt);
             }
             public void mouseReleased(java.awt.event.MouseEvent evt) {
-                pnlModuleDeleteMouseReleased(evt);
+                pnlUpdateMouseReleased(evt);
             }
         });
 
-        btnModuleDelete.setFont(new java.awt.Font("Segoe UI Light", 0, 16)); // NOI18N
-        btnModuleDelete.setForeground(new java.awt.Color(255, 255, 255));
-        btnModuleDelete.setText("       DELETE");
-        btnModuleDelete.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnUpdate.setFont(new java.awt.Font("Segoe UI Light", 0, 16)); // NOI18N
+        btnUpdate.setForeground(new java.awt.Color(255, 255, 255));
+        btnUpdate.setText("      UPDATE");
+        btnUpdate.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnModuleDeleteMouseClicked(evt);
+                btnUpdateMouseClicked(evt);
             }
         });
 
-        javax.swing.GroupLayout pnlModuleDeleteLayout = new javax.swing.GroupLayout(pnlModuleDelete);
-        pnlModuleDelete.setLayout(pnlModuleDeleteLayout);
-        pnlModuleDeleteLayout.setHorizontalGroup(
-            pnlModuleDeleteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(btnModuleDelete, javax.swing.GroupLayout.DEFAULT_SIZE, 106, Short.MAX_VALUE)
-        );
-        pnlModuleDeleteLayout.setVerticalGroup(
-            pnlModuleDeleteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlModuleDeleteLayout.createSequentialGroup()
+        javax.swing.GroupLayout pnlUpdateLayout = new javax.swing.GroupLayout(pnlUpdate);
+        pnlUpdate.setLayout(pnlUpdateLayout);
+        pnlUpdateLayout.setHorizontalGroup(
+            pnlUpdateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlUpdateLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(btnModuleDelete, javax.swing.GroupLayout.DEFAULT_SIZE, 39, Short.MAX_VALUE)
+                .addComponent(btnUpdate, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        pnlUpdateLayout.setVerticalGroup(
+            pnlUpdateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlUpdateLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(btnUpdate, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
-        jPanel3.add(pnlModuleDelete, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 260, 110, -1));
+        jPanel3.add(pnlUpdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 160, -1, -1));
 
-        lblModulePassword1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        lblModulePassword1.setText("Password");
-        jPanel3.add(lblModulePassword1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 100, -1, -1));
-
-        cmbSemester.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Semester 1", "Semester 2", " " }));
-        jPanel3.add(cmbSemester, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 200, 130, 30));
-
-        lblModuleYear1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        lblModuleYear1.setText("Year");
-        jPanel3.add(lblModuleYear1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 150, -1, -1));
-
-        cmbYear.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Year 1", "Year 2", "Year 3", "Year 4" }));
-        jPanel3.add(cmbYear, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 150, 130, 30));
-
-        pnlModuleUpdate.setBackground(new java.awt.Color(70, 102, 144));
-        pnlModuleUpdate.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        pnlModuleUpdate.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        pnlModuleUpdate.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                pnlModuleUpdateMouseClicked(evt);
-            }
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                pnlModuleUpdateMousePressed(evt);
-            }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                pnlModuleUpdateMouseReleased(evt);
-            }
-        });
-
-        btnModuleUpdate.setFont(new java.awt.Font("Segoe UI Light", 0, 16)); // NOI18N
-        btnModuleUpdate.setForeground(new java.awt.Color(255, 255, 255));
-        btnModuleUpdate.setText("      UPDATE");
-        btnModuleUpdate.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnModuleUpdateMouseClicked(evt);
-            }
-        });
-
-        javax.swing.GroupLayout pnlModuleUpdateLayout = new javax.swing.GroupLayout(pnlModuleUpdate);
-        pnlModuleUpdate.setLayout(pnlModuleUpdateLayout);
-        pnlModuleUpdateLayout.setHorizontalGroup(
-            pnlModuleUpdateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(btnModuleUpdate, javax.swing.GroupLayout.DEFAULT_SIZE, 106, Short.MAX_VALUE)
-        );
-        pnlModuleUpdateLayout.setVerticalGroup(
-            pnlModuleUpdateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlModuleUpdateLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(btnModuleUpdate, javax.swing.GroupLayout.DEFAULT_SIZE, 39, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-
-        jPanel3.add(pnlModuleUpdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 260, -1, -1));
-
-        pnlModuleAdd.setBackground(new java.awt.Color(70, 102, 144));
-        pnlModuleAdd.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        pnlModuleAdd.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        pnlModuleAdd.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                pnlModuleAddMouseClicked(evt);
-            }
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                pnlModuleAddMousePressed(evt);
-            }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                pnlModuleAddMouseReleased(evt);
-            }
-        });
-
-        btnModuleAdd.setFont(new java.awt.Font("Segoe UI Light", 0, 16)); // NOI18N
-        btnModuleAdd.setForeground(new java.awt.Color(255, 255, 255));
-        btnModuleAdd.setText("         ADD");
-        btnModuleAdd.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnModuleAddMouseClicked(evt);
-            }
-        });
-
-        javax.swing.GroupLayout pnlModuleAddLayout = new javax.swing.GroupLayout(pnlModuleAdd);
-        pnlModuleAdd.setLayout(pnlModuleAddLayout);
-        pnlModuleAddLayout.setHorizontalGroup(
-            pnlModuleAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(btnModuleAdd, javax.swing.GroupLayout.DEFAULT_SIZE, 106, Short.MAX_VALUE)
-        );
-        pnlModuleAddLayout.setVerticalGroup(
-            pnlModuleAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlModuleAddLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(btnModuleAdd, javax.swing.GroupLayout.DEFAULT_SIZE, 39, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-
-        jPanel3.add(pnlModuleAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 260, 110, -1));
-
-        tblModule.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Module ID", "Name", "Password", "Allocated To"
-            }
-        ));
-        tblModule.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tblModuleMouseClicked(evt);
-            }
-        });
-        jScrollPane1.setViewportView(tblModule);
-
-        jPanel3.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 10, 390, 220));
-
-        pnlContent.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 790, 370));
+        pnlContent.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 40, 650, 350));
 
         getContentPane().add(pnlContent, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 100, 820, 520));
 
@@ -535,47 +344,6 @@ public class Modules extends javax.swing.JFrame {
 
         pnlNavigation.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 130, 100));
 
-        pnlModule.setBackground(new java.awt.Color(70, 102, 144));
-        pnlModule.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        pnlModule.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        pnlModule.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                pnlModuleMousePressed(evt);
-            }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                pnlModuleMouseReleased(evt);
-            }
-        });
-
-        lblModules.setFont(new java.awt.Font("Segoe UI Light", 0, 16)); // NOI18N
-        lblModules.setForeground(new java.awt.Color(255, 255, 255));
-        lblModules.setText("Modules");
-        lblModules.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        lblModules.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblModulesMouseClicked(evt);
-            }
-        });
-
-        javax.swing.GroupLayout pnlModuleLayout = new javax.swing.GroupLayout(pnlModule);
-        pnlModule.setLayout(pnlModuleLayout);
-        pnlModuleLayout.setHorizontalGroup(
-            pnlModuleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlModuleLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(lblModules, javax.swing.GroupLayout.DEFAULT_SIZE, 106, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        pnlModuleLayout.setVerticalGroup(
-            pnlModuleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlModuleLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(lblModules, javax.swing.GroupLayout.DEFAULT_SIZE, 24, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-
-        pnlNavigation.add(pnlModule, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 200, -1, -1));
-
         jPanel7.setBackground(new java.awt.Color(70, 102, 144));
         jPanel7.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jPanel7.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -615,6 +383,47 @@ public class Modules extends javax.swing.JFrame {
         );
 
         pnlNavigation.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 300, -1, -1));
+
+        pnlModule.setBackground(new java.awt.Color(70, 102, 144));
+        pnlModule.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        pnlModule.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        pnlModule.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                pnlModuleMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                pnlModuleMouseReleased(evt);
+            }
+        });
+
+        lblModules.setFont(new java.awt.Font("Segoe UI Light", 0, 16)); // NOI18N
+        lblModules.setForeground(new java.awt.Color(255, 255, 255));
+        lblModules.setText("Modules");
+        lblModules.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lblModules.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblModulesMouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout pnlModuleLayout = new javax.swing.GroupLayout(pnlModule);
+        pnlModule.setLayout(pnlModuleLayout);
+        pnlModuleLayout.setHorizontalGroup(
+            pnlModuleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlModuleLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblModules, javax.swing.GroupLayout.DEFAULT_SIZE, 106, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        pnlModuleLayout.setVerticalGroup(
+            pnlModuleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlModuleLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblModules, javax.swing.GroupLayout.DEFAULT_SIZE, 24, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        pnlNavigation.add(pnlModule, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 200, 130, 50));
 
         jPanel9.setBackground(new java.awt.Color(70, 102, 144));
         jPanel9.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -688,7 +497,7 @@ public class Modules extends javax.swing.JFrame {
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("Modules");
+        jLabel2.setText("SET EXAM PASSWORD");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -797,28 +606,10 @@ public class Modules extends javax.swing.JFrame {
         contact.setVisible(true);
     }//GEN-LAST:event_lblContactUsMouseClicked
 
-    private void btnModuleDeleteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnModuleDeleteMouseClicked
-        // TODO add your handling code here:
-        String moduleId = getModuleID();
-        String query = "delete from sql12196110.module where moduleId='"+moduleId+"';";
-        executeQuery(query);
-    }//GEN-LAST:event_btnModuleDeleteMouseClicked
-
-    private void pnlModuleDeleteMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlModuleDeleteMousePressed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_pnlModuleDeleteMousePressed
-
-    private void pnlModuleDeleteMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlModuleDeleteMouseReleased
-        // TODO add your handling code here:
-    }//GEN-LAST:event_pnlModuleDeleteMouseReleased
-
-    private void pnlModuleDeleteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlModuleDeleteMouseClicked
-        // TODO add your handling code here:
-
-    }//GEN-LAST:event_pnlModuleDeleteMouseClicked
-
     private void lblModulesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblModulesMouseClicked
-        // TODO add your handling code here:
+        Modules module = new Modules();
+        this.setVisible(false);
+        module.setVisible(true);
     }//GEN-LAST:event_lblModulesMouseClicked
 
     private void pnlModuleMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlModuleMousePressed
@@ -829,80 +620,8 @@ public class Modules extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_pnlModuleMouseReleased
 
-    private void btnModuleUpdateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnModuleUpdateMouseClicked
-        // TODO add your handling code here:
-        String moduleId = getModuleID();
-        String moduleName = txtModuleName.getText();
-        String password = pwdModulePassword.getText();
-        String allocated = getAllocatedYearAndSemester();
-        
-        if(validateValues())
-        {
-            String query = "update sql12196110.module set moduleName ='"+moduleName+"',modulePassword='"+password+"',allocatedTo='"+allocated+"' where moduleId='"+moduleId+"';";
-            executeQuery(query);
-        }
-        
-    }//GEN-LAST:event_btnModuleUpdateMouseClicked
-
-    private void pnlModuleUpdateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlModuleUpdateMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_pnlModuleUpdateMouseClicked
-
-    private void pnlModuleUpdateMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlModuleUpdateMousePressed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_pnlModuleUpdateMousePressed
-
-    private void pnlModuleUpdateMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlModuleUpdateMouseReleased
-        // TODO add your handling code here:
-    }//GEN-LAST:event_pnlModuleUpdateMouseReleased
-
-    private void btnModuleAddMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnModuleAddMouseClicked
-        String newID = getNewModuleId();
-        String moduleName = txtModuleName.getText();
-        String password = pwdModulePassword.getText();
-        String allocated = getAllocatedYearAndSemester();
-        
-        if(validateValues())
-        {
-            String query = "Insert into module values('"+newID+"','"+moduleName+"','"+password+"','"+allocated+"')";
-            executeQuery(query);
-        }
-    }//GEN-LAST:event_btnModuleAddMouseClicked
-
-    private void pnlModuleAddMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlModuleAddMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_pnlModuleAddMouseClicked
-
-    private void pnlModuleAddMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlModuleAddMousePressed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_pnlModuleAddMousePressed
-
-    private void pnlModuleAddMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlModuleAddMouseReleased
-        // TODO add your handling code here:
-    }//GEN-LAST:event_pnlModuleAddMouseReleased
-
-    private void jLabel6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel6MouseClicked
-        // TODO add your handling code here:
-        AddUser user = new AddUser();
-        this.setVisible(false);
-        user.setVisible(true);
-    }//GEN-LAST:event_jLabel6MouseClicked
-
-    private void tblModuleMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblModuleMouseClicked
-        // TODO add your handling code here:
-        int i = tblModule.getSelectedRow();
-        TableModel model = tblModule.getModel();
-        setModuleID(model.getValueAt(i, 0).toString());
-        txtModuleName.setText(model.getValueAt(i, 1).toString());
-        pwdModulePassword.setText(model.getValueAt(i, 2).toString());
-       
-    }//GEN-LAST:event_tblModuleMouseClicked
-
     private void lblExamPasswordPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblExamPasswordPanelMouseClicked
         // TODO add your handling code here:
-        SetExamPassword exam = new SetExamPassword();
-        this.setVisible(false);
-        exam.setVisible(true);
     }//GEN-LAST:event_lblExamPasswordPanelMouseClicked
 
     private void jPanel9MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel9MousePressed
@@ -912,6 +631,37 @@ public class Modules extends javax.swing.JFrame {
     private void jPanel9MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel9MouseReleased
         // TODO add your handling code here:
     }//GEN-LAST:event_jPanel9MouseReleased
+
+    private void btnUpdateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUpdateMouseClicked
+        // TODO add your handling code here:
+        String examId = cmbExamID.getSelectedItem().toString();
+        String examPassword = pwdExamPassword.getText();
+        
+        if(validateValues())
+        {
+            String query = "update exam set examPassword ='"+examPassword+"' where examId='"+examId+"';";
+            executeQuery(query);
+        }
+    }//GEN-LAST:event_btnUpdateMouseClicked
+
+    private void pnlUpdateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlUpdateMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_pnlUpdateMouseClicked
+
+    private void pnlUpdateMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlUpdateMousePressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_pnlUpdateMousePressed
+
+    private void pnlUpdateMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlUpdateMouseReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_pnlUpdateMouseReleased
+
+    private void jLabel6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel6MouseClicked
+        // TODO add your handling code here:
+        AddUser user = new AddUser();
+        this.setVisible(false);
+        user.setVisible(true);
+    }//GEN-LAST:event_jLabel6MouseClicked
 
     /**
      * @param args the command line arguments
@@ -930,13 +680,13 @@ public class Modules extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Modules.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SetExamPassword.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Modules.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SetExamPassword.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Modules.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SetExamPassword.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Modules.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SetExamPassword.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>
@@ -1198,17 +948,14 @@ public class Modules extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Modules().setVisible(true);
+                new SetExamPassword().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel btnModuleAdd;
-    private javax.swing.JLabel btnModuleDelete;
-    private javax.swing.JLabel btnModuleUpdate;
-    private javax.swing.JComboBox<String> cmbSemester;
-    private javax.swing.JComboBox<String> cmbYear;
+    private javax.swing.JLabel btnUpdate;
+    private javax.swing.JComboBox<String> cmbExamID;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel6;
@@ -1221,28 +968,21 @@ public class Modules extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblAbout;
     private javax.swing.JLabel lblContactUs;
+    private javax.swing.JLabel lblExamID;
+    private javax.swing.JLabel lblExamPassword;
     private javax.swing.JLabel lblExamPasswordPanel;
     private javax.swing.JLabel lblHome;
     private javax.swing.JLabel lblLogout;
-    private javax.swing.JLabel lblModuleName;
-    private javax.swing.JLabel lblModulePassword1;
-    private javax.swing.JLabel lblModuleYear;
-    private javax.swing.JLabel lblModuleYear1;
     private javax.swing.JLabel lblModules;
     private javax.swing.JLabel lblUser;
     private javax.swing.JPanel pnlContent;
     private javax.swing.JPanel pnlHeader;
     private javax.swing.JPanel pnlModule;
-    private javax.swing.JPanel pnlModuleAdd;
-    private javax.swing.JPanel pnlModuleDelete;
-    private javax.swing.JPanel pnlModuleUpdate;
     private javax.swing.JPanel pnlNavigation;
-    private javax.swing.JPasswordField pwdModulePassword;
+    private javax.swing.JPanel pnlUpdate;
+    private javax.swing.JPasswordField pwdExamPassword;
     private javax.swing.ButtonGroup rdoButtonGroup;
-    private javax.swing.JTable tblModule;
-    private javax.swing.JTextField txtModuleName;
     // End of variables declaration//GEN-END:variables
 }

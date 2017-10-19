@@ -106,10 +106,12 @@ public class AddUser extends javax.swing.JFrame {
         lblContactUs = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
-        pnlModule = new javax.swing.JPanel();
-        lblModules = new javax.swing.JLabel();
         jPanel7 = new javax.swing.JPanel();
         lblAbout = new javax.swing.JLabel();
+        pnlModule = new javax.swing.JPanel();
+        lblModules = new javax.swing.JLabel();
+        jPanel9 = new javax.swing.JPanel();
+        lblExamPasswordPanel = new javax.swing.JLabel();
         pnlHeader = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         lblUser = new javax.swing.JLabel();
@@ -333,7 +335,7 @@ public class AddUser extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        pnlNavigation.add(jPanel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 300, 130, 50));
+        pnlNavigation.add(jPanel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 350, 130, 50));
 
         jPanel1.setBackground(new java.awt.Color(204, 217, 233));
 
@@ -355,6 +357,46 @@ public class AddUser extends javax.swing.JFrame {
         );
 
         pnlNavigation.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 130, 100));
+
+        jPanel7.setBackground(new java.awt.Color(70, 102, 144));
+        jPanel7.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jPanel7.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jPanel7.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jPanel7MousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jPanel7MouseReleased(evt);
+            }
+        });
+
+        lblAbout.setFont(new java.awt.Font("Segoe UI Light", 0, 16)); // NOI18N
+        lblAbout.setForeground(new java.awt.Color(255, 255, 255));
+        lblAbout.setText("About");
+        lblAbout.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblAboutMouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
+        jPanel7.setLayout(jPanel7Layout);
+        jPanel7Layout.setHorizontalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblAbout, javax.swing.GroupLayout.DEFAULT_SIZE, 106, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel7Layout.setVerticalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblAbout, javax.swing.GroupLayout.DEFAULT_SIZE, 24, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        pnlNavigation.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 300, -1, -1));
 
         pnlModule.setBackground(new java.awt.Color(70, 102, 144));
         pnlModule.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -395,47 +437,47 @@ public class AddUser extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        pnlNavigation.add(pnlModule, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 200, -1, -1));
+        pnlNavigation.add(pnlModule, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 200, 130, 50));
 
-        jPanel7.setBackground(new java.awt.Color(70, 102, 144));
-        jPanel7.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jPanel7.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jPanel7.addMouseListener(new java.awt.event.MouseAdapter() {
+        jPanel9.setBackground(new java.awt.Color(70, 102, 144));
+        jPanel9.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jPanel9.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jPanel9.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
-                jPanel7MousePressed(evt);
+                jPanel9MousePressed(evt);
             }
             public void mouseReleased(java.awt.event.MouseEvent evt) {
-                jPanel7MouseReleased(evt);
+                jPanel9MouseReleased(evt);
             }
         });
 
-        lblAbout.setFont(new java.awt.Font("Segoe UI Light", 0, 16)); // NOI18N
-        lblAbout.setForeground(new java.awt.Color(255, 255, 255));
-        lblAbout.setText("About");
-        lblAbout.addMouseListener(new java.awt.event.MouseAdapter() {
+        lblExamPasswordPanel.setFont(new java.awt.Font("Segoe UI Light", 0, 16)); // NOI18N
+        lblExamPasswordPanel.setForeground(new java.awt.Color(255, 255, 255));
+        lblExamPasswordPanel.setText("Exam Password");
+        lblExamPasswordPanel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblAboutMouseClicked(evt);
+                lblExamPasswordPanelMouseClicked(evt);
             }
         });
 
-        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
-        jPanel7.setLayout(jPanel7Layout);
-        jPanel7Layout.setHorizontalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel7Layout.createSequentialGroup()
+        javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
+        jPanel9.setLayout(jPanel9Layout);
+        jPanel9Layout.setHorizontalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel9Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lblAbout, javax.swing.GroupLayout.DEFAULT_SIZE, 106, Short.MAX_VALUE)
+                .addComponent(lblExamPasswordPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 106, Short.MAX_VALUE)
                 .addContainerGap())
         );
-        jPanel7Layout.setVerticalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
+        jPanel9Layout.setVerticalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel9Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lblAbout, javax.swing.GroupLayout.DEFAULT_SIZE, 24, Short.MAX_VALUE)
+                .addComponent(lblExamPasswordPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 24, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
-        pnlNavigation.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 250, -1, -1));
+        pnlNavigation.add(jPanel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 250, 130, 50));
 
         getContentPane().add(pnlNavigation, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 620));
 
@@ -647,6 +689,21 @@ public class AddUser extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_pnlModuleMouseReleased
 
+    private void lblExamPasswordPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblExamPasswordPanelMouseClicked
+        // TODO add your handling code here:
+        SetExamPassword exam = new SetExamPassword();
+        this.setVisible(false);
+        exam.setVisible(true);
+    }//GEN-LAST:event_lblExamPasswordPanelMouseClicked
+
+    private void jPanel9MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel9MousePressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jPanel9MousePressed
+
+    private void jPanel9MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel9MouseReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jPanel9MouseReleased
+
     /**
      * @param args the command line arguments
      */
@@ -822,8 +879,10 @@ public class AddUser extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
+    private javax.swing.JPanel jPanel9;
     private javax.swing.JLabel lblAbout;
     private javax.swing.JLabel lblContactUs;
+    private javax.swing.JLabel lblExamPasswordPanel;
     private javax.swing.JLabel lblHome;
     private javax.swing.JLabel lblLogout;
     private javax.swing.JLabel lblModules;
