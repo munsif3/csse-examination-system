@@ -5,13 +5,9 @@
  */
 package com.csse.exam.common;
 
-import com.csse.exam.config.DBConnection;
 import com.mysql.jdbc.Connection;
-import com.mysql.jdbc.PreparedStatement;
-import com.csse.exam.model.User;
 import java.awt.Component;
-import java.sql.ResultSet;
-import javax.swing.JOptionPane;
+import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -25,12 +21,7 @@ public class Validation {
 
 
     public boolean checkTextNull(String text) {
-        if (text.length() == 0)// Checking for empty field
-        {
-            return true;
-        } else {
-            return false;
-        }
+        return text.length() == 0; // Checking for empty field
     }
 
     /**
@@ -83,19 +74,53 @@ public class Validation {
      * @param panel
      * @return
      */
-    public boolean checkEmptyTextBox(JPanel panel) {
+    public boolean checkEmptyTextBox(JPanel panel) 
+    {
         Component components[] = panel.getComponents();
-        for (Component component : components) {
-            if (component instanceof JTextField) {
+        for (Component component : components) 
+        {
+            if (component instanceof JTextField) 
+            {   
+                System.out.println("in1");
                 JTextField textBox = (JTextField) component;
                 System.out.println(textBox.getText());
-
-                if (textBox.getText().equals("")) {
-                    return true;
+                System.out.println("in2");
+                if (textBox.getText().equals("")) 
+                {
+                    System.out.println("in3");
+                    
+                    return false;
+                    
+                }
+                
+            }
+        }
+        return true;
+    }
+    
+    public boolean checkComboBox(JPanel panel) {
+        Component components[] = panel.getComponents();
+        for (Component component : components) {
+            if (component instanceof JComboBox) {
+                JComboBox comboBox = (JComboBox) component;
+                
+                if (comboBox.getSelectedIndex()==0) {
+                    return false;
                 }
             }
         }
-        return false;
+        return true;
+    }
+    
+    public boolean checkModuleId(String moduleId)
+    {
+        String number = moduleId.substring(2);
+        return((moduleId.startsWith("MO")) &&(checkNumberBox(number)));      
+    }
+    
+    public boolean checkExamId(String examId, String moduleId, String examType)
+    {
+        return((examId.contains(moduleId)) && (examId.contains(examType)));        
     }
 
 }

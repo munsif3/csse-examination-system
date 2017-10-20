@@ -7,6 +7,7 @@ package com.csse.exam.common;
 
 import java.awt.Component;
 import javax.swing.JComboBox;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -28,6 +29,8 @@ public class ClearComponents {
             }
         }
     }
+     
+     
     
     
      /**
@@ -43,6 +46,11 @@ public class ClearComponents {
                 comboBox.setSelectedIndex(0);                
             }
         }
+    }
+    
+    public void resetSingleComboBox(JComboBox comboBox)
+    {
+        comboBox.setSelectedIndex(0);
     }
     
 }
