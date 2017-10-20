@@ -5,76 +5,80 @@
  */
 package com.csse.exam.main;
 
+import com.csse.exam.common.Validation;
 import com.csse.exam.config.DBConnection;
 import com.csse.exam.model.User;
-import java.awt.BorderLayout;
+import com.mysql.jdbc.PreparedStatement;
 import java.awt.Color;
+import java.awt.HeadlessException;
 import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author user
  */
-public class DashboardAdmin extends javax.swing.JFrame {
+public class SetExamPassword extends javax.swing.JFrame {
 
-    Connection conn = null;
-    private ResultSet result;
+     Connection conn;
     /**
      * Creates new form Dashboard
      */
-    public DashboardAdmin() {
+    public SetExamPassword() {
         initComponents();
-        pnlDelete.setVisible(false);
         lblUser.setText(User.getName());
-         try{
-                conn = (Connection) DBConnection.getConnection();
-                Statement st=conn.createStatement();
-
-                String sqlst="select userId,name,role from user";
-                ResultSet rs=st.executeQuery(sqlst);
-                loadData(rs);
-                }
-                catch(Exception e){
-                    JOptionPane.showMessageDialog(null, e);
-                } 
+        fillCombo();
     }
 
-    public void loadData(ResultSet rs){
-        result = rs;
-    
-        String[] tableColumnsName = {"UserID","Name","Role"}; 
-
-        DefaultTableModel aModel = (DefaultTableModel) tblUser.getModel();
-        //aModel.setColumnIdentifiers(tableColumnsName);
-        aModel.setRowCount(0);
-        try {
-            rs.beforeFirst();
-            // Loop through the ResultSet and transfer in the Model
-            java.sql.ResultSetMetaData rsmd = rs.getMetaData();
-            int colNo = rsmd.getColumnCount();
-            while(rs.next()){
-             Object[] objects = new Object[colNo];
-             
-             for(int i=0;i<colNo;i++){
-                objects[i]=rs.getObject(i+1);
-              }
-             
-             aModel.addRow(objects);
+    public void fillCombo()
+    {
+        try{
+            conn = DBConnection.getConnection();
+            String query = "select examId from exam";
+            PreparedStatement preparedStmt = (PreparedStatement) conn.prepareStatement(query);
+            ResultSet rs = preparedStmt.executeQuery(); 
+            while(rs.next())
+            {
+                String examId = rs.getString("examId");
+                cmbExamID.addItem(examId);
             }
-            tblUser.setModel(aModel);
-        } catch(Exception e){
+        }
+        catch(SQLException | HeadlessException e){
             JOptionPane.showMessageDialog(null, e);
         }
     }
+    
+    
+    public boolean validateValues()
+    {
+        Validation validation = new Validation();
+        if (validation.checkTextNull(pwdExamPassword.getText())) {
+            JOptionPane.showMessageDialog(null, "You can't keep fields empty");
+            return false;
+        } 
+        else {
+            return true;
+        }
+    }
+    
+    
+    public void executeQuery(String query){
+        try{
+               conn = (Connection) DBConnection.getConnection();
+               
+               PreparedStatement pst = (PreparedStatement) conn.prepareStatement(query); 
+               pst.execute();
+               JOptionPane.showMessageDialog(null, "Exam password is updated");
+            }
+            catch(SQLException | HeadlessException e){
+               JOptionPane.showMessageDialog(null, e);
+            } 
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -84,31 +88,30 @@ public class DashboardAdmin extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        rdoButtonGroup = new javax.swing.ButtonGroup();
         pnlContent = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
-        lblUserId = new javax.swing.JLabel();
-        txtUserId = new javax.swing.JTextField();
-        pnlSearch = new javax.swing.JPanel();
-        lblSearch = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tblUser = new javax.swing.JTable();
-        pnlDelete = new javax.swing.JPanel();
-        lblDelete = new javax.swing.JLabel();
+        lblExamPassword = new javax.swing.JLabel();
+        lblExamID = new javax.swing.JLabel();
+        pwdExamPassword = new javax.swing.JPasswordField();
+        cmbExamID = new javax.swing.JComboBox<>();
+        pnlUpdate = new javax.swing.JPanel();
+        btnUpdate = new javax.swing.JLabel();
         pnlNavigation = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
-        jLabel5 = new javax.swing.JLabel();
+        lblHome = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         jPanel8 = new javax.swing.JPanel();
         lblContactUs = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
+        jPanel7 = new javax.swing.JPanel();
+        lblAbout = new javax.swing.JLabel();
         pnlModule = new javax.swing.JPanel();
         lblModules = new javax.swing.JLabel();
         jPanel9 = new javax.swing.JPanel();
         lblExamPasswordPanel = new javax.swing.JLabel();
-        jPanel7 = new javax.swing.JPanel();
-        jLabel7 = new javax.swing.JLabel();
         pnlHeader = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         lblUser = new javax.swing.JLabel();
@@ -117,7 +120,7 @@ public class DashboardAdmin extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("ADMIN DASHBOARD");
+        setTitle("LECTURER DASHBOARD");
         setMinimumSize(new java.awt.Dimension(950, 600));
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -129,95 +132,61 @@ public class DashboardAdmin extends javax.swing.JFrame {
         jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        lblUserId.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        lblUserId.setText("Enter UserId");
-        jPanel3.add(lblUserId, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 40, -1, -1));
-        jPanel3.add(txtUserId, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 40, 190, 30));
+        lblExamPassword.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblExamPassword.setText("Password");
+        jPanel3.add(lblExamPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 90, -1, -1));
 
-        pnlSearch.setBackground(new java.awt.Color(70, 102, 144));
-        pnlSearch.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        pnlSearch.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        pnlSearch.addMouseListener(new java.awt.event.MouseAdapter() {
+        lblExamID.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblExamID.setText("Exam ID");
+        jPanel3.add(lblExamID, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 30, -1, -1));
+        jPanel3.add(pwdExamPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 90, 250, -1));
+
+        jPanel3.add(cmbExamID, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 30, 250, -1));
+
+        pnlUpdate.setBackground(new java.awt.Color(70, 102, 144));
+        pnlUpdate.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        pnlUpdate.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        pnlUpdate.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                pnlUpdateMouseClicked(evt);
+            }
             public void mousePressed(java.awt.event.MouseEvent evt) {
-                pnlSearchMousePressed(evt);
+                pnlUpdateMousePressed(evt);
             }
             public void mouseReleased(java.awt.event.MouseEvent evt) {
-                pnlSearchMouseReleased(evt);
+                pnlUpdateMouseReleased(evt);
             }
         });
 
-        lblSearch.setFont(new java.awt.Font("Segoe UI Light", 0, 16)); // NOI18N
-        lblSearch.setForeground(new java.awt.Color(255, 255, 255));
-        lblSearch.setText("        Search");
-        lblSearch.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnUpdate.setFont(new java.awt.Font("Segoe UI Light", 0, 16)); // NOI18N
+        btnUpdate.setForeground(new java.awt.Color(255, 255, 255));
+        btnUpdate.setText("      UPDATE");
+        btnUpdate.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblSearchMouseClicked(evt);
+                btnUpdateMouseClicked(evt);
             }
         });
 
-        javax.swing.GroupLayout pnlSearchLayout = new javax.swing.GroupLayout(pnlSearch);
-        pnlSearch.setLayout(pnlSearchLayout);
-        pnlSearchLayout.setHorizontalGroup(
-            pnlSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(lblSearch, javax.swing.GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
-        );
-        pnlSearchLayout.setVerticalGroup(
-            pnlSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlSearchLayout.createSequentialGroup()
+        javax.swing.GroupLayout pnlUpdateLayout = new javax.swing.GroupLayout(pnlUpdate);
+        pnlUpdate.setLayout(pnlUpdateLayout);
+        pnlUpdateLayout.setHorizontalGroup(
+            pnlUpdateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlUpdateLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lblSearch, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
+                .addComponent(btnUpdate, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        pnlUpdateLayout.setVerticalGroup(
+            pnlUpdateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlUpdateLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(btnUpdate, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
-        jPanel3.add(pnlSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 110, 140, 60));
+        jPanel3.add(pnlUpdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 160, -1, -1));
 
-        tblUser.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "User ID", "Name", "Role"
-            }
-        ));
-        jScrollPane1.setViewportView(tblUser);
-
-        jPanel3.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 230, 630, 190));
-
-        pnlDelete.setBackground(new java.awt.Color(70, 102, 144));
-        pnlDelete.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        pnlDelete.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        pnlDelete.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                pnlDeleteMousePressed(evt);
-            }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                pnlDeleteMouseReleased(evt);
-            }
-        });
-
-        lblDelete.setFont(new java.awt.Font("Segoe UI Light", 0, 16)); // NOI18N
-        lblDelete.setForeground(new java.awt.Color(255, 255, 255));
-        lblDelete.setText("          Delete");
-        lblDelete.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblDeleteMouseClicked(evt);
-            }
-        });
-
-        javax.swing.GroupLayout pnlDeleteLayout = new javax.swing.GroupLayout(pnlDelete);
-        pnlDelete.setLayout(pnlDeleteLayout);
-        pnlDeleteLayout.setHorizontalGroup(
-            pnlDeleteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(lblDelete, javax.swing.GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE)
-        );
-        pnlDeleteLayout.setVerticalGroup(
-            pnlDeleteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(lblDelete, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 56, Short.MAX_VALUE)
-        );
-
-        jPanel3.add(pnlDelete, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 110, 130, 60));
-
-        pnlContent.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 30, 720, 440));
+        pnlContent.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 40, 650, 350));
 
         getContentPane().add(pnlContent, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 100, 820, 520));
 
@@ -245,9 +214,14 @@ public class DashboardAdmin extends javax.swing.JFrame {
             }
         });
 
-        jLabel5.setFont(new java.awt.Font("Segoe UI Light", 0, 16)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel5.setText("Home");
+        lblHome.setFont(new java.awt.Font("Segoe UI Light", 0, 16)); // NOI18N
+        lblHome.setForeground(new java.awt.Color(255, 255, 255));
+        lblHome.setText("Home");
+        lblHome.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblHomeMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -255,14 +229,14 @@ public class DashboardAdmin extends javax.swing.JFrame {
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 106, Short.MAX_VALUE)
+                .addComponent(lblHome, javax.swing.GroupLayout.DEFAULT_SIZE, 106, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 24, Short.MAX_VALUE)
+                .addComponent(lblHome, javax.swing.GroupLayout.DEFAULT_SIZE, 24, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -351,16 +325,14 @@ public class DashboardAdmin extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(204, 217, 233));
 
-        jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/csse/exam/resource/SLIIT_Crest.png"))); // NOI18N
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(34, 34, 34)
+                .addGap(33, 33, 33)
                 .addComponent(jLabel9)
-                .addContainerGap(36, Short.MAX_VALUE))
+                .addContainerGap(37, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -371,6 +343,46 @@ public class DashboardAdmin extends javax.swing.JFrame {
         );
 
         pnlNavigation.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 130, 100));
+
+        jPanel7.setBackground(new java.awt.Color(70, 102, 144));
+        jPanel7.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jPanel7.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jPanel7.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jPanel7MousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jPanel7MouseReleased(evt);
+            }
+        });
+
+        lblAbout.setFont(new java.awt.Font("Segoe UI Light", 0, 16)); // NOI18N
+        lblAbout.setForeground(new java.awt.Color(255, 255, 255));
+        lblAbout.setText("About");
+        lblAbout.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblAboutMouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
+        jPanel7.setLayout(jPanel7Layout);
+        jPanel7Layout.setHorizontalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblAbout, javax.swing.GroupLayout.DEFAULT_SIZE, 106, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel7Layout.setVerticalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblAbout, javax.swing.GroupLayout.DEFAULT_SIZE, 24, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        pnlNavigation.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 300, -1, -1));
 
         pnlModule.setBackground(new java.awt.Color(70, 102, 144));
         pnlModule.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -411,7 +423,7 @@ public class DashboardAdmin extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        pnlNavigation.add(pnlModule, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 200, -1, -1));
+        pnlNavigation.add(pnlModule, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 200, 130, 50));
 
         jPanel9.setBackground(new java.awt.Color(70, 102, 144));
         jPanel9.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -453,46 +465,6 @@ public class DashboardAdmin extends javax.swing.JFrame {
 
         pnlNavigation.add(jPanel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 250, 130, 50));
 
-        jPanel7.setBackground(new java.awt.Color(70, 102, 144));
-        jPanel7.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jPanel7.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jPanel7.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                jPanel7MousePressed(evt);
-            }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                jPanel7MouseReleased(evt);
-            }
-        });
-
-        jLabel7.setFont(new java.awt.Font("Segoe UI Light", 0, 16)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel7.setText("About");
-        jLabel7.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel7MouseClicked(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
-        jPanel7.setLayout(jPanel7Layout);
-        jPanel7Layout.setHorizontalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel7Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, 106, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        jPanel7Layout.setVerticalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, 24, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-
-        pnlNavigation.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 300, 130, 50));
-
         getContentPane().add(pnlNavigation, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 620));
 
         pnlHeader.setBackground(new java.awt.Color(105, 135, 170));
@@ -525,7 +497,7 @@ public class DashboardAdmin extends javax.swing.JFrame {
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("Admin Dashboard");
+        jLabel2.setText("SET EXAM PASSWORD");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -614,12 +586,18 @@ public class DashboardAdmin extends javax.swing.JFrame {
         login.setVisible(true);
     }//GEN-LAST:event_lblLogoutMouseClicked
 
-    private void jLabel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel7MouseClicked
-        // TODO add your handling code here:
+    private void lblAboutMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblAboutMouseClicked
         AboutUs about = new AboutUs();
         this.setVisible(false);
         about.setVisible(true);
-    }//GEN-LAST:event_jLabel7MouseClicked
+    }//GEN-LAST:event_lblAboutMouseClicked
+
+    private void lblHomeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblHomeMouseClicked
+        // TODO add your handling code here:
+        DashboardAdmin admin = new DashboardAdmin();
+        this.setVisible(false);
+        admin.setVisible(true);
+    }//GEN-LAST:event_lblHomeMouseClicked
 
     private void lblContactUsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblContactUsMouseClicked
         // TODO add your handling code here:
@@ -627,69 +605,6 @@ public class DashboardAdmin extends javax.swing.JFrame {
         this.setVisible(false);
         contact.setVisible(true);
     }//GEN-LAST:event_lblContactUsMouseClicked
-
-    private void jLabel6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel6MouseClicked
-        // TODO add your handling code here:
-        AddUser user = new AddUser();
-        this.setVisible(false);
-        user.setVisible(true);
-    }//GEN-LAST:event_jLabel6MouseClicked
-
-    private void lblSearchMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSearchMouseClicked
-        // TODO add your handling code here:
-        String userId = txtUserId.getText();
-        try{
-                conn = (Connection) DBConnection.getConnection();
-                Statement st=conn.createStatement();
-
-                String sqlst="select userId,name,role from user where userId=?";
-                PreparedStatement pst = (PreparedStatement) conn.prepareStatement(sqlst);
-                pst.setString(1, userId); 
-                ResultSet rs=pst.executeQuery();
-                loadData(rs);
-                pnlDelete.setVisible(true);
-            }
-                catch(Exception e){
-                    JOptionPane.showMessageDialog(null, e);
-                } 
-    }//GEN-LAST:event_lblSearchMouseClicked
-
-    private void pnlSearchMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlSearchMousePressed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_pnlSearchMousePressed
-
-    private void pnlSearchMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlSearchMouseReleased
-        // TODO add your handling code here:
-    }//GEN-LAST:event_pnlSearchMouseReleased
-
-    private void lblDeleteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblDeleteMouseClicked
-        // TODO add your handling code here:
-        String userId = txtUserId.getText();
-        try{
-                conn = (Connection) DBConnection.getConnection();
-                Statement st=conn.createStatement();
-
-                String sqlst="delete from sql12196110.user where userId=?";
-                PreparedStatement pst = (PreparedStatement) conn.prepareStatement(sqlst);
-                pst.setString(1, userId); 
-                pst.execute();
-                JOptionPane.showMessageDialog(null, "Record deleted successfully");
-                String sql="select userId,name,role from user";
-                ResultSet rs=st.executeQuery(sql);
-                loadData(rs);
-            }
-                catch(Exception e){
-                    JOptionPane.showMessageDialog(null, e);
-                } 
-    }//GEN-LAST:event_lblDeleteMouseClicked
-
-    private void pnlDeleteMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlDeleteMousePressed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_pnlDeleteMousePressed
-
-    private void pnlDeleteMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlDeleteMouseReleased
-        // TODO add your handling code here:
-    }//GEN-LAST:event_pnlDeleteMouseReleased
 
     private void lblModulesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblModulesMouseClicked
         Modules module = new Modules();
@@ -707,9 +622,6 @@ public class DashboardAdmin extends javax.swing.JFrame {
 
     private void lblExamPasswordPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblExamPasswordPanelMouseClicked
         // TODO add your handling code here:
-        SetExamPassword exam = new SetExamPassword();
-        this.setVisible(false);
-        exam.setVisible(true);
     }//GEN-LAST:event_lblExamPasswordPanelMouseClicked
 
     private void jPanel9MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel9MousePressed
@@ -719,6 +631,37 @@ public class DashboardAdmin extends javax.swing.JFrame {
     private void jPanel9MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel9MouseReleased
         // TODO add your handling code here:
     }//GEN-LAST:event_jPanel9MouseReleased
+
+    private void btnUpdateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUpdateMouseClicked
+        // TODO add your handling code here:
+        String examId = cmbExamID.getSelectedItem().toString();
+        String examPassword = pwdExamPassword.getText();
+        
+        if(validateValues())
+        {
+            String query = "update exam set examPassword ='"+examPassword+"' where examId='"+examId+"';";
+            executeQuery(query);
+        }
+    }//GEN-LAST:event_btnUpdateMouseClicked
+
+    private void pnlUpdateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlUpdateMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_pnlUpdateMouseClicked
+
+    private void pnlUpdateMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlUpdateMousePressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_pnlUpdateMousePressed
+
+    private void pnlUpdateMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlUpdateMouseReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_pnlUpdateMouseReleased
+
+    private void jLabel6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel6MouseClicked
+        // TODO add your handling code here:
+        AddUser user = new AddUser();
+        this.setVisible(false);
+        user.setVisible(true);
+    }//GEN-LAST:event_jLabel6MouseClicked
 
     /**
      * @param args the command line arguments
@@ -737,14 +680,254 @@ public class DashboardAdmin extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(DashboardAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SetExamPassword.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(DashboardAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SetExamPassword.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(DashboardAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SetExamPassword.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(DashboardAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SetExamPassword.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -765,17 +948,17 @@ public class DashboardAdmin extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new DashboardAdmin().setVisible(true);
+                new SetExamPassword().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel btnUpdate;
+    private javax.swing.JComboBox<String> cmbExamID;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -785,22 +968,21 @@ public class DashboardAdmin extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblAbout;
     private javax.swing.JLabel lblContactUs;
-    private javax.swing.JLabel lblDelete;
+    private javax.swing.JLabel lblExamID;
+    private javax.swing.JLabel lblExamPassword;
     private javax.swing.JLabel lblExamPasswordPanel;
+    private javax.swing.JLabel lblHome;
     private javax.swing.JLabel lblLogout;
     private javax.swing.JLabel lblModules;
-    private javax.swing.JLabel lblSearch;
     private javax.swing.JLabel lblUser;
-    private javax.swing.JLabel lblUserId;
     private javax.swing.JPanel pnlContent;
-    private javax.swing.JPanel pnlDelete;
     private javax.swing.JPanel pnlHeader;
     private javax.swing.JPanel pnlModule;
     private javax.swing.JPanel pnlNavigation;
-    private javax.swing.JPanel pnlSearch;
-    private javax.swing.JTable tblUser;
-    private javax.swing.JTextField txtUserId;
+    private javax.swing.JPanel pnlUpdate;
+    private javax.swing.JPasswordField pwdExamPassword;
+    private javax.swing.ButtonGroup rdoButtonGroup;
     // End of variables declaration//GEN-END:variables
 }

@@ -5,96 +5,101 @@
  */
 package com.csse.exam.model;
 
-import java.sql.Date;
+import java.util.Date;
 
 /**
  *
- * @author user
+ * @author Neruppuda
  */
-public class Exam 
-{
-    private String examType;
-    private String examId;
-    private String moduleId;
-    private Date examDate;
-    private int duration;
-    private String durationUnit;
-    private int noOfQuestions;
-    private int allocatedMarks;
-    private String examState;
+public class Exam {
 
-    public String getExamState() {
-        return examState;
+    private static String examId;
+    private static int examDuration;
+    private static String moduleId;
+    private static Date examDate;
+    private static int numberOfQuestions;
+    private static int totalMarks;
+    private static String examState;
+    private static String examPassword;
+
+    public Exam() {
+
     }
 
-    public void setExamState(String examState) {
+    public Exam(String examId, int examDuration, String moduleId, Date examDate, int numberOfQuestions, int totalMarks, String examState, String examPassword) {
+        this.examId = examId;
+        this.examDuration = examDuration;
+        this.moduleId = moduleId;
+        this.examDate = examDate;
+        this.numberOfQuestions = numberOfQuestions;
+        this.totalMarks = totalMarks;
         this.examState = examState;
+        this.examPassword = examPassword;
+
     }
 
-    public String getExamType() {
-        return examType;
-    }
-
-    public void setExamType(String examType) {
-        this.examType = examType;
-    }
-
-    public String getExamId() {
+    public static String getExamId() {
         return examId;
     }
 
-    public void setExamId(String examId) {
-        this.examId = examId;
+    public static void setExamId(String examId) {
+        Exam.examId = examId;
     }
 
-    public String getModuleId() {
+    public static int getExamDuration() {
+        return examDuration;
+    }
+
+    public static void setExamDuration(int examDuration) {
+        Exam.examDuration = examDuration;
+    }
+
+    public static String getModuleId() {
         return moduleId;
     }
 
-    public void setModuleId(String moduleId) {
-        this.moduleId = moduleId;
+    public static void setModuleId(String moduleId) {
+        Exam.moduleId = moduleId;
     }
 
-    public Date getExamDate() {
+    public static Date getExamDate() {
         return examDate;
     }
 
-    public void setExamDate(Date examDate) {
-        this.examDate = examDate;
+    public static void setExamDate(Date examDate) {
+        Exam.examDate = examDate;
     }
 
-    public int getDuration() {
-        return duration;
+    public static int getNumberOfQuestions() {
+        return numberOfQuestions;
     }
 
-    public void setDuration(int duration) {
-        this.duration = duration;
+    public static void setNumberOfQuestions(int numberOfQuestions) {
+        Exam.numberOfQuestions = numberOfQuestions;
     }
 
-    public String getDurationUnit() {
-        return durationUnit;
+    public static int getTotalMarks() {
+        return totalMarks;
     }
 
-    public void setDurationUnit(String durationUnit) {
-        this.durationUnit = durationUnit;
+    public static void setTotalMarks(int totalMarks) {
+        Exam.totalMarks = totalMarks;
     }
 
-    public int getNoOfQuestions() {
-        return noOfQuestions;
+    public static String getExamState() {
+        return examState;
     }
 
-    public void setNoOfQuestions(int noOfQuestions) {
-        this.noOfQuestions = noOfQuestions;
+    public static void setExamState(String examState) {
+        Exam.examState = examState;
     }
 
-    public int getAllocatedMarks() {
-        return allocatedMarks;
+    public static String getExamPassword() {
+        return examPassword;
     }
 
-    public void setAllocatedMarks(int allocatedMarks) {
-        this.allocatedMarks = allocatedMarks;
+    public static void setExamPassword(String examPassword) {
+        Exam.examPassword = examPassword;
     }
-    
-    
-          
+
 }

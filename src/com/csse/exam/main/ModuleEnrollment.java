@@ -5,8 +5,11 @@
  */
 package com.csse.exam.main;
 
+import com.csse.exam.common.Validation;
 import com.csse.exam.model.User;
+import com.csse.exam.service.ModuleService;
 import java.awt.Color;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -17,11 +20,11 @@ public class ModuleEnrollment extends javax.swing.JFrame {
     /**
      * Creates new form Dashboard
      */
-   
+    private Validation validation = new Validation();
+    private ModuleService moduleService = new ModuleService();
     public ModuleEnrollment() {
         initComponents();
         lblUser.setText(User.getName());
-        
 
     }
 
@@ -51,11 +54,11 @@ public class ModuleEnrollment extends javax.swing.JFrame {
         lblHeaderME = new javax.swing.JLabel();
         pnlAttemptQuizContent = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
-        lblSelectedQuizME = new javax.swing.JLabel();
+        lblSelectedModuleName = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
-        jLabel14 = new javax.swing.JLabel();
+        lblEnrollModule = new javax.swing.JLabel();
         jPanel9 = new javax.swing.JPanel();
-        jTextField2 = new javax.swing.JTextField();
+        txtEnrollModule = new javax.swing.JTextField();
         jLabel13 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -270,10 +273,10 @@ public class ModuleEnrollment extends javax.swing.JFrame {
 
         jPanel3.setBackground(new java.awt.Color(51, 153, 255));
 
-        lblSelectedQuizME.setBackground(new java.awt.Color(70, 102, 144));
-        lblSelectedQuizME.setFont(new java.awt.Font("Segoe UI Light", 0, 36)); // NOI18N
-        lblSelectedQuizME.setForeground(new java.awt.Color(51, 51, 51));
-        lblSelectedQuizME.setText("Selected Module");
+        lblSelectedModuleName.setBackground(new java.awt.Color(70, 102, 144));
+        lblSelectedModuleName.setFont(new java.awt.Font("Segoe UI Light", 0, 36)); // NOI18N
+        lblSelectedModuleName.setForeground(new java.awt.Color(51, 51, 51));
+        lblSelectedModuleName.setText("Selected Module");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -281,39 +284,38 @@ public class ModuleEnrollment extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap(31, Short.MAX_VALUE)
-                .addComponent(lblSelectedQuizME)
+                .addComponent(lblSelectedModuleName)
                 .addGap(19, 19, 19))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lblSelectedQuizME, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lblSelectedModuleName, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(19, Short.MAX_VALUE))
         );
 
         pnlAttemptQuizContent.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 30, 300, 60));
 
-        jLabel14.setBackground(new java.awt.Color(70, 102, 144));
-        jLabel14.setFont(new java.awt.Font("Segoe UI Light", 0, 36)); // NOI18N
-        jLabel14.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel14.setText("Enroll Me");
+        lblEnrollModule.setBackground(new java.awt.Color(70, 102, 144));
+        lblEnrollModule.setFont(new java.awt.Font("Segoe UI Light", 0, 36)); // NOI18N
+        lblEnrollModule.setForeground(new java.awt.Color(51, 51, 51));
+        lblEnrollModule.setText("     Enroll Me");
+        lblEnrollModule.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblEnrollModuleMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addContainerGap(57, Short.MAX_VALUE)
-                .addComponent(jLabel14)
-                .addGap(52, 52, 52))
+            .addComponent(lblEnrollModule, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel14)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(lblEnrollModule, javax.swing.GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE)
         );
 
         pnlAttemptQuizContent.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 230, 250, 70));
@@ -321,12 +323,12 @@ public class ModuleEnrollment extends javax.swing.JFrame {
         jPanel9.setBackground(new java.awt.Color(204, 217, 233));
         jPanel9.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
+        txtEnrollModule.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
+                txtEnrollModuleActionPerformed(evt);
             }
         });
-        jPanel9.add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 120, 30));
+        jPanel9.add(txtEnrollModule, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 120, 30));
 
         pnlAttemptQuizContent.add(jPanel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 130, 150, 50));
 
@@ -342,6 +344,8 @@ public class ModuleEnrollment extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    
+    
     private void jPanel5MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel5MouseEntered
         // TODO add your handling code here:
 //        jPanel5.setBackground(new Color(153,150,255));
@@ -385,14 +389,14 @@ public class ModuleEnrollment extends javax.swing.JFrame {
         login.setVisible(true);
     }//GEN-LAST:event_lblLogoutMouseClicked
 
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+    private void txtEnrollModuleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEnrollModuleActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2ActionPerformed
+    }//GEN-LAST:event_txtEnrollModuleActionPerformed
 
     private void jLabel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MouseClicked
-       ExamModuleContent examModuleContent = new ExamModuleContent();
-       this.setVisible(false);
-       examModuleContent.setVisible(true);
+        ExamModuleContent examModuleContent = new ExamModuleContent();
+        this.setVisible(false);
+        examModuleContent.setVisible(true);
         // TODO add your handling code here:
     }//GEN-LAST:event_jLabel8MouseClicked
 
@@ -405,10 +409,10 @@ public class ModuleEnrollment extends javax.swing.JFrame {
     }//GEN-LAST:event_jPanel10MouseReleased
 
     private void lblModulesMEMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblModulesMEMouseClicked
-         ModuleContent moduleContent = new ModuleContent();
+        ModuleContent moduleContent = new ModuleContent();
         this.setVisible(false);
         moduleContent.setVisible(true);
-        
+
     }//GEN-LAST:event_lblModulesMEMouseClicked
 
     private void lblHomeMEMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblHomeMEMouseClicked
@@ -416,6 +420,26 @@ public class ModuleEnrollment extends javax.swing.JFrame {
         this.setVisible(false);
         dashboardStudent.setVisible(true);
     }//GEN-LAST:event_lblHomeMEMouseClicked
+
+    private void lblEnrollModuleMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblEnrollModuleMouseClicked
+        if (!validation.checkTextNull(txtEnrollModule.getText())) {
+                if(moduleService.enrollToModule(txtEnrollModule.getText(),lblSelectedModuleName.getText().split("-")[0])){
+                    moduleService.updateEnrolledModules(User.getUserId(),lblSelectedModuleName.getText().split("-")[0]);
+                    JOptionPane.showMessageDialog(null, "You have succesfullyb enrolled", "OK",
+                    JOptionPane.INFORMATION_MESSAGE);
+                    ModuleContent moduleContent = new ModuleContent();
+                    this.setVisible(false);
+                    moduleContent.setVisible(true);
+                }
+                else{
+                    JOptionPane.showMessageDialog(null, "Enrollmenr key is incorrect", "OK",
+                    JOptionPane.INFORMATION_MESSAGE);
+                }
+        } else {
+            JOptionPane.showMessageDialog(null, "Enrollment Key canot be empty", "OK",
+                    JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_lblEnrollModuleMouseClicked
 
     /**
      * @param args the command line arguments
@@ -486,7 +510,6 @@ public class ModuleEnrollment extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
     public javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
@@ -497,15 +520,16 @@ public class ModuleEnrollment extends javax.swing.JFrame {
     public javax.swing.JPanel jPanel5;
     public javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel9;
-    private javax.swing.JTextField jTextField2;
+    private javax.swing.JLabel lblEnrollModule;
     public javax.swing.JLabel lblHeaderME;
     public javax.swing.JLabel lblHomeME;
     private javax.swing.JLabel lblLogout;
     public javax.swing.JLabel lblModulesME;
-    public javax.swing.JLabel lblSelectedQuizME;
+    public javax.swing.JLabel lblSelectedModuleName;
     private javax.swing.JLabel lblUser;
     private javax.swing.JPanel pnlAttemptQuizContent;
     private javax.swing.JPanel pnlHeader;
     private javax.swing.JPanel pnlNavigation;
+    private javax.swing.JTextField txtEnrollModule;
     // End of variables declaration//GEN-END:variables
 }

@@ -17,36 +17,42 @@ import javax.swing.JOptionPane;
  *
  * @author user
  */
-
 public class Login extends javax.swing.JFrame {
+
     Connection conn = null;
     public User user;
+
     /**
      * Creates new form Login
      */
     public Login() {
         initComponents();
     }
+
     //to check the login credentials 
-        public boolean validateLogin(String username,String password) {
-            try{              
-                 conn = (Connection) DBConnection.getConnection();
-                PreparedStatement pst = (PreparedStatement) conn.prepareStatement("Select * from user where username=? and userPassword=?");
-                pst.setString(1, username); 
-                pst.setString(2, password);
-                ResultSet rs = pst.executeQuery(); 
-                
-                if(rs.next()){
-                    user= new User(rs.getString("userId"),rs.getString("name"),rs.getString("role"),rs.getString("username"),rs.getString("userPassword"));
-                    return true;    
-            }else
-                    return false;            
-            }
-            catch(Exception e){
-                e.printStackTrace();
+    public User getUser() {
+        return user;
+    }
+
+    public boolean validateLogin(String username, String password) {
+        try {
+            conn = (Connection) DBConnection.getConnection();
+            PreparedStatement pst = (PreparedStatement) conn.prepareStatement("Select * from user where username=? and userPassword=?");
+            pst.setString(1, username);
+            pst.setString(2, password);
+            ResultSet rs = pst.executeQuery();
+
+            if (rs.next()) {
+                user = new User(rs.getString("userId"), rs.getString("name"), rs.getString("role"), rs.getString("username"), rs.getString("userPassword"));
+                return true;
+            } else {
                 return false;
-            }       
-} 
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -121,60 +127,54 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_txtUsernameMouseClicked
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
- 
-      
+
         DashboardAdmin adminHome = null;
         DashboardLecturer lecturerHome = null;
         DashboardStudent studentHome = null;
         Validation validation = new Validation();
-        
+
         // Collecting the input
-        String username = txtUsername.getText();   
-        String password = txtPassword.getText(); 
+        String username = txtUsername.getText();
+        String password = txtPassword.getText();
 
         //validating empty fields
-        if(validation.checkTextNull(username)){
+        if (validation.checkTextNull(username)) {
             JOptionPane.showMessageDialog(null, "Please enter your username!");
-        }
-        else if(validation.checkTextNull(password))  // Checking for empty field
+        } else if (validation.checkTextNull(password)) // Checking for empty field
         {
             JOptionPane.showMessageDialog(null, "Please enter your password");
-        }
-        else
-        {            
-            if(validateLogin(username,password))
-            {
-              //JOptionPane.showMessageDialog(null, "Correct Login Credentials");
-              if(User.checkRole() == 0)
-              {   adminHome = new DashboardAdmin();
-                  this.setVisible(false);
-                  adminHome.setVisible(true);
-              }
-              else if(User.checkRole() == 1)
-              {
-                  lecturerHome = new DashboardLecturer();
-                  this.setVisible(false);
-                  lecturerHome.setVisible(true);
-              }
-              else
-              {
-                  studentHome = new DashboardStudent();
-                  this.setVisible(false);
-                  studentHome.setVisible(true);
-                  
-              }
-              
-            }
-            else
-               JOptionPane.showMessageDialog(null, "Incorrect Login Credentials");
-        }    
-    }//GEN-LAST:event_btnLoginActionPerformed
+        } else {
+            if (validateLogin(username, password)) {
+                //JOptionPane.showMessageDialog(null, "Correct Login Credentials");
+                switch (User.checkRole()) {
+                    case 0:
+                        adminHome = new DashboardAdmin();
+                        this.setVisible(false);
+                        adminHome.setVisible(true);
+                        break;
+                    case 1:
+                        lecturerHome = new DashboardLecturer();
+                        this.setVisible(false);
+                        lecturerHome.setVisible(true);
+                        break;
+                    default:
+                        studentHome = new DashboardStudent();
+                        this.setVisible(false);
+                        studentHome.setVisible(true);
+                        break;
+                }
 
+            } else {
+                JOptionPane.showMessageDialog(null, "Incorrect Login Credentials");
+            }
+        }
+    }//GEN-LAST:event_btnLoginActionPerformed
 
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
+
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
