@@ -5,59 +5,50 @@
  */
 package com.csse.exam.main;
 
-import com.csse.exam.common.ClearComponents;
-import com.csse.exam.common.CommonComponents;
-import com.csse.exam.common.Validation;
-import com.csse.exam.model.Exam;
-import com.csse.exam.service.ExamService;
-import java.awt.Color;
-import static java.lang.Integer.parseInt;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import javax.swing.JComboBox;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTable;
-import javax.swing.RowFilter;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
-import javax.swing.table.TableRowSorter;
 /**
  *
  * @author user
  */
-public class ExamDetails extends javax.swing.JFrame {
+import com.csse.exam.common.ClearComponents;
+import com.csse.exam.common.CommonComponents;
+import com.csse.exam.common.Validation;
+import com.csse.exam.service.QuestionService;
+import java.awt.Color;
+import java.util.Date;
+import java.util.Objects;
+import javax.swing.JOptionPane;
+public class ExamQuestion extends javax.swing.JFrame {
 
-    private final ExamService examService = new ExamService();
+    /**
+     * Creates new form ExamQuestion
+     */
     private final CommonComponents commonComponents = new CommonComponents();
-    private final Exam exam = new Exam();
+    private final QuestionService questionService = new QuestionService();
     private final Validation validation = new Validation();
     private final ClearComponents clear = new ClearComponents();
-    
-    DefaultTableModel tableModel;  
-    private final ArrayList<Exam> examList = examService.getExam();
-    
     
     String examType;
     String examId;
     String moduleId;
-    Date examdate;
+    String examDate;
     String examTime;
     String examTimeUnit;
     String questionNo;
     String allocatedMarks;
     String examDuration;
+    String questionId;
+    String question;
+    String options;
+    String option1;
+    String option2;
+    String option3;
+    String option4;
+    String option5;
     
-    /**
-     * Creates new form ExamDetails
-     */
-    public ExamDetails() {
+    
+    public ExamQuestion() {
         initComponents();
-        examService.fillExamDetailsTable(tblExamDetails);
-        commonComponents.addValueToComboBox(cmbSearchExamId, "exam", "examId");     
-    
+        commonComponents.addValueToComboBox(cmbExamId, "exam", "examId");
     }
 
     /**
@@ -80,7 +71,7 @@ public class ExamDetails extends javax.swing.JFrame {
         lblResult = new javax.swing.JLabel();
         pnlLogo = new javax.swing.JPanel();
         lblLogo = new javax.swing.JLabel();
-        pnlSystem = new javax.swing.JPanel();
+        pnlHeader = new javax.swing.JPanel();
         lblSystem = new javax.swing.JLabel();
         lblUser = new javax.swing.JLabel();
         lblLogout = new javax.swing.JLabel();
@@ -88,32 +79,41 @@ public class ExamDetails extends javax.swing.JFrame {
         lblTitle = new javax.swing.JLabel();
         pnlContent = new javax.swing.JPanel();
         pnlExamDetails = new javax.swing.JPanel();
+        lblExamCode = new javax.swing.JLabel();
         lblExamType = new javax.swing.JLabel();
-        lblExamId = new javax.swing.JLabel();
-        lblModuleId = new javax.swing.JLabel();
         lblExamDate = new javax.swing.JLabel();
-        lblExamDuration = new javax.swing.JLabel();
-        lblQuestionNo = new javax.swing.JLabel();
+        lblQuestionsCount = new javax.swing.JLabel();
         lblAllocatedMarks = new javax.swing.JLabel();
-        cmbExamType = new javax.swing.JComboBox<>();
-        txtMarks = new javax.swing.JTextField();
-        txtExamCode = new javax.swing.JTextField();
-        txtModuleId = new javax.swing.JTextField();
-        txtDurationValue = new javax.swing.JTextField();
-        txtQuestionNo = new javax.swing.JTextField();
-        cmbDurationUnit = new javax.swing.JComboBox<>();
-        btnClear = new javax.swing.JButton();
-        btnAdd = new javax.swing.JButton();
-        btnUpdate = new javax.swing.JButton();
-        btnDelete = new javax.swing.JButton();
-        datePickExamDate = new com.toedter.calendar.JDateChooser();
-        pnlExamDetailTable = new javax.swing.JPanel();
+        cmbExamId = new javax.swing.JComboBox<>();
+        lblExamDuration = new javax.swing.JLabel();
+        txtExamDate = new javax.swing.JTextField();
+        txtTotalQuestions = new javax.swing.JTextField();
+        txtExamType = new javax.swing.JTextField();
+        txtExamDuration = new javax.swing.JTextField();
+        txtAllocatedMarks = new javax.swing.JTextField();
+        pnlQuestionBank = new javax.swing.JPanel();
+        pnlQuestions = new javax.swing.JPanel();
+        lblOption5 = new javax.swing.JLabel();
+        lblQuestionNumber1 = new javax.swing.JLabel();
+        lblQuestionDescription1 = new javax.swing.JLabel();
+        lblOption1 = new javax.swing.JLabel();
+        lblOption2 = new javax.swing.JLabel();
+        lblOption3 = new javax.swing.JLabel();
+        lblOption4 = new javax.swing.JLabel();
+        txtOption5 = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tblExamDetails = new javax.swing.JTable();
-        lblExamId1 = new javax.swing.JLabel();
-        cmbSearchExamId = new javax.swing.JComboBox<>();
+        txtAreaQuestion = new javax.swing.JTextArea();
+        txtQuestionId = new javax.swing.JTextField();
+        txtOption1 = new javax.swing.JTextField();
+        txtOption3 = new javax.swing.JTextField();
+        txtOption4 = new javax.swing.JTextField();
+        txtOption2 = new javax.swing.JTextField();
+        btnAdd = new javax.swing.JButton();
+        btnClear = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("EXAM");
+        setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         pnlNavigation.setBackground(new java.awt.Color(105, 135, 170));
@@ -279,8 +279,8 @@ public class ExamDetails extends javax.swing.JFrame {
             pnlLogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlLogoLayout.createSequentialGroup()
                 .addGap(33, 33, 33)
-                .addComponent(lblLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(38, Short.MAX_VALUE))
+                .addComponent(lblLogo)
+                .addContainerGap(37, Short.MAX_VALUE))
         );
         pnlLogoLayout.setVerticalGroup(
             pnlLogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -294,32 +294,32 @@ public class ExamDetails extends javax.swing.JFrame {
 
         getContentPane().add(pnlNavigation, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 130, 620));
 
-        pnlSystem.setBackground(new java.awt.Color(105, 135, 170));
-        pnlSystem.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        pnlHeader.setBackground(new java.awt.Color(105, 135, 170));
+        pnlHeader.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         lblSystem.setFont(new java.awt.Font("Segoe UI Light", 0, 24)); // NOI18N
         lblSystem.setForeground(new java.awt.Color(255, 255, 255));
         lblSystem.setText("MCQ EXAM SYSTEM");
-        pnlSystem.add(lblSystem, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, -1));
+        pnlHeader.add(lblSystem, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, -1));
 
         lblUser.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         lblUser.setForeground(new java.awt.Color(255, 255, 255));
         lblUser.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblUser.setText("BobTheBuilder");
         lblUser.setToolTipText("");
-        pnlSystem.add(lblUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(351, 10, 460, 20));
+        pnlHeader.add(lblUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(351, 10, 460, 20));
 
         lblLogout.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         lblLogout.setForeground(new java.awt.Color(204, 217, 233));
         lblLogout.setText("(LOGOUT)");
         lblLogout.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        pnlSystem.add(lblLogout, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 30, -1, 20));
+        pnlHeader.add(lblLogout, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 30, -1, 20));
 
         pnlTitle.setBackground(new java.awt.Color(70, 102, 144));
 
         lblTitle.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         lblTitle.setForeground(new java.awt.Color(255, 255, 255));
-        lblTitle.setText("Examination Details");
+        lblTitle.setText("Question Bank");
 
         javax.swing.GroupLayout pnlTitleLayout = new javax.swing.GroupLayout(pnlTitle);
         pnlTitle.setLayout(pnlTitleLayout);
@@ -335,9 +335,9 @@ public class ExamDetails extends javax.swing.JFrame {
             .addComponent(lblTitle, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
         );
 
-        pnlSystem.add(pnlTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, 830, 40));
+        pnlHeader.add(pnlTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, 830, 40));
 
-        getContentPane().add(pnlSystem, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 0, 830, 100));
+        getContentPane().add(pnlHeader, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 0, 830, 100));
 
         pnlContent.setBackground(new java.awt.Color(204, 217, 233));
         pnlContent.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -346,60 +346,123 @@ public class ExamDetails extends javax.swing.JFrame {
         pnlExamDetails.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         pnlExamDetails.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        lblExamCode.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblExamCode.setText("EXAMINATION CODE :");
+        pnlExamDetails.add(lblExamCode, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, 30));
+
         lblExamType.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblExamType.setText("EXAMINATION TYPE :");
-        pnlExamDetails.add(lblExamType, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 180, 40));
-
-        lblExamId.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        lblExamId.setText("EXAMINATION CODE :");
-        pnlExamDetails.add(lblExamId, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 180, 40));
-
-        lblModuleId.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        lblModuleId.setText("MODULE ID :");
-        pnlExamDetails.add(lblModuleId, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 180, 40));
+        pnlExamDetails.add(lblExamType, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 40, 150, 30));
 
         lblExamDate.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        lblExamDate.setText("EXAM DATE :");
-        pnlExamDetails.add(lblExamDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 180, 40));
+        lblExamDate.setText("EXAMINATION DATE :");
+        pnlExamDetails.add(lblExamDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 70, -1, 30));
 
-        lblExamDuration.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        lblExamDuration.setText("DURATION :");
-        pnlExamDetails.add(lblExamDuration, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 0, 180, 40));
-
-        lblQuestionNo.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        lblQuestionNo.setText("NO OF QUESTIONS :");
-        pnlExamDetails.add(lblQuestionNo, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 40, 180, 40));
+        lblQuestionsCount.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblQuestionsCount.setText("TOTAL NO OF QUESTIONS :");
+        pnlExamDetails.add(lblQuestionsCount, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 70, 190, 30));
 
         lblAllocatedMarks.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        lblAllocatedMarks.setText("ALLOCATED MARKS : ");
-        pnlExamDetails.add(lblAllocatedMarks, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 80, 180, 40));
+        lblAllocatedMarks.setText("ALLOCATED MARKS :");
+        pnlExamDetails.add(lblAllocatedMarks, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 40, -1, 30));
 
-        cmbExamType.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        cmbExamType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SELECT EXAM TYPE", "MID EXAM", "ASSIGNMENT", "FINAL EXAM" }));
-        cmbExamType.addActionListener(new java.awt.event.ActionListener() {
+        cmbExamId.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        cmbExamId.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SELECT EXAMINATION CODE" }));
+        cmbExamId.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmbExamTypeActionPerformed(evt);
+                cmbExamIdActionPerformed(evt);
             }
         });
-        pnlExamDetails.add(cmbExamType, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 10, 180, 30));
-        pnlExamDetails.add(txtMarks, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 90, 180, 30));
-        pnlExamDetails.add(txtExamCode, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 50, 180, 30));
-        pnlExamDetails.add(txtModuleId, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 90, 180, 30));
-        pnlExamDetails.add(txtDurationValue, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 10, 70, 30));
-        pnlExamDetails.add(txtQuestionNo, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 50, 180, 30));
+        pnlExamDetails.add(cmbExamId, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 10, 220, 30));
 
-        cmbDurationUnit.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        cmbDurationUnit.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "TIME UNIT", "mins", "hrs" }));
-        pnlExamDetails.add(cmbDurationUnit, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 10, 100, 30));
+        lblExamDuration.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblExamDuration.setText("EXAMINATION DURATION :");
+        pnlExamDetails.add(lblExamDuration, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 10, -1, 30));
 
-        btnClear.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btnClear.setText("CLEAR");
-        btnClear.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnClearMouseClicked(evt);
-            }
-        });
-        pnlExamDetails.add(btnClear, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 170, 110, 40));
+        txtExamDate.setEditable(false);
+        txtExamDate.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        pnlExamDetails.add(txtExamDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 70, 220, 26));
+
+        txtTotalQuestions.setEditable(false);
+        txtTotalQuestions.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        pnlExamDetails.add(txtTotalQuestions, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 70, 160, 26));
+
+        txtExamType.setEditable(false);
+        txtExamType.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        pnlExamDetails.add(txtExamType, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 42, 220, 26));
+
+        txtExamDuration.setEditable(false);
+        txtExamDuration.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        pnlExamDetails.add(txtExamDuration, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 14, 160, 26));
+
+        txtAllocatedMarks.setEditable(false);
+        txtAllocatedMarks.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        pnlExamDetails.add(txtAllocatedMarks, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 42, 160, 26));
+
+        pnlContent.add(pnlExamDetails, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 800, 100));
+
+        pnlQuestionBank.setBackground(javax.swing.UIManager.getDefaults().getColor("InternalFrame.activeTitleGradient"));
+        pnlQuestionBank.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        pnlQuestionBank.setLayout(new java.awt.GridLayout(1, 0));
+        pnlContent.add(pnlQuestionBank, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 230, 330));
+
+        pnlQuestions.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        pnlQuestions.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        lblOption5.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        lblOption5.setText("OPTION 5 :");
+        pnlQuestions.add(lblOption5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 290, -1, 30));
+
+        lblQuestionNumber1.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        lblQuestionNumber1.setText("QUESTION NO :");
+        pnlQuestions.add(lblQuestionNumber1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, 30));
+
+        lblQuestionDescription1.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        lblQuestionDescription1.setText("QUESTION :");
+        pnlQuestions.add(lblQuestionDescription1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 40, -1, 30));
+
+        lblOption1.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        lblOption1.setText("OPTION 1 :");
+        pnlQuestions.add(lblOption1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 170, -1, 30));
+
+        lblOption2.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        lblOption2.setText("OPTION 2 :");
+        pnlQuestions.add(lblOption2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 200, -1, 30));
+
+        lblOption3.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        lblOption3.setText("OPTION 3 :");
+        pnlQuestions.add(lblOption3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 230, -1, 30));
+
+        lblOption4.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        lblOption4.setText("OPTION 4 :");
+        pnlQuestions.add(lblOption4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 260, -1, 30));
+
+        txtOption5.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        pnlQuestions.add(txtOption5, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 290, 450, 27));
+
+        txtAreaQuestion.setColumns(20);
+        txtAreaQuestion.setRows(5);
+        jScrollPane1.setViewportView(txtAreaQuestion);
+
+        pnlQuestions.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 45, 450, 120));
+
+        txtQuestionId.setEditable(false);
+        txtQuestionId.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        pnlQuestions.add(txtQuestionId, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 11, 220, 30));
+
+        txtOption1.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        pnlQuestions.add(txtOption1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 170, 450, 27));
+
+        txtOption3.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        pnlQuestions.add(txtOption3, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 230, 450, 27));
+
+        txtOption4.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        pnlQuestions.add(txtOption4, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 260, 450, 27));
+
+        txtOption2.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        pnlQuestions.add(txtOption2, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 200, 450, 27));
+
+        pnlContent.add(pnlQuestions, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 120, 560, 330));
 
         btnAdd.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnAdd.setText("ADD");
@@ -408,75 +471,21 @@ public class ExamDetails extends javax.swing.JFrame {
                 btnAddMouseClicked(evt);
             }
         });
-        pnlExamDetails.add(btnAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 170, 110, 40));
+        pnlContent.add(btnAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 460, 180, 40));
 
-        btnUpdate.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btnUpdate.setText("UPDATE");
-        btnUpdate.setToolTipText("");
-        btnUpdate.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnClear.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnClear.setText("CLEAR");
+        btnClear.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnUpdateMouseClicked(evt);
+                btnClearMouseClicked(evt);
             }
         });
-        pnlExamDetails.add(btnUpdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 170, 110, 40));
-
-        btnDelete.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btnDelete.setText("DELETE");
-        pnlExamDetails.add(btnDelete, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 170, 110, 40));
-
-        datePickExamDate.setDateFormatString("yyyy-MM-dd");
-        pnlExamDetails.add(datePickExamDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 130, 180, 30));
-
-        pnlContent.add(pnlExamDetails, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 790, 220));
-
-        pnlExamDetailTable.setBackground(new java.awt.Color(204, 217, 233));
-        pnlExamDetailTable.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        pnlExamDetailTable.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        tblExamDetails.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "EXAMINATION CODE", "MODULE ID", "EXAM DATE", "EXAM DURATION", "NO OF QUESTIONS", "ALLOCATED MARKS"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        tblExamDetails.getTableHeader().setReorderingAllowed(false);
-        jScrollPane1.setViewportView(tblExamDetails);
-
-        pnlExamDetailTable.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 770, 190));
-
-        lblExamId1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        lblExamId1.setText("EXAMINATION CODE :");
-        pnlExamDetailTable.add(lblExamId1, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 20, 160, 30));
-
-        cmbSearchExamId.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        cmbSearchExamId.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SELECT EXAMINATION ID" }));
-        cmbSearchExamId.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmbSearchExamIdActionPerformed(evt);
-            }
-        });
-        cmbSearchExamId.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
-            public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                cmbSearchExamIdPropertyChange(evt);
-            }
-        });
-        pnlExamDetailTable.add(cmbSearchExamId, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 20, 230, 30));
-
-        pnlContent.add(pnlExamDetailTable, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 240, 790, 260));
+        pnlContent.add(btnClear, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 460, 180, 40));
 
         getContentPane().add(pnlContent, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 100, 830, 520));
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void pnlDashboardMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlDashboardMouseClicked
@@ -532,155 +541,68 @@ public class ExamDetails extends javax.swing.JFrame {
         pnlResult.setBackground(new Color(70, 102, 144));
     }//GEN-LAST:event_pnlResultMouseReleased
 
-    private void cmbExamTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbExamTypeActionPerformed
-        // TODO add your handling code here:
-
-        examType = cmbExamType.getSelectedItem().toString();
-        
-        moduleId = "MO001";
-        clear.clearTextFields(pnlExamDetails);
-        clear.clearTextFields(pnlExamDetailTable);
-        clear.resetSingleComboBox(cmbDurationUnit);
-        
-        if(cmbExamType.getSelectedIndex() != 0)
-        {
-            exam.setExamId(examService.getExamId(examType, moduleId));
-            txtExamCode.setText(exam.getExamId());
-            txtModuleId.setText(moduleId);   
-            
-        }
-             
-    }//GEN-LAST:event_cmbExamTypeActionPerformed
-
-    /**
-     * 
-     * @param evt 
-     */
-    private void btnAddMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddMouseClicked
-
-        boolean emptyValue = validation.checkEmptyTextBox(pnlExamDetails);       
-        boolean checkBoxValue = validation.checkComboBox(pnlExamDetails);
-        
-        if((emptyValue==false) || (checkBoxValue==false))
-        {
-            JOptionPane.showMessageDialog(this, "Please fill all the text boxes and select the appropriate drop down options", "Error Message", 1);
-        } 
-        else
-        {            
-            examId = txtExamCode.getText();
-            examType = cmbExamType.getSelectedItem().toString();
-            moduleId = txtModuleId.getText();
-            examdate = datePickExamDate.getDate();
-           
-            examTime = txtDurationValue.getText();
-            examTimeUnit = cmbDurationUnit.getSelectedItem().toString();
-            examDuration = examTime+" "+ examTimeUnit ;
-            
-            questionNo  = txtQuestionNo.getText();
-            allocatedMarks = txtMarks.getText();
-            
-            String[] numbers = {examTime,questionNo,allocatedMarks};
-            boolean numberValue = validation.checkOverAllNumberBox(numbers);
-            boolean moduleIdValue = validation.checkModuleId(moduleId);
-            boolean examIdValue = validation.checkExamId(examId, moduleId,examType);
-                  
-        if(numberValue && moduleIdValue && examIdValue)
-        {
-            boolean value = examService.addExamdetails(examId, examDuration,moduleId, parseInt(questionNo), parseInt(allocatedMarks));
-            
-            if(value)
-            {
-                JOptionPane.showMessageDialog(this, "Exam details were successfully updated", "Success Message", 1);
-                tableModel= (DefaultTableModel) tblExamDetails.getModel();
-                tableModel.setRowCount(0);
-                examService.fillExamDetailsTable(tblExamDetails);
-            }
-            else
-                JOptionPane.showMessageDialog(this, "Exam details were not added", "Error Message", 1);
-        }
-        else
-            JOptionPane.showMessageDialog(this, "Enter appropriate values with correct format", "Error Message", 1);
-                    
-        }
-    }//GEN-LAST:event_btnAddMouseClicked
-
-    private void cmbSearchExamIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbSearchExamIdActionPerformed
-        // TODO add your handling code here:
-        tableModel = (DefaultTableModel) tblExamDetails.getModel();   
-        
-        if(cmbSearchExamId.getSelectedIndex() == 0)
-        {                 
-            tableModel.setRowCount(0);           
-            examService.fillExamDetailsTable(tblExamDetails);
-        }
-        else
-        { 
-            TableRowSorter<TableModel> sorter = new TableRowSorter<>(tableModel); 
-            sorter.setRowFilter(RowFilter.regexFilter(cmbSearchExamId.getSelectedItem().toString()));
-            tblExamDetails.setRowSorter(sorter);        
-        }
-        
-        examId = tblExamDetails.getModel().getValueAt(0, 0).toString();
-        examType = examId.split("-")[1]; //MO001-ASSIGNMENT-E:01
-        moduleId = tblExamDetails.getModel().getValueAt(0, 1).toString();
-        examDuration = tblExamDetails.getModel().getValueAt(0, 3).toString();
-        examTime = examDuration.split(" ")[0];
-        examTimeUnit = examDuration.split(" ")[1];
-        questionNo = tblExamDetails.getModel().getValueAt(0, 4).toString();
-        allocatedMarks = tblExamDetails.getModel().getValueAt(0, 5).toString();
-        
-        cmbExamType.setSelectedItem(examType);
-        txtDurationValue.setText(examTime);
-        cmbDurationUnit.setSelectedItem(examTimeUnit);
-        txtQuestionNo.setText(questionNo);
-        txtMarks.setText(allocatedMarks);
-        
-    }//GEN-LAST:event_cmbSearchExamIdActionPerformed
-
     private void btnClearMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnClearMouseClicked
         // TODO add your handling code here:
-        
-        clear.resetComboBox(pnlExamDetailTable);
-        
-        
         clear.resetComboBox(pnlExamDetails);
+        txtAreaQuestion.setText(null);
+        clear.clearTextFields(pnlQuestions);
         clear.clearTextFields(pnlExamDetails);
-        
-        
     }//GEN-LAST:event_btnClearMouseClicked
 
-    private void btnUpdateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUpdateMouseClicked
+    private void cmbExamIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbExamIdActionPerformed
         // TODO add your handling code here:
-        tableModel= (DefaultTableModel) tblExamDetails.getModel();
-            examId = txtExamCode.getText();
-            examType = cmbExamType.getSelectedItem().toString();
-            moduleId = txtModuleId.getText();
-            examdate = datePickExamDate.getDate();
-           
-            examTime = txtDurationValue.getText();
-            examTimeUnit = cmbDurationUnit.getSelectedItem().toString();
-            examDuration = examTime+" "+ examTimeUnit ;
-            
-            questionNo  = txtQuestionNo.getText();
-            allocatedMarks = txtMarks.getText();
-            
-       boolean updateValue = examService.updateExamDetails(examDuration, parseInt(questionNo),parseInt(allocatedMarks), examId);
-        System.out.println("update value " + updateValue);
-       if(updateValue)
-            {
-                JOptionPane.showMessageDialog(this, "Exam details were successfully updated", "Success Message", 1);
-                
-                tableModel.setRowCount(0);
-                examService.fillExamDetailsTable(tblExamDetails);
-            }
-            else
-                JOptionPane.showMessageDialog(this, "Exam details were not updated", "Error Message", 1);
-    }//GEN-LAST:event_btnUpdateMouseClicked
-
-    private void cmbSearchExamIdPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_cmbSearchExamIdPropertyChange
-        // TODO add your handling code here:
+        examId = cmbExamId.getSelectedItem().toString();
+        Object[] object = new Objects[6];
+        object = questionService.getExamDetailsById(examId);
+      
+        examType = object[1].toString().split("-")[1];
+        examDate = object[2].toString();
+        examDuration = object[3].toString();
+        questionNo = object[4].toString();
+        allocatedMarks = object[5].toString();
         
-    }//GEN-LAST:event_cmbSearchExamIdPropertyChange
+        txtExamType.setText(examType);
+        txtExamDate.setText(examDate);
+        txtExamDuration.setText(examDuration);
+        txtTotalQuestions.setText(questionNo);
+        txtAllocatedMarks.setText(allocatedMarks);
+        
+        questionId =  questionService.getQuestionId(examId);
+        txtQuestionId.setText(questionId);
+    }//GEN-LAST:event_cmbExamIdActionPerformed
+
+    private void btnAddMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddMouseClicked
+        // TODO add your handling code here:
+        examId = cmbExamId.getSelectedItem().toString();
+        questionId = txtQuestionId.getText();
+        question = txtAreaQuestion.getText();
+        option1 = txtOption1.getText();
+        option2 = txtOption1.getText();
+        option3 = txtOption1.getText();
+        option4 = txtOption1.getText();
+        option5 = txtOption1.getText();
+        
+        options = "1-"+option1+":"+"2-"+option2+":"+"3-"+option3+":"+"4-"+option4+":"+"5-"+option5+":";
+        System.out.println(options);
+        
+        boolean nullValue = validation.checkEmptyTextBox(pnlQuestions);
+        boolean checkBox = validation.checkComboBox(pnlExamDetails);
+        System.out.println("yes");
+        System.out.println(nullValue);
+        
+        if(nullValue==false)
+        {
+            JOptionPane.showMessageDialog(this, "Please fill all the text boxes", "Error Message", 1);
+        }
+        else
+        {
+            boolean value = questionService.addQuestion(examId, questionId, question,options);
+            if(value)
+            {
+                JOptionPane.showMessageDialog(this, "Exam question was successfully added", "Success Message", 1);
+            }
+        }
+    }//GEN-LAST:event_btnAddMouseClicked
 
     /**
      * @param args the command line arguments
@@ -699,20 +621,20 @@ public class ExamDetails extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ExamDetails.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ExamQuestion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ExamDetails.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ExamQuestion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ExamDetails.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ExamQuestion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ExamDetails.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ExamQuestion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ExamDetails().setVisible(true);
+                new ExamQuestion().setVisible(true);
             }
         });
     }
@@ -720,26 +642,26 @@ public class ExamDetails extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnClear;
-    private javax.swing.JButton btnDelete;
-    private javax.swing.JButton btnUpdate;
-    private javax.swing.JComboBox<String> cmbDurationUnit;
-    private javax.swing.JComboBox<String> cmbExamType;
-    private javax.swing.JComboBox<String> cmbSearchExamId;
-    private com.toedter.calendar.JDateChooser datePickExamDate;
+    private javax.swing.JComboBox<String> cmbExamId;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblAllocatedMarks;
     private javax.swing.JLabel lblCourse;
     private javax.swing.JLabel lblDashboard;
     private javax.swing.JLabel lblExam;
+    private javax.swing.JLabel lblExamCode;
     private javax.swing.JLabel lblExamDate;
     private javax.swing.JLabel lblExamDuration;
-    private javax.swing.JLabel lblExamId;
-    private javax.swing.JLabel lblExamId1;
     private javax.swing.JLabel lblExamType;
     private javax.swing.JLabel lblLogo;
     private javax.swing.JLabel lblLogout;
-    private javax.swing.JLabel lblModuleId;
-    private javax.swing.JLabel lblQuestionNo;
+    private javax.swing.JLabel lblOption1;
+    private javax.swing.JLabel lblOption2;
+    private javax.swing.JLabel lblOption3;
+    private javax.swing.JLabel lblOption4;
+    private javax.swing.JLabel lblOption5;
+    private javax.swing.JLabel lblQuestionDescription1;
+    private javax.swing.JLabel lblQuestionNumber1;
+    private javax.swing.JLabel lblQuestionsCount;
     private javax.swing.JLabel lblResult;
     private javax.swing.JLabel lblSystem;
     private javax.swing.JLabel lblTitle;
@@ -748,18 +670,25 @@ public class ExamDetails extends javax.swing.JFrame {
     private javax.swing.JPanel pnlCourse;
     private javax.swing.JPanel pnlDashboard;
     private javax.swing.JPanel pnlExam;
-    private javax.swing.JPanel pnlExamDetailTable;
     private javax.swing.JPanel pnlExamDetails;
+    private javax.swing.JPanel pnlHeader;
     private javax.swing.JPanel pnlLogo;
     private javax.swing.JPanel pnlNavigation;
+    private javax.swing.JPanel pnlQuestionBank;
+    private javax.swing.JPanel pnlQuestions;
     private javax.swing.JPanel pnlResult;
-    private javax.swing.JPanel pnlSystem;
     private javax.swing.JPanel pnlTitle;
-    private javax.swing.JTable tblExamDetails;
-    private javax.swing.JTextField txtDurationValue;
-    private javax.swing.JTextField txtExamCode;
-    private javax.swing.JTextField txtMarks;
-    private javax.swing.JTextField txtModuleId;
-    private javax.swing.JTextField txtQuestionNo;
+    private javax.swing.JTextField txtAllocatedMarks;
+    private javax.swing.JTextArea txtAreaQuestion;
+    private javax.swing.JTextField txtExamDate;
+    private javax.swing.JTextField txtExamDuration;
+    private javax.swing.JTextField txtExamType;
+    private javax.swing.JTextField txtOption1;
+    private javax.swing.JTextField txtOption2;
+    private javax.swing.JTextField txtOption3;
+    private javax.swing.JTextField txtOption4;
+    private javax.swing.JTextField txtOption5;
+    private javax.swing.JTextField txtQuestionId;
+    private javax.swing.JTextField txtTotalQuestions;
     // End of variables declaration//GEN-END:variables
 }
