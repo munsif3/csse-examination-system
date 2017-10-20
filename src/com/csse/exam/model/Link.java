@@ -46,33 +46,7 @@ public class Link
     }
 
     
-    /**
-     * 
-     * @param comboBox
-     * @param table
-     * @param column  
-     */
-    public void addValueToComboBox(JComboBox comboBox, String table, String column) {
-        
-        String value = null;
-        try {
-            PreparedStatement statement = con.prepareStatement("SELECT DISTINCT " + column + " FROM " + table);
-            ResultSet result = statement.executeQuery();
-
-            while(result.next())
-            {
-               value =  result.getString(column); 
-               if(value ==null)
-               {
-                   value = "-";
-               }
-               comboBox.addItem(value);                
-            }
-
-        } catch (SQLException e) {
-            System.out.println(e);
-        }
-    }
+    
     
     /**
      * Once an examId is selected the exam status of that exam id will be changed in the exam status combo box
@@ -139,7 +113,7 @@ public class Link
     public void fillExamLinkTable(JTable table)
     {
        
-        DefaultTableModel aModel = (DefaultTableModel) table.getModel();       
+        DefaultTableModel tableModel = (DefaultTableModel) table.getModel();       
         try
         {
             PreparedStatement statement = con.prepareStatement("SELECT examId, moduleId, examDate, examState FROM exam");
@@ -149,16 +123,18 @@ public class Link
             int columnCount=resultMetaData.getColumnCount();
             System.out.println(columnCount);
             
-            while(result.next()){         
+            while(result.next())
+            {         
                 Object[] objects = new Object[columnCount];
  
                 for(int i=0;i<columnCount;i++)
                 {
                     objects[i]=result.getObject(i+1);
                 }
-                aModel.addRow(objects);
-                }
-                    table.setModel(aModel);
+                tableModel.addRow(objects);
+            }
+                    
+            table.setModel(tableModel);
         }
         catch(SQLException e)
         {

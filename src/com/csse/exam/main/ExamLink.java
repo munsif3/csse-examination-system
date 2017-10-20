@@ -6,12 +6,10 @@
 package com.csse.exam.main;
 
 import com.csse.exam.common.ClearComponents;
+import com.csse.exam.common.CommonComponents;
 import com.csse.exam.model.Link;
 import java.awt.Color;
-import java.awt.Dimension;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
@@ -29,11 +27,12 @@ public class ExamLink extends javax.swing.JFrame {
     
     Link link = new Link();
     ClearComponents clear = new ClearComponents();
-      
+    CommonComponents commonComponents = new CommonComponents();
+    DefaultTableModel tableModel;  
     public ExamLink() {
         initComponents();
-        link.addValueToComboBox(cmbExaminationCode, "exam", "examId");
-        link.addValueToComboBox(cmbExaminationCodeSearch, "exam", "examId");
+        commonComponents.addValueToComboBox(cmbExaminationCode, "exam", "examId");
+        commonComponents.addValueToComboBox(cmbExaminationCodeSearch, "exam", "examId");
         //link.addValueToComboBox(cmbExamLink, "exam", "examState");
         link.fillExamLinkTable(tblExamLink);
     }
@@ -513,9 +512,9 @@ public class ExamLink extends javax.swing.JFrame {
         clear.resetComboBox(pnlExamLink);
         clear.resetComboBox(pnlExamLinkTable);
         
-        DefaultTableModel tableModel = (DefaultTableModel) tblExamLink.getModel();  
-        tableModel.setRowCount(0);
-        link.fillExamLinkTable(tblExamLink); 
+        //tableModel = (DefaultTableModel) tblExamLink.getModel();  
+        //tableModel.setRowCount(0);
+        //link.fillExamLinkTable(tblExamLink); 
         
         
         
@@ -526,17 +525,17 @@ public class ExamLink extends javax.swing.JFrame {
         // TODO add your handling code here:
         String examId = cmbExaminationCode.getSelectedItem().toString();
         String examState = "Enabled";
-        DefaultTableModel tableModel = (DefaultTableModel) tblExamLink.getModel();       
+        tableModel = (DefaultTableModel) tblExamLink.getModel();       
         boolean value = link.updateExamLinkStatus(examId,examState);
         
-        if(value)
+        if(cmbExaminationCode.getSelectedIndex()!=0 && value)
         {
-            JOptionPane.showMessageDialog(this, "Done", "Success", 1);
+            JOptionPane.showMessageDialog(this, "Exam Link status was successfully updated", "Success Message", 1);  
             tableModel.setRowCount(0);
-            link.fillExamLinkTable(tblExamLink); 
+            link.fillExamLinkTable(tblExamLink);
         }
         else
-            JOptionPane.showMessageDialog(this, "Fail", "fail", 1);
+            JOptionPane.showMessageDialog(this, "Sorry, Exam link status couldn't be updated", "Failure Message", 1);
              
         //cmbExamLink.setSelectedItem(link.getExamLinkStatus(examId));
         txtExamState.setText(link.getExamLinkStatus(examId));
@@ -549,40 +548,33 @@ public class ExamLink extends javax.swing.JFrame {
         // TODO add your handling code here:
         String examId = cmbExaminationCode.getSelectedItem().toString();
         String examState = "Blocked";
-        DefaultTableModel tableModel = (DefaultTableModel) tblExamLink.getModel();        
+        tableModel = (DefaultTableModel) tblExamLink.getModel();        
         boolean value = link.updateExamLinkStatus(examId,examState);
         
-        if(value)
+        if(cmbExaminationCode.getSelectedIndex()!=0 && value)
         {
-            JOptionPane.showMessageDialog(this, "Done", "Success", 1);  
+            JOptionPane.showMessageDialog(this, "Exam Link status was successfully updated", "Success Message", 1);  
             tableModel.setRowCount(0);
             link.fillExamLinkTable(tblExamLink);
         }
         else
-            JOptionPane.showMessageDialog(this, "Fail", "fail", 1);
+            JOptionPane.showMessageDialog(this, "Sorry, Exam link status couldn't be updated", "Failure Message", 1);
         
-        //cmbExamLink.setSelectedItem(link.getExamLinkStatus(examId));
         txtExamState.setText((link.getExamLinkStatus(examId)));
-        /*pnlExamLink.setVisible(false);
-        pnlExamLinkTable.setVisible(false);
-        JPanel jp = new Exam();
-        jp.setPreferredSize(new Dimension(130, 100));
-        JFrame fr  =new ExamLink();
-        fr.add(jp);
-        jp.setVisible(true);*/
+
     }//GEN-LAST:event_btnBlockLinkMouseClicked
 
     private void cmbExaminationCodeSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbExaminationCodeSearchActionPerformed
         // TODO add your handling code here:
-        DefaultTableModel tableModel = (DefaultTableModel) tblExamLink.getModel();   
+        tableModel = (DefaultTableModel) tblExamLink.getModel();   
         
         //if(cmbExaminationCodeSearch.getSelectedItem().toString().equals("SELECT EXAMINATION CODE"))
         if(cmbExaminationCodeSearch.getSelectedIndex() == 0)
-        {   
-              
+        {                 
             tableModel.setRowCount(0);
             System.out.println("skfhsjfdsjfsjffffffffffffffffffffff");
             link.fillExamLinkTable(tblExamLink);
+            System.out.println("yessss");
         }
         else
         { 
