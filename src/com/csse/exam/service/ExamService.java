@@ -48,11 +48,11 @@ public final class ExamService
                 exam = new Exam();         
                 
                 exam.setExamId(resultSet.getString("examId"));                
-                exam.setDuration(resultSet.getInt("examDuration"));
+                exam.setExamDuration(resultSet.getInt("examDuration"));
                 exam.setModuleId(resultSet.getString("moduleId"));
                 exam.setExamDate(resultSet.getDate("examDate"));
-                exam.setNoOfQuestions(resultSet.getInt("noOfQuestion"));
-                exam.setAllocatedMarks(resultSet.getInt("totalMarks"));
+                exam.setNumberOfQuestions(resultSet.getInt("noOfQuestion"));
+                exam.setTotalMarks(resultSet.getInt("totalMarks"));
                 exam.setExamState(resultSet.getString("examState"));
 
                 examList.add(exam);
