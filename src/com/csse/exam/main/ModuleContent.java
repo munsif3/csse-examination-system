@@ -8,7 +8,7 @@ package com.csse.exam.main;
 import com.csse.exam.model.User;
 import com.csse.exam.service.ModuleService;
 import java.awt.Color;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import javax.swing.DefaultListModel;
@@ -25,6 +25,7 @@ public class ModuleContent extends javax.swing.JFrame {
      */
     private ModuleService moduleService = new ModuleService();
     private DefaultListModel defaultListModel = new DefaultListModel();
+    private final List<String> lstModulesValues = new ArrayList<String>();
 
     public ModuleContent() {
         initComponents();
@@ -36,10 +37,23 @@ public class ModuleContent extends javax.swing.JFrame {
         for (Map.Entry<String, String> modules : moduleService.getModulesByStudentId(User.getUserId()).entrySet()) {
             defaultListModel = (DefaultListModel) lstModules.getModel();
             defaultListModel.addElement(modules.getKey() + "-" + modules.getValue());
+            lstModulesValues.add(modules.getKey() + "-" + modules.getValue());
         }
     }
 
-    
+    public void filterModel(DefaultListModel<String> model, String filter) {
+        for (String s : lstModulesValues) {
+            if (!s.split("-")[1].startsWith(filter)) {
+                if (model.contains(s)) {
+                    model.removeElement(s);
+                }
+            } else {
+                if (!model.contains(s)) {
+                    model.addElement(s);
+                }
+            }
+        }
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -69,6 +83,8 @@ public class ModuleContent extends javax.swing.JFrame {
         lblViewHeading = new javax.swing.JLabel();
         jScrollPane4 = new javax.swing.JScrollPane();
         lstModules = new javax.swing.JList<>();
+        txtSrchModule = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("LECTURER DASHBOARD");
@@ -284,7 +300,7 @@ public class ModuleContent extends javax.swing.JFrame {
         lblViewHeading.setFont(new java.awt.Font("Segoe UI Light", 0, 24)); // NOI18N
         lblViewHeading.setForeground(new java.awt.Color(70, 102, 144));
         lblViewHeading.setText("Modules");
-        pnlModuleContent.add(lblViewHeading, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 50, 100, 30));
+        pnlModuleContent.add(lblViewHeading, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 130, 100, 30));
 
         lstModules.setBackground(new java.awt.Color(204, 217, 233));
         lstModules.setFont(new java.awt.Font("Segoe UI Light", 0, 16)); // NOI18N
@@ -305,7 +321,29 @@ public class ModuleContent extends javax.swing.JFrame {
         });
         jScrollPane4.setViewportView(lstModules);
 
-        pnlModuleContent.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 90, 310, 130));
+        pnlModuleContent.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 170, 310, 130));
+
+        txtSrchModule.setBackground(new java.awt.Color(255, 255, 255));
+        txtSrchModule.setFont(new java.awt.Font("Segoe UI Light", 0, 14)); // NOI18N
+        txtSrchModule.setForeground(new java.awt.Color(0, 0, 0));
+        txtSrchModule.setBorder(null);
+        txtSrchModule.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtSrchModuleActionPerformed(evt);
+            }
+        });
+        txtSrchModule.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtSrchModuleKeyReleased(evt);
+            }
+        });
+        pnlModuleContent.add(txtSrchModule, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 40, 110, 30));
+
+        jLabel2.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel2.setFont(new java.awt.Font("Segoe UI Light", 0, 18)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel2.setText("Module Name");
+        pnlModuleContent.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 40, 120, 20));
 
         getContentPane().add(pnlModuleContent, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 100, 830, 520));
 
@@ -399,6 +437,14 @@ public class ModuleContent extends javax.swing.JFrame {
 
     }//GEN-LAST:event_lstModulesMouseClicked
 
+    private void txtSrchModuleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSrchModuleActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtSrchModuleActionPerformed
+
+    private void txtSrchModuleKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSrchModuleKeyReleased
+        filterModel((DefaultListModel<String>) lstModules.getModel(), txtSrchModule.getText());
+    }//GEN-LAST:event_txtSrchModuleKeyReleased
+
     /**
      * @param args the command line arguments
      */
@@ -451,6 +497,7 @@ public class ModuleContent extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
@@ -469,5 +516,6 @@ public class ModuleContent extends javax.swing.JFrame {
     private javax.swing.JPanel pnlHeader;
     private javax.swing.JPanel pnlModuleContent;
     private javax.swing.JPanel pnlNavigation;
+    private javax.swing.JTextField txtSrchModule;
     // End of variables declaration//GEN-END:variables
 }

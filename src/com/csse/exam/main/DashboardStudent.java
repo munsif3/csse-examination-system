@@ -5,8 +5,13 @@
  */
 package com.csse.exam.main;
 
+import com.csse.exam.model.Exam;
 import com.csse.exam.model.User;
+import com.csse.exam.service.ModuleService;
 import java.awt.Color;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import javax.swing.DefaultListModel;
 
 /**
  *
@@ -18,11 +23,22 @@ public class DashboardStudent extends javax.swing.JFrame {
      * Creates new form Dashboard
      */
     ModuleContent moduleContent = new ModuleContent();
-
+    private ModuleService moduleService = new ModuleService();
+    private DefaultListModel lstUpComingEventsListModel = new  DefaultListModel();
+    private DateFormat oDateFormat = new SimpleDateFormat("yyyy-MM-dd");
     public DashboardStudent() {
         initComponents();
         lblUser.setText(User.getName());
-
+        loadUpComingExams();
+    }
+    
+    private void loadUpComingExams(){
+        if (moduleService.getExamsByStudentId() != null) {
+            for (Exam exam : moduleService.getExamsByStudentId()) {
+                lstUpComingEventsListModel = (DefaultListModel) lstUpcomingEvents.getModel();
+                lstUpComingEventsListModel.addElement(exam.getExamId()+" - "+oDateFormat.format(exam.getExamDate()));
+            }
+        }
     }
 
     /**
@@ -38,9 +54,6 @@ public class DashboardStudent extends javax.swing.JFrame {
         lblUpcomingEvents = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         lstUpcomingEvents = new javax.swing.JList<>();
-        lblRecentActivity = new javax.swing.JLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
         pnlNavigation = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         lblHomeSD = new javax.swing.JLabel();
@@ -75,8 +88,6 @@ public class DashboardStudent extends javax.swing.JFrame {
         lblSelectedQuiz = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jLabel14 = new javax.swing.JLabel();
-        jPanel9 = new javax.swing.JPanel();
-        jTextField2 = new javax.swing.JTextField();
         jLabel13 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -90,29 +101,12 @@ public class DashboardStudent extends javax.swing.JFrame {
 
         lblUpcomingEvents.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblUpcomingEvents.setText("Upcoming Events");
-        pnlContent.add(lblUpcomingEvents, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 30, -1, -1));
+        pnlContent.add(lblUpcomingEvents, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 30, -1, -1));
 
-        lstUpcomingEvents.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
+        lstUpcomingEvents.setModel(new DefaultListModel<String>());
         jScrollPane1.setViewportView(lstUpcomingEvents);
 
-        pnlContent.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 60, 240, 280));
-
-        lblRecentActivity.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        lblRecentActivity.setText("Recent Activity");
-        pnlContent.add(lblRecentActivity, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 30, -1, -1));
-
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane2.setViewportView(jList1);
-
-        pnlContent.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 60, 210, 280));
+        pnlContent.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 70, 520, 280));
 
         getContentPane().add(pnlContent, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 100, 820, 520));
 
@@ -534,19 +528,6 @@ public class DashboardStudent extends javax.swing.JFrame {
 
         pnlAttemptQuizContent.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 240, 250, 70));
 
-        jPanel9.setBackground(new java.awt.Color(204, 217, 233));
-        jPanel9.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jTextField2.setText("jTextField2");
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
-            }
-        });
-        jPanel9.add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 120, 30));
-
-        pnlAttemptQuizContent.add(jPanel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 140, 150, 50));
-
         jLabel13.setBackground(new java.awt.Color(70, 102, 144));
         jLabel13.setFont(new java.awt.Font("Segoe UI Light", 0, 24)); // NOI18N
         jLabel13.setForeground(new java.awt.Color(51, 51, 51));
@@ -635,10 +616,6 @@ public class DashboardStudent extends javax.swing.JFrame {
         this.setVisible(false);
         contact.setVisible(true);
     }//GEN-LAST:event_lblContactUsMouseClicked
-
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2ActionPerformed
 
     private void lstQuizValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lstQuizValueChanged
 
@@ -739,7 +716,6 @@ public class DashboardStudent extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JList<String> jList1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
@@ -750,19 +726,15 @@ public class DashboardStudent extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
-    private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JTextField jTextField2;
     private javax.swing.JLabel lblContactUs;
     private javax.swing.JLabel lblExamTimeTable;
     private javax.swing.JLabel lblHeader;
     private javax.swing.JLabel lblHomeSD;
     private javax.swing.JLabel lblLogout;
     private javax.swing.JLabel lblModulesSD;
-    private javax.swing.JLabel lblRecentActivity;
     private javax.swing.JLabel lblSelectedQuiz;
     private javax.swing.JLabel lblUpcomingEvents;
     private javax.swing.JLabel lblUser;
