@@ -80,9 +80,9 @@ public class ModuleService {
 
         ArrayList<Exam> exams = new ArrayList<Exam>();
         try (Connection dbConnection = DBConnection.getConnection()) {
-            resultSet = dbConnection.createStatement().executeQuery("select * from exam where moduleId = '" + moduleId + "' and examState = 'Enabled'");
+            resultSet = dbConnection.createStatement().executeQuery("select * from exam where examDate > CURDATE() and moduleId = '" + moduleId + "' and examState = 'Added'");
             while (resultSet.next()) {
-                exams.add(new Exam(resultSet.getString("examId"), Integer.parseInt(resultSet.getString("examDuration")), resultSet.getString("moduleId"), oDateFormat.parse(resultSet.getString("examDate")), Integer.parseInt(resultSet.getString("noOfQuestion")), Integer.parseInt(resultSet.getString("totalMarks")), resultSet.getString("examState"), resultSet.getString("examPassword")));
+                exams.add(new Exam(resultSet.getString("examId"), resultSet.getString("examDuration"), resultSet.getString("moduleId"), oDateFormat.parse(resultSet.getString("examDate")), Integer.parseInt(resultSet.getString("noOfQuestion")), Integer.parseInt(resultSet.getString("totalMarks")), resultSet.getString("examState"), resultSet.getString("examPassword")));
             }
 
         } catch (ParseException | SQLException e) {
@@ -94,10 +94,9 @@ public class ModuleService {
     public ArrayList<Exam> getExamsByStudentId() {
         ArrayList<Exam> exams = new ArrayList<Exam>();
         try (Connection dbConnection = DBConnection.getConnection()) {
-            resultSet = dbConnection.createStatement().executeQuery("select * from exam e where e.examDate > CURDATE() and e.examState='Enabled' and e.moduleId in (select m.moduleId from module m , student s where m.allocatedTo=s.currentYear and s.userId='" + User.getUserId() + "')");
+            resultSet = dbConnection.createStatement().executeQuery("select * from exam e where e.examDate > CURDATE() and e.examState='Added' and e.moduleId in (select m.moduleId from module m , student s where m.allocatedTo=s.currentYear and s.userId='" + User.getUserId() + "')");
             while (resultSet.next()) {
-                exams.add(new Exam(resultSet.getString("examId"), Integer.parseInt(resultSet.getString("examDuration")), resultSet.getString("moduleId"), oDateFormat.parse(resultSet.getString("examDate")), Integer.parseInt(resultSet.getString("noOfQuestion")), Integer.parseInt(resultSet.getString("totalMarks")), resultSet.getString("examState"), resultSet.getString("examPassword")));
-                //System.out.println("Duration - "+Integer.parseInt(resultSet.getString("examDuration")));
+                exams.add(new Exam(resultSet.getString("examId"), resultSet.getString("examDuration"), resultSet.getString("moduleId"), oDateFormat.parse(resultSet.getString("examDate")), Integer.parseInt(resultSet.getString("noOfQuestion")), Integer.parseInt(resultSet.getString("totalMarks")), resultSet.getString("examState"), resultSet.getString("examPassword")));
             }
 
         } catch (ParseException | SQLException e) {

@@ -13,20 +13,20 @@ import java.util.Date;
  */
 public class Exam {
 
-    private static String examId;
-    private static int examDuration;
-    private static String moduleId;
-    private static Date examDate;
-    private static int numberOfQuestions;
-    private static int totalMarks;
-    private static String examState;
-    private static String examPassword;
+    private  String examId;
+    private  String examDuration;
+    private  String moduleId;
+    private  Date examDate;
+    private  int numberOfQuestions;
+    private  int totalMarks;
+    private  String examState;
+    private  String examPassword;
 
     public Exam() {
 
     }
 
-    public Exam(String examId, int examDuration, String moduleId, Date examDate, int numberOfQuestions, int totalMarks, String examState, String examPassword) {
+    public Exam(String examId, String examDuration, String moduleId, Date examDate, int numberOfQuestions, int totalMarks, String examState, String examPassword) {
         this.examId = examId;
         this.examDuration = examDuration;
         this.moduleId = moduleId;
@@ -38,68 +38,70 @@ public class Exam {
 
     }
 
-    public static String getExamId() {
+    public String getExamId() {
         return examId;
     }
 
-    public static void setExamId(String examId) {
-        Exam.examId = examId;
+    public void setExamId(String examId) {
+        this.examId = examId;
     }
 
-    public static int getExamDuration() {
+    public String getExamDuration() {
         return examDuration;
     }
 
-    public static void setExamDuration(int examDuration) {
-        Exam.examDuration = examDuration;
+    public void setExamDuration(String examDuration) {
+        this.examDuration = examDuration;
     }
 
-    public static String getModuleId() {
+    public String getModuleId() {
         return moduleId;
     }
 
-    public static void setModuleId(String moduleId) {
-        Exam.moduleId = moduleId;
+    public void setModuleId(String moduleId) {
+        this.moduleId = moduleId;
     }
 
-    public static Date getExamDate() {
+    public Date getExamDate() {
         return examDate;
     }
 
-    public static void setExamDate(Date examDate) {
-        Exam.examDate = examDate;
+    public void setExamDate(Date examDate) {
+        this.examDate = examDate;
     }
 
-    public static int getNumberOfQuestions() {
+    public int getNumberOfQuestions() {
         return numberOfQuestions;
     }
 
-    public static void setNumberOfQuestions(int numberOfQuestions) {
-        Exam.numberOfQuestions = numberOfQuestions;
+    public void setNumberOfQuestions(int numberOfQuestions) {
+        this.numberOfQuestions = numberOfQuestions;
     }
 
-    public static int getTotalMarks() {
+    public int getTotalMarks() {
         return totalMarks;
     }
 
-    public static void setTotalMarks(int totalMarks) {
-        Exam.totalMarks = totalMarks;
+    public void setTotalMarks(int totalMarks) {
+        this.totalMarks = totalMarks;
     }
 
-    public static String getExamState() {
+    public String getExamState() {
         return examState;
     }
 
-    public static void setExamState(String examState) {
-        Exam.examState = examState;
+    public void setExamState(String examState) {
+        this.examState = examState;
     }
 
-    public static String getExamPassword() {
+    public String getExamPassword() {
         return examPassword;
     }
 
-    public static void setExamPassword(String examPassword) {
-        Exam.examPassword = examPassword;
+    public void setExamPassword(String examPassword) {
+        this.examPassword = examPassword;
     }
+
+    
 
 }
