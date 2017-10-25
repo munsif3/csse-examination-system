@@ -393,9 +393,13 @@ public class ExamModuleContent extends javax.swing.JFrame {
             System.out.println(lstModulesEM.getSelectedValue());
             defaultListModelLstExams = (DefaultListModel) quizContent.lstQuiz.getModel();
             for (Exam exam : moduleService.getExamsByModuleId(lstModulesEM.getSelectedValue().split("-")[0])) {
-                System.out.println(lstModulesEM.getSelectedValue());
-                System.out.println(exam.getExamId());
-                defaultListModelLstExams.addElement(exam.getExamId());
+                
+                if (exam != null) {
+                    System.out.println(lstModulesEM.getSelectedValue());
+                    System.out.println(exam.getExamId());
+                    defaultListModelLstExams.addElement(exam.getExamId());
+                }
+
             }
         } else {
             ModuleEnrollment moduleEnrollment = new ModuleEnrollment();
