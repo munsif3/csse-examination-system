@@ -6,7 +6,9 @@
 package com.csse.exam.main;
 
 import com.csse.exam.model.User;
+import com.csse.exam.service.ExamService;
 import java.awt.Color;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -17,11 +19,11 @@ public class AttemptExam extends javax.swing.JFrame {
     /**
      * Creates new form Dashboard
      */
-   
+    private static ExamService examService = new ExamService();
+
     public AttemptExam() {
         initComponents();
         lblUser.setText(User.getName());
-        
 
     }
 
@@ -55,7 +57,7 @@ public class AttemptExam extends javax.swing.JFrame {
         jPanel4 = new javax.swing.JPanel();
         jLabel14 = new javax.swing.JLabel();
         jPanel9 = new javax.swing.JPanel();
-        jTextField2 = new javax.swing.JTextField();
+        txtExamPwd = new javax.swing.JTextField();
         jLabel13 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -279,9 +281,9 @@ public class AttemptExam extends javax.swing.JFrame {
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(31, Short.MAX_VALUE)
-                .addComponent(lblSelectedQuiz, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblSelectedQuiz, javax.swing.GroupLayout.DEFAULT_SIZE, 409, Short.MAX_VALUE)
                 .addGap(19, 19, 19))
         );
         jPanel3Layout.setVerticalGroup(
@@ -292,12 +294,17 @@ public class AttemptExam extends javax.swing.JFrame {
                 .addContainerGap(19, Short.MAX_VALUE))
         );
 
-        pnlAttemptQuizContent.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 30, 280, 60));
+        pnlAttemptQuizContent.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 30, 440, 60));
 
         jLabel14.setBackground(new java.awt.Color(70, 102, 144));
         jLabel14.setFont(new java.awt.Font("Segoe UI Light", 0, 36)); // NOI18N
         jLabel14.setForeground(new java.awt.Color(51, 51, 51));
         jLabel14.setText("Attemp Quiz");
+        jLabel14.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel14MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -321,12 +328,12 @@ public class AttemptExam extends javax.swing.JFrame {
         jPanel9.setBackground(new java.awt.Color(204, 217, 233));
         jPanel9.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
+        txtExamPwd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
+                txtExamPwdActionPerformed(evt);
             }
         });
-        jPanel9.add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 120, 30));
+        jPanel9.add(txtExamPwd, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 120, 30));
 
         pnlAttemptQuizContent.add(jPanel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 140, 150, 50));
 
@@ -385,9 +392,9 @@ public class AttemptExam extends javax.swing.JFrame {
         login.setVisible(true);
     }//GEN-LAST:event_lblLogoutMouseClicked
 
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+    private void txtExamPwdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtExamPwdActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2ActionPerformed
+    }//GEN-LAST:event_txtExamPwdActionPerformed
 
     private void jLabel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MouseClicked
         // TODO add your handling code here:
@@ -402,10 +409,10 @@ public class AttemptExam extends javax.swing.JFrame {
     }//GEN-LAST:event_jPanel10MouseReleased
 
     private void lblModulesAEMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblModulesAEMouseClicked
-         ModuleContent moduleContent = new ModuleContent();
+        ModuleContent moduleContent = new ModuleContent();
         this.setVisible(false);
         moduleContent.setVisible(true);
-        
+
     }//GEN-LAST:event_lblModulesAEMouseClicked
 
     private void lblHomeAEMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblHomeAEMouseClicked
@@ -413,6 +420,22 @@ public class AttemptExam extends javax.swing.JFrame {
         this.setVisible(false);
         dashboardStudent.setVisible(true);
     }//GEN-LAST:event_lblHomeAEMouseClicked
+
+    private void jLabel14MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel14MouseClicked
+        if (txtExamPwd.getText().equals("") || txtExamPwd.getText() == null) {
+            JOptionPane.showMessageDialog(null, "Please provide a exam password", "OK",
+                    JOptionPane.INFORMATION_MESSAGE);
+        }
+        else{
+            if(examService.validateExamPassword(lblSelectedQuiz.getText(), txtExamPwd.getText())){
+                System.out.println("Correct password");
+            }
+            else{
+                JOptionPane.showMessageDialog(null, "Incorrect Password", "OK",
+                    JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_jLabel14MouseClicked
 
     /**
      * @param args the command line arguments
@@ -478,7 +501,6 @@ public class AttemptExam extends javax.swing.JFrame {
     public javax.swing.JPanel jPanel5;
     public javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel9;
-    private javax.swing.JTextField jTextField2;
     public javax.swing.JLabel lblHeaderAE;
     public javax.swing.JLabel lblHomeAE;
     private javax.swing.JLabel lblLogout;
@@ -488,5 +510,6 @@ public class AttemptExam extends javax.swing.JFrame {
     private javax.swing.JPanel pnlAttemptQuizContent;
     private javax.swing.JPanel pnlHeader;
     private javax.swing.JPanel pnlNavigation;
+    private javax.swing.JTextField txtExamPwd;
     // End of variables declaration//GEN-END:variables
 }

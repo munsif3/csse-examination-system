@@ -13,6 +13,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -27,7 +30,8 @@ import javax.swing.table.DefaultTableModel;
 public final class ExamService 
 {
     private static final Connection connection = DBConnection.getConnection();
-    
+    DateFormat oDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
     private Exam exam;
     private final ArrayList<Exam> examList = new ArrayList<>(); 
     private static PreparedStatement preparedStatement;
@@ -249,6 +253,32 @@ public final class ExamService
 
         
         return false;
+    }
+  
+    public Exam getExam(String examID){
+        Exam exam = new Exam();
+        try (Connection dbConnection = DBConnection.getConnection()) {
+            resultSet = dbConnection.createStatement().executeQuery("select * from exam where examId='"+examID+"'");
+            while (resultSet.next()) {
+                exam.setExamId(resultSet.getString("examId"));
+                exam.setExamDuration(resultSet.getString("examDuration"));
+                exam.setModuleId(resultSet.getString("moduleId"));
+                exam.setExamDate(oDateFormat.parse(resultSet.getString("examDate")));
+                exam.setNumberOfQuestions(Integer.parseInt(resultSet.getString("noOfQuestion")));
+                exam.setExamState(resultSet.getString("examState"));
+                exam.setTotalMarks(Integer.parseInt(resultSet.getString("totalMarks")));
+                exam.setExamPassword(resultSet.getString("examPassword"));
+                
+            }
+
+        } catch (ParseException | SQLException e) {
+            e.printStackTrace();
+        }
+        return exam;
+    }
+    
+    public boolean validateExamPassword(String examId , String password){
+        return password.equals(getExam(examId).getExamPassword());
     }
     
 }
