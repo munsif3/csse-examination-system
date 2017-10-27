@@ -14,8 +14,11 @@ import com.csse.exam.common.CommonComponents;
 import com.csse.exam.common.Validation;
 import com.csse.exam.service.QuestionService;
 import java.awt.Color;
+import static java.lang.Integer.parseInt;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Objects;
+import javax.swing.JButton;
 import javax.swing.JOptionPane;
 public class ExamQuestion extends javax.swing.JFrame {
 
@@ -403,7 +406,18 @@ public class ExamQuestion extends javax.swing.JFrame {
 
         pnlQuestionBank.setBackground(javax.swing.UIManager.getDefaults().getColor("InternalFrame.activeTitleGradient"));
         pnlQuestionBank.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        pnlQuestionBank.setLayout(new java.awt.GridLayout(1, 0));
+
+        javax.swing.GroupLayout pnlQuestionBankLayout = new javax.swing.GroupLayout(pnlQuestionBank);
+        pnlQuestionBank.setLayout(pnlQuestionBankLayout);
+        pnlQuestionBankLayout.setHorizontalGroup(
+            pnlQuestionBankLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 226, Short.MAX_VALUE)
+        );
+        pnlQuestionBankLayout.setVerticalGroup(
+            pnlQuestionBankLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 326, Short.MAX_VALUE)
+        );
+
         pnlContent.add(pnlQuestionBank, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 230, 330));
 
         pnlQuestions.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -569,6 +583,44 @@ public class ExamQuestion extends javax.swing.JFrame {
         
         questionId =  questionService.getQuestionId(examId);
         txtQuestionId.setText(questionId);
+        
+        String totalNoQues = questionService.getLatestQuestionId(examId);
+        int id = parseInt(totalNoQues.split("Q")[1]);
+        System.out.println(totalNoQues.split("Q")[1]);
+        System.out.println(totalNoQues);
+        int row = id/5;
+        int remain = id%5;
+        System.out.println(row);
+        System.out.println(remain);
+        int x = 5;
+        int y = 5;
+        
+     System.out.println("start");
+     for(int i=0; i<row; i++)
+     {                               
+        for(int j=0; j<=4; j++)
+        {   
+            JButton button = new JButton();
+            button.setSize(35, 35);
+            button.setLocation(x,y);
+            button.setText(questionId);  
+            
+            pnlQuestionBank.add(button);
+            button.setVisible(true);
+            System.out.println(button.getLocation());
+            x=x+40;           
+        }
+        x = 5;
+        y = y+40;
+                  
+        System.out.println("");       
+     }
+     
+     if(remain!=0)
+     {
+         System.out.println(Arrays.toString(pnlQuestionBank.getComponents()));
+     }
+        
     }//GEN-LAST:event_cmbExamIdActionPerformed
 
     private void btnAddMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddMouseClicked
@@ -600,6 +652,23 @@ public class ExamQuestion extends javax.swing.JFrame {
             if(value)
             {
                 JOptionPane.showMessageDialog(this, "Exam question was successfully added", "Success Message", 1);
+                
+                int x = 15;
+                int y = 15;
+                System.out.println("start");
+                while(true)
+                {
+                        JButton button = new JButton();
+                        button.setSize(35, 35);
+                        button.setLocation(x,y);
+                        button.setText(questionId);  
+            
+                            pnlQuestionBank.add(button);
+                            //button.setVisible(true);
+                            System.out.println(button.getLocation());
+                        
+                }
+     
             }
         }
     }//GEN-LAST:event_btnAddMouseClicked

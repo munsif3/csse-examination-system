@@ -50,7 +50,7 @@ public class QuestionService
                     {
                         objects[i] = "-";
                     }
-                    System.out.println(objects[i]);
+                    //System.out.println(objects[i]);
                 }
                
             }

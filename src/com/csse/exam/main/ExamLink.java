@@ -7,7 +7,7 @@ package com.csse.exam.main;
 
 import com.csse.exam.common.ClearComponents;
 import com.csse.exam.common.CommonComponents;
-import com.csse.exam.model.Link;
+import com.csse.exam.service.LinkService;
 import java.awt.Color;
 import javax.swing.JOptionPane;
 import javax.swing.RowFilter;
@@ -25,7 +25,7 @@ public class ExamLink extends javax.swing.JFrame {
      * Creates new form ExamLink
      */
     
-    Link link = new Link();
+    LinkService linkService = new LinkService();
     ClearComponents clear = new ClearComponents();
     CommonComponents commonComponents = new CommonComponents();
     DefaultTableModel tableModel;  
@@ -34,7 +34,7 @@ public class ExamLink extends javax.swing.JFrame {
         commonComponents.addValueToComboBox(cmbExaminationCode, "exam", "examId");
         commonComponents.addValueToComboBox(cmbExaminationCodeSearch, "exam", "examId");
         //link.addValueToComboBox(cmbExamLink, "exam", "examState");
-        link.fillExamLinkTable(tblExamLink);
+        linkService.fillExamLinkTable(tblExamLink);
     }
 
     /**
@@ -492,9 +492,9 @@ public class ExamLink extends javax.swing.JFrame {
     private void cmbExaminationCodeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbExaminationCodeActionPerformed
         // TODO add your handling code here:
         String examId = cmbExaminationCode.getSelectedItem().toString();
-        String examinationStatus = link.getExamLinkStatus(examId);
+        String examinationStatus = linkService.getExamLinkStatus(examId);
         
-        txtExamLinkAvailable.setText(link.showExamLink(examId));
+        txtExamLinkAvailable.setText(linkService.showExamLink(examId));
         
         if(examinationStatus == null)
         {
@@ -526,19 +526,18 @@ public class ExamLink extends javax.swing.JFrame {
         String examId = cmbExaminationCode.getSelectedItem().toString();
         String examState = "Enabled";
         tableModel = (DefaultTableModel) tblExamLink.getModel();       
-        boolean value = link.updateExamLinkStatus(examId,examState);
+        boolean value = linkService.updateExamLinkStatus(examId,examState);
         
         if(cmbExaminationCode.getSelectedIndex()!=0 && value)
         {
             JOptionPane.showMessageDialog(this, "Exam Link status was successfully updated", "Success Message", 1);  
             tableModel.setRowCount(0);
-            link.fillExamLinkTable(tblExamLink);
+            linkService.fillExamLinkTable(tblExamLink);
         }
         else
             JOptionPane.showMessageDialog(this, "Sorry, Exam link status couldn't be updated", "Failure Message", 1);
              
-        //cmbExamLink.setSelectedItem(link.getExamLinkStatus(examId));
-        txtExamState.setText(link.getExamLinkStatus(examId));
+        txtExamState.setText(linkService.getExamLinkStatus(examId));
        
         
        
@@ -549,32 +548,34 @@ public class ExamLink extends javax.swing.JFrame {
         String examId = cmbExaminationCode.getSelectedItem().toString();
         String examState = "Blocked";
         tableModel = (DefaultTableModel) tblExamLink.getModel();        
-        boolean value = link.updateExamLinkStatus(examId,examState);
+        boolean value = linkService.updateExamLinkStatus(examId,examState);
         
         if(cmbExaminationCode.getSelectedIndex()!=0 && value)
         {
             JOptionPane.showMessageDialog(this, "Exam Link status was successfully updated", "Success Message", 1);  
             tableModel.setRowCount(0);
-            link.fillExamLinkTable(tblExamLink);
+            linkService.fillExamLinkTable(tblExamLink);
         }
         else
             JOptionPane.showMessageDialog(this, "Sorry, Exam link status couldn't be updated", "Failure Message", 1);
         
-        txtExamState.setText((link.getExamLinkStatus(examId)));
+        txtExamState.setText((linkService.getExamLinkStatus(examId)));
 
     }//GEN-LAST:event_btnBlockLinkMouseClicked
 
+    /**
+     * 
+     * @param evt 
+     */
+    
     private void cmbExaminationCodeSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbExaminationCodeSearchActionPerformed
         // TODO add your handling code here:
         tableModel = (DefaultTableModel) tblExamLink.getModel();   
         
-        //if(cmbExaminationCodeSearch.getSelectedItem().toString().equals("SELECT EXAMINATION CODE"))
         if(cmbExaminationCodeSearch.getSelectedIndex() == 0)
         {                 
             tableModel.setRowCount(0);
-            System.out.println("skfhsjfdsjfsjffffffffffffffffffffff");
-            link.fillExamLinkTable(tblExamLink);
-            System.out.println("yessss");
+            linkService.fillExamLinkTable(tblExamLink);
         }
         else
         { 
