@@ -3,14 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.csse.exam.model;
+package com.csse.exam.service;
 import com.csse.exam.config.DBConnection;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import javax.swing.JComboBox;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
@@ -18,7 +17,7 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author user
  */
-public class Link 
+public class LinkService 
 {
     /**
      * 

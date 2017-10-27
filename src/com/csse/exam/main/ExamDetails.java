@@ -8,18 +8,11 @@ package com.csse.exam.main;
 import com.csse.exam.common.ClearComponents;
 import com.csse.exam.common.CommonComponents;
 import com.csse.exam.common.Validation;
-import com.csse.exam.model.Exam;
 import com.csse.exam.service.ExamService;
 import java.awt.Color;
 import static java.lang.Integer.parseInt;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTable;
 import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
@@ -32,12 +25,12 @@ public class ExamDetails extends javax.swing.JFrame {
 
     private final ExamService examService = new ExamService();
     private final CommonComponents commonComponents = new CommonComponents();
-    private final Exam exam = new Exam();
+    
     private final Validation validation = new Validation();
     private final ClearComponents clear = new ClearComponents();
     
     DefaultTableModel tableModel;  
-    private final ArrayList<Exam> examList = examService.getExam();
+    
     
     
     String examType;
@@ -544,8 +537,8 @@ public class ExamDetails extends javax.swing.JFrame {
         
         if(cmbExamType.getSelectedIndex() != 0)
         {
-            exam.setExamId(examService.getExamId(examType, moduleId));
-            txtExamCode.setText(exam.getExamId());
+            txtExamCode.setText(examService.getExamId(examType, moduleId));
+            
             txtModuleId.setText(moduleId);   
             
         }
@@ -617,32 +610,41 @@ public class ExamDetails extends javax.swing.JFrame {
         { 
             TableRowSorter<TableModel> sorter = new TableRowSorter<>(tableModel); 
             sorter.setRowFilter(RowFilter.regexFilter(cmbSearchExamId.getSelectedItem().toString()));
-            tblExamDetails.setRowSorter(sorter);        
+            tblExamDetails.setRowSorter(sorter); 
+                   
         }
         
         examId = tblExamDetails.getModel().getValueAt(0, 0).toString();
-        examType = examId.split("-")[1]; //MO001-ASSIGNMENT-E:01
-        moduleId = tblExamDetails.getModel().getValueAt(0, 1).toString();
-        examDuration = tblExamDetails.getModel().getValueAt(0, 3).toString();
-        examTime = examDuration.split(" ")[0];
-        examTimeUnit = examDuration.split(" ")[1];
-        questionNo = tblExamDetails.getModel().getValueAt(0, 4).toString();
-        allocatedMarks = tblExamDetails.getModel().getValueAt(0, 5).toString();
+            examType = examId.split("-")[1]; //MO001-ASSIGNMENT-E:01
+            moduleId = tblExamDetails.getModel().getValueAt(0, 1).toString();
+            examDuration = tblExamDetails.getModel().getValueAt(0, 3).toString();
+            examTime = examDuration.split(" ")[0];
+            examTimeUnit = examDuration.split(" ")[1];
+            questionNo = tblExamDetails.getModel().getValueAt(0, 4).toString();
+            allocatedMarks = tblExamDetails.getModel().getValueAt(0, 5).toString();
+            
+            cmbExamType.setSelectedItem(examType);
+            txtDurationValue.setText(examTime);
+            cmbDurationUnit.setSelectedItem(examTimeUnit);
+            txtQuestionNo.setText(questionNo);
+            txtMarks.setText(allocatedMarks);
+            
+            System.out.println(examId);
+            System.out.println(moduleId);
+            System.out.println(examDuration);
+            System.out.println(questionNo);
+            System.out.println(allocatedMarks);
         
-        cmbExamType.setSelectedItem(examType);
-        txtDurationValue.setText(examTime);
-        cmbDurationUnit.setSelectedItem(examTimeUnit);
-        txtQuestionNo.setText(questionNo);
-        txtMarks.setText(allocatedMarks);
+        
+        
+        
         
     }//GEN-LAST:event_cmbSearchExamIdActionPerformed
 
     private void btnClearMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnClearMouseClicked
         // TODO add your handling code here:
         
-        clear.resetComboBox(pnlExamDetailTable);
-        
-        
+        clear.resetComboBox(pnlExamDetailTable);              
         clear.resetComboBox(pnlExamDetails);
         clear.clearTextFields(pnlExamDetails);
         

@@ -25,7 +25,7 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author user
+ * @author saranki
  */
 public final class ExamService 
 {

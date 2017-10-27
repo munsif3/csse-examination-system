@@ -7,34 +7,45 @@ package com.csse.exam.main;
 
 import com.csse.exam.common.ClearComponents;
 import com.csse.exam.common.CommonComponents;
-import com.csse.exam.service.LinkService;
+import com.csse.exam.model.Session;
+import com.csse.exam.service.SessionService;
 import java.awt.Color;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
-import javax.swing.RowFilter;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
-import javax.swing.table.TableRowSorter;
-
+import javax.swing.JSpinner;
+import javax.swing.JTextField;
+import javax.swing.SpinnerDateModel;
 /**
  *
- * @author Saranki
+ * @author saranki
  */
-public class ExamLink extends javax.swing.JFrame {
+public class ExamSession extends javax.swing.JFrame {
+    
+    CommonComponents commonComponents = new CommonComponents();
+    SessionService sessionService = new SessionService();
+    ClearComponents clear = new ClearComponents();
+    
+    String examId;
+    String moduleId;
 
     /**
-     * Creates new form ExamLink
+     * Creates new form ExamSession
      */
-    
-    LinkService linkService = new LinkService();
-    ClearComponents clear = new ClearComponents();
-    CommonComponents commonComponents = new CommonComponents();
-    DefaultTableModel tableModel;  
-    public ExamLink() {
+    public ExamSession() {
         initComponents();
-        commonComponents.addValueToComboBox(cmbExaminationCode, "exam", "examId");
-        commonComponents.addValueToComboBox(cmbExaminationCodeSearch, "exam", "examId");
-        //link.addValueToComboBox(cmbExamLink, "exam", "examState");
-        linkService.fillExamLinkTable(tblExamLink);
+        //Load examination id from database to cmbExamId, cmbSearchExamId comboboxes.
+        commonComponents.addValueToComboBox(cmbExamId, "exam", "examId");
+        commonComponents.addValueToComboBox(cmbSearchExamId, "exam", "examId");
+        
+        //Fill exam session details table by fetching data from the database
+        sessionService.fillSessionDetailsTable(tblSession);
+        //tblSession.setModel(sessionService.fillSessionTable());
+
+        System.out.println(spinExamTime.getValue());//Wed Oct 25 21:16:59 IST 2017
+        
     }
 
     /**
@@ -57,35 +68,42 @@ public class ExamLink extends javax.swing.JFrame {
         lblResult = new javax.swing.JLabel();
         pnlLogo = new javax.swing.JPanel();
         lblLogo = new javax.swing.JLabel();
-        pnlSystem = new javax.swing.JPanel();
+        pnlContent = new javax.swing.JPanel();
+        pnlSessionDetails = new javax.swing.JPanel();
+        lblExamId = new javax.swing.JLabel();
+        lblExamDate = new javax.swing.JLabel();
+        lblExamTime = new javax.swing.JLabel();
+        lblExamVenue = new javax.swing.JLabel();
+        cmbExamId = new javax.swing.JComboBox<>();
+        txtExamDate = new javax.swing.JTextField();
+        txtExamVenue = new javax.swing.JTextField();
+        Date date = new Date();
+        SpinnerDateModel spinnerDate =
+        new SpinnerDateModel(date, null, null, Calendar.HOUR_OF_DAY);
+        spinExamTime = new javax.swing.JSpinner(spinnerDate);
+        txtModuleId = new javax.swing.JTextField();
+        lblModuleId = new javax.swing.JLabel();
+        lblAvailableSessionId = new javax.swing.JLabel();
+        txtSessionId = new javax.swing.JTextField();
+        btnClearAll = new javax.swing.JButton();
+        btnAdd = new javax.swing.JButton();
+        btnUpdate = new javax.swing.JButton();
+        btnDelete = new javax.swing.JButton();
+        lblSessionId = new javax.swing.JLabel();
+        cmbSessionIds = new javax.swing.JComboBox<>();
+        pnlSessionTable = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblSession = new javax.swing.JTable();
+        lblSearchExamId = new javax.swing.JLabel();
+        cmbSearchExamId = new javax.swing.JComboBox<>();
+        pnlHeader = new javax.swing.JPanel();
         lblSystem = new javax.swing.JLabel();
         lblUser = new javax.swing.JLabel();
         lblLogout = new javax.swing.JLabel();
-        jPanel2 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
-        pnlContent = new javax.swing.JPanel();
-        pnlExamLink = new javax.swing.JPanel();
-        lblExamCode = new javax.swing.JLabel();
-        lblExamLink = new javax.swing.JLabel();
-        lblLinkStatus = new javax.swing.JLabel();
-        cmbExaminationCode = new javax.swing.JComboBox<>();
-        btnEnableLink = new javax.swing.JButton();
-        btnClearAll = new javax.swing.JButton();
-        btnBlockLink = new javax.swing.JButton();
-        txtExamLinkAvailable = new javax.swing.JTextField();
-        txtExamState = new javax.swing.JTextField();
-        pnlExamLinkTable = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tblExamLink = new javax.swing.JTable();
-        lblExamCode1 = new javax.swing.JLabel();
-        cmbExaminationCodeSearch = new javax.swing.JComboBox<>();
+        pnlTitle = new javax.swing.JPanel();
+        lblTitle = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("EXAMINATION LINK");
-        setMaximumSize(new java.awt.Dimension(950, 600));
-        setMinimumSize(new java.awt.Dimension(950, 600));
-        setPreferredSize(new java.awt.Dimension(950, 600));
-        setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         pnlNavigation.setBackground(new java.awt.Color(105, 135, 170));
@@ -251,8 +269,8 @@ public class ExamLink extends javax.swing.JFrame {
             pnlLogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlLogoLayout.createSequentialGroup()
                 .addGap(33, 33, 33)
-                .addComponent(lblLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(38, Short.MAX_VALUE))
+                .addComponent(lblLogo)
+                .addContainerGap(37, Short.MAX_VALUE))
         );
         pnlLogoLayout.setVerticalGroup(
             pnlLogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -266,164 +284,162 @@ public class ExamLink extends javax.swing.JFrame {
 
         getContentPane().add(pnlNavigation, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 130, 620));
 
-        pnlSystem.setBackground(new java.awt.Color(105, 135, 170));
-        pnlSystem.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        lblSystem.setFont(new java.awt.Font("Segoe UI Light", 0, 24)); // NOI18N
-        lblSystem.setForeground(new java.awt.Color(255, 255, 255));
-        lblSystem.setText("MCQ EXAM SYSTEM");
-        pnlSystem.add(lblSystem, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, -1));
-
-        lblUser.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-        lblUser.setForeground(new java.awt.Color(255, 255, 255));
-        lblUser.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lblUser.setText("BobTheBuilder");
-        lblUser.setToolTipText("");
-        pnlSystem.add(lblUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(351, 10, 460, 20));
-
-        lblLogout.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-        lblLogout.setForeground(new java.awt.Color(204, 217, 233));
-        lblLogout.setText("(LOGOUT)");
-        lblLogout.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        pnlSystem.add(lblLogout, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 30, -1, 20));
-
-        jPanel2.setBackground(new java.awt.Color(70, 102, 144));
-
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("Examination Link Availability");
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(19, 19, 19)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 756, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(55, Short.MAX_VALUE))
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
-        );
-
-        pnlSystem.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, 830, 40));
-
-        getContentPane().add(pnlSystem, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 0, 830, 100));
-
         pnlContent.setBackground(new java.awt.Color(204, 217, 233));
         pnlContent.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        pnlExamLink.setBackground(new java.awt.Color(204, 217, 233));
-        pnlExamLink.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        pnlExamLink.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        pnlSessionDetails.setBackground(new java.awt.Color(204, 217, 233));
+        pnlSessionDetails.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        pnlSessionDetails.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        lblExamCode.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        lblExamCode.setText("EXAMINATION CODE :");
-        pnlExamLink.add(lblExamCode, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 10, -1, 30));
+        lblExamId.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblExamId.setText("EXAMINATION CODE : ");
+        pnlSessionDetails.add(lblExamId, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 20, -1, 30));
 
-        lblExamLink.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        lblExamLink.setText("EXAMINATION LINK :");
-        pnlExamLink.add(lblExamLink, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 50, -1, 30));
+        lblExamDate.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblExamDate.setText("EXAMINATION DATE :");
+        pnlSessionDetails.add(lblExamDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 90, 150, 30));
 
-        lblLinkStatus.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        lblLinkStatus.setText("LINK STATUS :");
-        pnlExamLink.add(lblLinkStatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 90, -1, 30));
+        lblExamTime.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblExamTime.setText("EXAMINATION TIME :");
+        pnlSessionDetails.add(lblExamTime, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 124, 150, 30));
 
-        cmbExaminationCode.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        cmbExaminationCode.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SELECT EXAMINATION CODE" }));
-        cmbExaminationCode.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                cmbExaminationCodeItemStateChanged(evt);
-            }
-        });
-        cmbExaminationCode.addActionListener(new java.awt.event.ActionListener() {
+        lblExamVenue.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblExamVenue.setText("EXAMINATION VENUE :");
+        pnlSessionDetails.add(lblExamVenue, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 90, 180, 30));
+
+        cmbExamId.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        cmbExamId.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SELECT EXAMINATION ID" }));
+        cmbExamId.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmbExaminationCodeActionPerformed(evt);
+                cmbExamIdActionPerformed(evt);
             }
         });
-        cmbExaminationCode.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
-            public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                cmbExaminationCodePropertyChange(evt);
-            }
-        });
-        pnlExamLink.add(cmbExaminationCode, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 10, 220, 30));
+        pnlSessionDetails.add(cmbExamId, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 20, 220, 30));
+        pnlSessionDetails.add(txtExamDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 90, 220, 30));
+        pnlSessionDetails.add(txtExamVenue, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 90, 180, 30));
 
-        btnEnableLink.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btnEnableLink.setText("ENABLE LINK");
-        btnEnableLink.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnEnableLinkMouseClicked(evt);
-            }
-        });
-        pnlExamLink.add(btnEnableLink, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 140, 180, 40));
+        JSpinner.DateEditor dateEditor = new JSpinner.DateEditor(spinExamTime, "HH:mm");
+        spinExamTime.setEditor(dateEditor);
+        pnlSessionDetails.add(spinExamTime, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 125, 220, 30));
+        pnlSessionDetails.add(txtModuleId, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 55, 220, 30));
+
+        lblModuleId.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblModuleId.setText("MODULE ID :");
+        pnlSessionDetails.add(lblModuleId, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 55, 100, 30));
+
+        lblAvailableSessionId.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblAvailableSessionId.setText("AVAILABLE SESSION IDs : ");
+        pnlSessionDetails.add(lblAvailableSessionId, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 20, -1, 30));
+        pnlSessionDetails.add(txtSessionId, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 55, 180, 30));
 
         btnClearAll.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnClearAll.setText("CLEAR ALL");
-        btnClearAll.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnClearAllMouseClicked(evt);
-            }
-        });
-        pnlExamLink.add(btnClearAll, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 140, 180, 40));
+        pnlSessionDetails.add(btnClearAll, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 160, 110, 40));
 
-        btnBlockLink.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btnBlockLink.setText("BLOCK LINK");
-        btnBlockLink.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnBlockLinkMouseClicked(evt);
-            }
-        });
-        pnlExamLink.add(btnBlockLink, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 140, 180, 40));
-        pnlExamLink.add(txtExamLinkAvailable, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 50, 220, 30));
-        pnlExamLink.add(txtExamState, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 90, 220, 30));
+        btnAdd.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnAdd.setText("ADD");
+        pnlSessionDetails.add(btnAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 160, 110, 40));
 
-        pnlContent.add(pnlExamLink, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 780, 190));
+        btnUpdate.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnUpdate.setText("UPDATE");
+        pnlSessionDetails.add(btnUpdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 160, 110, 40));
 
-        pnlExamLinkTable.setBackground(new java.awt.Color(204, 217, 233));
-        pnlExamLinkTable.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        pnlExamLinkTable.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        btnDelete.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnDelete.setText("DELETE");
+        pnlSessionDetails.add(btnDelete, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 160, 110, 40));
 
-        tblExamLink.setModel(new javax.swing.table.DefaultTableModel(
+        lblSessionId.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblSessionId.setText("EXAMINATION SESSION :");
+        pnlSessionDetails.add(lblSessionId, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 55, -1, 30));
+
+        cmbSessionIds.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        cmbSessionIds.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SELECT SESSION ID" }));
+        pnlSessionDetails.add(cmbSessionIds, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 20, 180, 30));
+
+        pnlContent.add(pnlSessionDetails, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 800, 210));
+
+        pnlSessionTable.setBackground(new java.awt.Color(204, 217, 233));
+        pnlSessionTable.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        pnlSessionTable.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        tblSession.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "EXAMINATION CODE", "MODULE ID", "EXAMINATION DATE", "EXAM LINK STATUS"
+                "EXAMINATION ID", "MODULE ID", "EXAMINATION DATE", "SESSION ID", "EXAMINATION TIME", "EXAMINATION VENUE"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        tblExamLink.getTableHeader().setReorderingAllowed(false);
-        jScrollPane1.setViewportView(tblExamLink);
+        jScrollPane1.setViewportView(tblSession);
 
-        pnlExamLinkTable.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 760, 210));
+        pnlSessionTable.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, 780, 120));
 
-        lblExamCode1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        lblExamCode1.setText("SEARCH EXAMINATION CODE :");
-        pnlExamLinkTable.add(lblExamCode1, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 10, -1, 30));
+        lblSearchExamId.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblSearchExamId.setText("EXAMINATION CODE : ");
+        pnlSessionTable.add(lblSearchExamId, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 60, -1, 30));
 
-        cmbExaminationCodeSearch.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        cmbExaminationCodeSearch.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SELECT EXAMINATION CODE" }));
-        cmbExaminationCodeSearch.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmbExaminationCodeSearchActionPerformed(evt);
-            }
-        });
-        pnlExamLinkTable.add(cmbExaminationCodeSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 10, 220, 30));
+        cmbSearchExamId.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        cmbSearchExamId.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SELECT EXAMINATION ID" }));
+        pnlSessionTable.add(cmbSearchExamId, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 60, 240, 30));
 
-        pnlContent.add(pnlExamLinkTable, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 220, 780, 270));
+        pnlContent.add(pnlSessionTable, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 250, 800, 240));
 
         getContentPane().add(pnlContent, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 100, 830, 520));
 
-        setSize(new java.awt.Dimension(966, 639));
-        setLocationRelativeTo(null);
+        pnlHeader.setBackground(new java.awt.Color(105, 135, 170));
+        pnlHeader.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        lblSystem.setFont(new java.awt.Font("Segoe UI Light", 0, 24)); // NOI18N
+        lblSystem.setForeground(new java.awt.Color(255, 255, 255));
+        lblSystem.setText("MCQ EXAM SYSTEM");
+        pnlHeader.add(lblSystem, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, -1));
+
+        lblUser.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        lblUser.setForeground(new java.awt.Color(255, 255, 255));
+        lblUser.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblUser.setText("BobTheBuilder");
+        lblUser.setToolTipText("");
+        pnlHeader.add(lblUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(351, 10, 460, 20));
+
+        lblLogout.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        lblLogout.setForeground(new java.awt.Color(204, 217, 233));
+        lblLogout.setText("(LOGOUT)");
+        lblLogout.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        pnlHeader.add(lblLogout, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 30, -1, 20));
+
+        pnlTitle.setBackground(new java.awt.Color(70, 102, 144));
+
+        lblTitle.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        lblTitle.setForeground(new java.awt.Color(255, 255, 255));
+        lblTitle.setText("Exam Session");
+
+        javax.swing.GroupLayout pnlTitleLayout = new javax.swing.GroupLayout(pnlTitle);
+        pnlTitle.setLayout(pnlTitleLayout);
+        pnlTitleLayout.setHorizontalGroup(
+            pnlTitleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlTitleLayout.createSequentialGroup()
+                .addGap(19, 19, 19)
+                .addComponent(lblTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 756, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(55, Short.MAX_VALUE))
+        );
+        pnlTitleLayout.setVerticalGroup(
+            pnlTitleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lblTitle, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
+        );
+
+        pnlHeader.add(pnlTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, 830, 40));
+
+        getContentPane().add(pnlHeader, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 0, 830, 100));
+
+        pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void pnlDashboardMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlDashboardMouseClicked
@@ -479,112 +495,26 @@ public class ExamLink extends javax.swing.JFrame {
         pnlResult.setBackground(new Color(70, 102, 144));
     }//GEN-LAST:event_pnlResultMouseReleased
 
-    private void cmbExaminationCodeItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbExaminationCodeItemStateChanged
+    private void cmbExamIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbExamIdActionPerformed
         // TODO add your handling code here:
-                                  
-    }//GEN-LAST:event_cmbExaminationCodeItemStateChanged
-
-    private void cmbExaminationCodePropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_cmbExaminationCodePropertyChange
-        // TODO add your handling code here:
-        
-    }//GEN-LAST:event_cmbExaminationCodePropertyChange
-
-    private void cmbExaminationCodeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbExaminationCodeActionPerformed
-        // TODO add your handling code here:
-        String examId = cmbExaminationCode.getSelectedItem().toString();
-        String examinationStatus = linkService.getExamLinkStatus(examId);
-        
-        txtExamLinkAvailable.setText(linkService.showExamLink(examId));
-        
-        if(examinationStatus == null)
-        {
-            //cmbExamLink.setSelectedIndex(0);
-            txtExamState.setText("");
-        }
-        else
-            //cmbExamLink.setSelectedItem(examinationStatus);
-            txtExamState.setText(examinationStatus);
-    }//GEN-LAST:event_cmbExaminationCodeActionPerformed
-
-    private void btnClearAllMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnClearAllMouseClicked
-        // TODO add your handling code here:
-        clear.clearTextFields(pnlExamLink);        
-        clear.resetComboBox(pnlExamLink);
-        clear.resetComboBox(pnlExamLinkTable);
-        
-        //tableModel = (DefaultTableModel) tblExamLink.getModel();  
-        //tableModel.setRowCount(0);
-        //link.fillExamLinkTable(tblExamLink); 
-        
-        
-        
-                           
-    }//GEN-LAST:event_btnClearAllMouseClicked
-
-    private void btnEnableLinkMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEnableLinkMouseClicked
-        // TODO add your handling code here:
-        String examId = cmbExaminationCode.getSelectedItem().toString();
-        String examState = "Enabled";
-        tableModel = (DefaultTableModel) tblExamLink.getModel();       
-        boolean value = linkService.updateExamLinkStatus(examId,examState);
-        
-        if(cmbExaminationCode.getSelectedIndex()!=0 && value)
-        {
-            JOptionPane.showMessageDialog(this, "Exam Link status was successfully updated", "Success Message", 1);  
-            tableModel.setRowCount(0);
-            linkService.fillExamLinkTable(tblExamLink);
-        }
-        else
-            JOptionPane.showMessageDialog(this, "Sorry, Exam link status couldn't be updated", "Failure Message", 1);
-             
-        txtExamState.setText(linkService.getExamLinkStatus(examId));
        
-        
-       
-    }//GEN-LAST:event_btnEnableLinkMouseClicked
-
-    private void btnBlockLinkMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBlockLinkMouseClicked
-        // TODO add your handling code here:
-        String examId = cmbExaminationCode.getSelectedItem().toString();
-        String examState = "Blocked";
-        tableModel = (DefaultTableModel) tblExamLink.getModel();        
-        boolean value = linkService.updateExamLinkStatus(examId,examState);
-        
-        if(cmbExaminationCode.getSelectedIndex()!=0 && value)
-        {
-            JOptionPane.showMessageDialog(this, "Exam Link status was successfully updated", "Success Message", 1);  
-            tableModel.setRowCount(0);
-            linkService.fillExamLinkTable(tblExamLink);
-        }
-        else
-            JOptionPane.showMessageDialog(this, "Sorry, Exam link status couldn't be updated", "Failure Message", 1);
-        
-        txtExamState.setText((linkService.getExamLinkStatus(examId)));
-
-    }//GEN-LAST:event_btnBlockLinkMouseClicked
-
-    /**
-     * 
-     * @param evt 
-     */
-    
-    private void cmbExaminationCodeSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbExaminationCodeSearchActionPerformed
-        // TODO add your handling code here:
-        tableModel = (DefaultTableModel) tblExamLink.getModel();   
-        
-        if(cmbExaminationCodeSearch.getSelectedIndex() == 0)
-        {                 
-            tableModel.setRowCount(0);
-            linkService.fillExamLinkTable(tblExamLink);
-        }
-        else
-        { 
-            TableRowSorter<TableModel> sorter = new TableRowSorter<>(tableModel); 
-            sorter.setRowFilter(RowFilter.regexFilter(cmbExaminationCodeSearch.getSelectedItem().toString()));
-            tblExamLink.setRowSorter(sorter);
-        
-        }
-    }//GEN-LAST:event_cmbExaminationCodeSearchActionPerformed
+       examId = cmbExamId.getSelectedItem().toString();
+       boolean value = sessionService.isExamIdExisting(examId);
+       clear.clearTextFields(pnlSessionDetails);
+       clear.resetSingleComboBox(cmbSessionIds);
+       if(value==false)
+       {          
+           sessionService.getExamDetailsById(examId,txtModuleId, txtExamDate);
+           txtSessionId.setText(sessionService.getSessionId(examId));
+           sessionService.getSessionIdByExamId(cmbSessionIds,examId);
+       }
+       else
+       {           
+           sessionService.getSessionDetailsById(examId, txtModuleId, txtExamDate, txtSessionId,  spinExamTime, txtExamVenue);
+           sessionService.getSessionIdByExamId(cmbSessionIds,examId);
+           txtSessionId.setText(sessionService.getSessionId(examId));
+       }
+    }//GEN-LAST:event_cmbExamIdActionPerformed
 
     /**
      * @param args the command line arguments
@@ -603,57 +533,67 @@ public class ExamLink extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ExamLink.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ExamSession.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ExamLink.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ExamSession.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ExamLink.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ExamSession.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ExamLink.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ExamSession.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ExamLink().setVisible(true);
+                new ExamSession().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnBlockLink;
+    private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnClearAll;
-    private javax.swing.JButton btnEnableLink;
-    private javax.swing.JComboBox<String> cmbExaminationCode;
-    private javax.swing.JComboBox<String> cmbExaminationCodeSearch;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JPanel jPanel2;
+    private javax.swing.JButton btnDelete;
+    private javax.swing.JButton btnUpdate;
+    private javax.swing.JComboBox<String> cmbExamId;
+    private javax.swing.JComboBox<String> cmbSearchExamId;
+    private javax.swing.JComboBox<String> cmbSessionIds;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblAvailableSessionId;
     private javax.swing.JLabel lblCourse;
     private javax.swing.JLabel lblDashboard;
     private javax.swing.JLabel lblExam;
-    private javax.swing.JLabel lblExamCode;
-    private javax.swing.JLabel lblExamCode1;
-    private javax.swing.JLabel lblExamLink;
-    private javax.swing.JLabel lblLinkStatus;
+    private javax.swing.JLabel lblExamDate;
+    private javax.swing.JLabel lblExamId;
+    private javax.swing.JLabel lblExamTime;
+    private javax.swing.JLabel lblExamVenue;
     private javax.swing.JLabel lblLogo;
     private javax.swing.JLabel lblLogout;
+    private javax.swing.JLabel lblModuleId;
     private javax.swing.JLabel lblResult;
+    private javax.swing.JLabel lblSearchExamId;
+    private javax.swing.JLabel lblSessionId;
     private javax.swing.JLabel lblSystem;
+    private javax.swing.JLabel lblTitle;
     private javax.swing.JLabel lblUser;
     private javax.swing.JPanel pnlContent;
     private javax.swing.JPanel pnlCourse;
     private javax.swing.JPanel pnlDashboard;
     private javax.swing.JPanel pnlExam;
-    private javax.swing.JPanel pnlExamLink;
-    private javax.swing.JPanel pnlExamLinkTable;
+    private javax.swing.JPanel pnlHeader;
     private javax.swing.JPanel pnlLogo;
     private javax.swing.JPanel pnlNavigation;
     private javax.swing.JPanel pnlResult;
-    private javax.swing.JPanel pnlSystem;
-    private javax.swing.JTable tblExamLink;
-    private javax.swing.JTextField txtExamLinkAvailable;
-    private javax.swing.JTextField txtExamState;
+    private javax.swing.JPanel pnlSessionDetails;
+    private javax.swing.JPanel pnlSessionTable;
+    private javax.swing.JPanel pnlTitle;
+    private javax.swing.JSpinner spinExamTime;
+    private javax.swing.JTable tblSession;
+    private javax.swing.JTextField txtExamDate;
+    private javax.swing.JTextField txtExamVenue;
+    private javax.swing.JTextField txtModuleId;
+    private javax.swing.JTextField txtSessionId;
     // End of variables declaration//GEN-END:variables
 }
