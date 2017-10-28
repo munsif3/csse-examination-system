@@ -227,7 +227,7 @@ public class SessionService {
     }       
     
     public void getSessionIdByExamId(JComboBox comboBox, String examId) {
-        
+        //this is a test comment
         String value = null;
         try {
             preparedStatement = connection.prepareStatement("SELECT DISTINCT sessionId FROM session WHERE examId=?");
