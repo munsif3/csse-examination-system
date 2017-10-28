@@ -11,7 +11,6 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +20,6 @@ import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
-import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -106,6 +104,7 @@ public final class ResultService {
      * @return List of Score of the particular student's particular exam
      */
     public List<Result> getScoreByStudentIdExamId(String studentId, String examId) {
+        //return scores list
         return resultList.stream()
                 .filter(t -> t.getUserId().equals(studentId) && t.getExamId().equals(examId))
                 .collect(Collectors.toList());
@@ -134,6 +133,10 @@ public final class ResultService {
         return grade;
     }
 
+    /**
+     *
+     * @return Default Table Model to populate the jTable in View
+     */
     public DefaultTableModel fillResultsTable() {
         DefaultTableModel table = new DefaultTableModel(new Object[]{"Student ID", "Exam ID", "Score"}, 0);
 
@@ -143,4 +146,24 @@ public final class ResultService {
 
         return table;
     }
+
+    public boolean updateScore(String studentId, String examId, int score) {
+        boolean status = false;
+
+        try {
+            preparedStatement = CONNECTION.prepareStatement("UPDATE result SET score = ? WHERE userId = ? AND examId = ?");
+            preparedStatement.setInt(1, score);
+            preparedStatement.setString(2, studentId);
+            preparedStatement.setString(3, examId);
+            int updated = preparedStatement.executeUpdate();
+            System.out.println(updated + " Records Updated");
+            status = true;
+        }
+        catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "Error occur in updateScore() : ", e);
+        }
+
+        return status;
+    }
+
 }

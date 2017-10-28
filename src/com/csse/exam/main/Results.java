@@ -12,6 +12,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -27,16 +28,9 @@ public class Results extends javax.swing.JFrame {
      * Creates new form Result
      */
     public Results() {
-
         initComponents();
-
-        for (int i = 0; i < resultList.size(); i++) {
-            String userId = resultList.get(i).getUserId();
-            cmbStudentId.addItem(userId);
-        }
-
-        tblResults.setModel(resultService.fillResultsTable());
-
+        setStudentIdCombobox();
+        setResultTableModel();
     }
 
     /**
@@ -339,6 +333,11 @@ public class Results extends javax.swing.JFrame {
 
         btnUpdate.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnUpdate.setText("UPDATE");
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateActionPerformed(evt);
+            }
+        });
         pnlDetails.add(btnUpdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 160, 190, 40));
 
         jTextField4.setText("jTextField1");
@@ -525,11 +524,42 @@ public class Results extends javax.swing.JFrame {
     }//GEN-LAST:event_cmbExamIdActionPerformed
 
     private void btnResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetActionPerformed
-        // TODO add your handling code here:
         clear = new ClearComponents();
         clear.clearTextFields(pnlDetails);
         clear.resetComboBox(pnlDetails);
     }//GEN-LAST:event_btnResetActionPerformed
+
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        String studentId = cmbStudentId.getSelectedItem().toString();
+        String examId = cmbExamId.getSelectedItem().toString();
+        int score = Integer.parseInt(txtMarks.getText());
+
+        int answer = JOptionPane.showConfirmDialog(this, "Are you sure you want to Update?");
+        if (answer == 0) {
+            boolean updateScore = resultService.updateScore(studentId, examId, score);
+
+            if (updateScore) {
+                JOptionPane.showMessageDialog(this, "Updated " + studentId + "'s " + examId.split("-")[1] + " score");
+            }
+            else {
+                JOptionPane.showMessageDialog(this, "Failed to Update. Please try again");
+            }
+        }
+
+        btnResetActionPerformed(evt);
+        setResultTableModel();
+    }//GEN-LAST:event_btnUpdateActionPerformed
+
+    private void setStudentIdCombobox() {
+        for (int i = 0; i < resultList.size(); i++) {
+            String userId = resultList.get(i).getUserId();
+            cmbStudentId.addItem(userId);
+        }
+    }
+
+    private void setResultTableModel() {
+        tblResults.setModel(resultService.fillResultsTable());
+    }
 
     /**
      * @param args the command line arguments
