@@ -19,6 +19,7 @@ import java.util.logging.FileHandler;
 import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 import java.util.stream.Collectors;
 import javax.swing.table.DefaultTableModel;
 
@@ -29,7 +30,7 @@ import javax.swing.table.DefaultTableModel;
 public final class ResultService {
 
     private static final Connection CONNECTION = DBConnection.getConnection();
-    private static final Logger LOGGER = Logger.getLogger(ResultService.class.getName());
+    public static final Logger LOGGER = Logger.getLogger(ResultService.class.getName());
 
     private Result result;
     private ArrayList<Result> resultList = new ArrayList<>();
@@ -43,13 +44,14 @@ public final class ResultService {
     public ResultService() {
         try {
             consoleHandler = new ConsoleHandler();
-            fileHandler = new FileHandler("./logs/resultservice/log_result_service.log");
+            fileHandler = new FileHandler("./logs/resultservice/log_result_service.log", true);
 
             LOGGER.addHandler(consoleHandler);
             LOGGER.addHandler(fileHandler);
 
             consoleHandler.setLevel(Level.ALL);
             fileHandler.setLevel(Level.ALL);
+            fileHandler.setFormatter(new SimpleFormatter());
             LOGGER.setLevel(Level.ALL);
 
             LOGGER.info("Result Service Initiated");
