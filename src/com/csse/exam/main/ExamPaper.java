@@ -12,21 +12,22 @@ package com.csse.exam.main;
 
 
 import com.csse.exam.model.Question;
-import com.csse.exam.model.Result;
 import com.csse.exam.model.User;
 import com.csse.exam.service.ExamPaperService;
 import com.csse.exam.service.ExamService;
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.swing.DefaultListModel;
-import javax.swing.JButton;
 import javax.swing.JOptionPane;
 public class ExamPaper extends javax.swing.JFrame {
 
     /**
      * Creates new form ExamPaper
      */
+    long  startTime = System.currentTimeMillis();
+    long elapsedTime = 0L;
     ExamService examService = new ExamService();
    
     ExamPaperService examPaperService = new ExamPaperService();
@@ -63,8 +64,18 @@ public class ExamPaper extends javax.swing.JFrame {
                 listModel.addElement(questionId);
         });
               listQuestionNo.setModel(listModel);   
-                    
-        
+    }
+     public void closeUi() {
+        while (elapsedTime < 10000) {
+            elapsedTime = (new Date()).getTime() - startTime;
+            System.out.println("You are still running");
+        }
+        if (elapsedTime > 4000) {
+           JOptionPane.showMessageDialog(null, "The given time has passed", "OK",
+                    JOptionPane.INFORMATION_MESSAGE);
+           this.setVisible(false);
+            System.out.println("FormTemplate.closeUi()");
+        }
     }
 
     /**
@@ -552,9 +563,10 @@ public class ExamPaper extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
+        
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ExamPaper().setVisible(true);
+               new ExamPaper().setVisible(true);
             }
         });
     }
