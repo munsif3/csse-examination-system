@@ -248,4 +248,60 @@ public class SessionService {
             System.out.println(e);
         }
     }
+    
+    public boolean addExamSessionDetails(String examId, int sessionId ,String examTime, String examVenue)
+    {
+        try {
+            preparedStatement = connection.prepareStatement("INSERT INTO session (examId, sessionId, examTime, examVenue)" + "VALUES(?,?,?,?)");
+              
+            preparedStatement.setString(1, examId);
+            preparedStatement.setInt(2, sessionId);
+            preparedStatement.setString(3, examTime);
+            preparedStatement.setString(4, examVenue);
+            
+
+            int executeUpdate = preparedStatement.executeUpdate();
+            System.out.println(executeUpdate + " records updated");      
+            
+            return true;
+        } 
+        catch (SQLException e) 
+        {
+            System.out.println(e);
+        }
+        return false;
+    }
+    
+    public boolean checkSessionAvailability(String examDate,String examTime, String examVenue)
+    {       
+        try
+        {
+           /* preparedStatement = connection.prepareStatement("SELECT s.examId FROM session s, exam e WHERE e.examId = s.examId AND e.examDate=? AND s.examTime=? AND s.examVenue=?");
+            preparedStatement.setString(1, examDate);
+            preparedStatement.setString(2, examTime);
+            preparedStatement.setString(3, examVenue);*/
+            
+            System.out.println("From checkSessionAvailability method");
+            System.out.println(examDate);
+            System.out.println(examTime);
+            System.out.println(examVenue);
+            
+            preparedStatement = connection.prepareStatement("SELECT s.examId FROM session s, exam e WHERE e.examId = s.examId AND e.examDate='"+examDate+"' AND s.examTime='"+examTime+"' AND s.examVenue='"+examVenue+"'");           
+            preparedStatement.setString(1, examDate);
+            preparedStatement.setString(2, examTime);
+            preparedStatement.setString(3, examVenue);
+            
+            int executeUpdate = preparedStatement.executeUpdate();
+            System.out.println(executeUpdate + " records found");  
+            
+            
+            return true;            
+        }
+        catch(SQLException e)
+        {
+        
+        }
+        return false;
+    }
+            
 }
