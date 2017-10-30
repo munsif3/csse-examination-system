@@ -19,11 +19,13 @@ public class AttemptExam extends javax.swing.JFrame {
     /**
      * Creates new form Dashboard
      */
-    private static ExamService examService = new ExamService();
+    private static final ExamService examService = new ExamService();
+    
 
     public AttemptExam() {
         initComponents();
         lblUser.setText(User.getName());
+        
 
     }
 
@@ -428,7 +430,13 @@ public class AttemptExam extends javax.swing.JFrame {
         }
         else{
             if(examService.validateExamPassword(lblSelectedQuiz.getText(), txtExamPwd.getText())){
-                System.out.println("Correct password");
+                System.out.println("Correct password");                
+
+                ExamPaper examPaper = new ExamPaper();                
+                this.setVisible(false);
+                examPaper.setVisible(true);
+                //examPaper.lblTitleExamPaper.setText(lblSelectedQuiz.getText());
+              
             }
             else{
                 JOptionPane.showMessageDialog(null, "Incorrect Password", "OK",
