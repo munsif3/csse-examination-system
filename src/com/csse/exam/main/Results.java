@@ -540,9 +540,11 @@ public class Results extends javax.swing.JFrame {
 
             if (updateScore) {
                 JOptionPane.showMessageDialog(this, "Updated " + studentId + "'s " + examId.split("-")[1] + " score");
+                resultService.LOGGER.info("Updated " + studentId + "'s " + examId.split("-")[1] + " score");
             }
             else {
                 JOptionPane.showMessageDialog(this, "Failed to Update. Please try again");
+                resultService.LOGGER.info("Failed to Update. Please try again");
             }
         }
 
