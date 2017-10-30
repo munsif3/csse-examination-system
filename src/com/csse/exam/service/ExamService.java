@@ -281,4 +281,14 @@ public final class ExamService
         return password.equals(getExam(examId).getExamPassword());
     }
     
+    
+    
+    public void submitAnswers(long id , String examID, String userId,String answerSet){
+        try (Connection dbConnection = DBConnection.getConnection()) {
+             dbConnection.createStatement().executeUpdate("insert into student values('" +id + "','" + examID + "','" + userId + "','" + answerSet +"')");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
 }
