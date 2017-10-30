@@ -7,16 +7,64 @@ package com.csse.exam.main;
 
 /**
  *
- * @author user
+ * @author saranki
  */
+
+
+import com.csse.exam.model.Question;
+import com.csse.exam.model.Result;
+import com.csse.exam.model.User;
+import com.csse.exam.service.ExamPaperService;
+import com.csse.exam.service.ExamService;
 import java.awt.Color;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.DefaultListModel;
+import javax.swing.JButton;
+import javax.swing.JOptionPane;
 public class ExamPaper extends javax.swing.JFrame {
 
     /**
      * Creates new form ExamPaper
      */
+    ExamService examService = new ExamService();
+   
+    ExamPaperService examPaperService = new ExamPaperService();
+ 
+    private final ArrayList<Question> questionList = examPaperService.getQuestions();
+    String questionId; 
+    String question; 
+   /* int x = 18;
+    int y = 5;*/
+    
+    DefaultListModel listModel = new DefaultListModel();
     public ExamPaper() {
+        
         initComponents();
+        lblUser.setText(User.getName());
+        lblTitleExamPaper.setText(ExamModuleContent.examinationCode);
+       
+        
+           List<Question> questionsByExamId = examPaperService.getQuestionId(ExamModuleContent.examinationCode);
+           questionsByExamId.forEach((result) -> {                
+                questionId = result.getQuestionId();
+                question = result.getQuestion();
+                
+                /*JButton button = new JButton();
+                button.setLocation(x,y);
+                button.setSize(60, 40);
+                button.setText(questionId);
+                button.setVisible(true);    
+                
+                //listQuestionNo.add(button);
+                //System.out.println(question);
+                //System.out.println(questionId);
+                y = y+45;*/
+                listModel.addElement(questionId);
+        });
+              listQuestionNo.setModel(listModel);   
+                    
+        
     }
 
     /**
@@ -44,9 +92,26 @@ public class ExamPaper extends javax.swing.JFrame {
         lblUser = new javax.swing.JLabel();
         lblLogout = new javax.swing.JLabel();
         pnlTitle = new javax.swing.JPanel();
-        lblTitle = new javax.swing.JLabel();
+        lblTitleExamPaper = new javax.swing.JLabel();
         pnlContent = new javax.swing.JPanel();
-        pnlQuestionBox = new javax.swing.JPanel();
+        pnlQuestions = new javax.swing.JPanel();
+        lblQuestion = new javax.swing.JLabel();
+        lblQuestionId = new javax.swing.JLabel();
+        rdbOption1 = new javax.swing.JRadioButton();
+        rdbOption2 = new javax.swing.JRadioButton();
+        rdbOption3 = new javax.swing.JRadioButton();
+        rdbOption4 = new javax.swing.JRadioButton();
+        rdbOption5 = new javax.swing.JRadioButton();
+        lblQuestion1 = new javax.swing.JLabel();
+        lblExamQuestionId = new javax.swing.JLabel();
+        lblExamQuestion = new javax.swing.JLabel();
+        lblOption5 = new javax.swing.JLabel();
+        lblOption1 = new javax.swing.JLabel();
+        lblOption2 = new javax.swing.JLabel();
+        lblOption3 = new javax.swing.JLabel();
+        lblOption4 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        listQuestionNo = new javax.swing.JList<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -248,13 +313,18 @@ public class ExamPaper extends javax.swing.JFrame {
         lblLogout.setForeground(new java.awt.Color(204, 217, 233));
         lblLogout.setText("(LOGOUT)");
         lblLogout.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lblLogout.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblLogoutMouseClicked(evt);
+            }
+        });
         pnlHeader.add(lblLogout, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 30, -1, 20));
 
         pnlTitle.setBackground(new java.awt.Color(70, 102, 144));
 
-        lblTitle.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        lblTitle.setForeground(new java.awt.Color(255, 255, 255));
-        lblTitle.setText("Examination");
+        lblTitleExamPaper.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        lblTitleExamPaper.setForeground(new java.awt.Color(255, 255, 255));
+        lblTitleExamPaper.setText("Examination");
 
         javax.swing.GroupLayout pnlTitleLayout = new javax.swing.GroupLayout(pnlTitle);
         pnlTitle.setLayout(pnlTitleLayout);
@@ -262,12 +332,12 @@ public class ExamPaper extends javax.swing.JFrame {
             pnlTitleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlTitleLayout.createSequentialGroup()
                 .addGap(19, 19, 19)
-                .addComponent(lblTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 756, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lblTitleExamPaper, javax.swing.GroupLayout.PREFERRED_SIZE, 756, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(55, Short.MAX_VALUE))
         );
         pnlTitleLayout.setVerticalGroup(
             pnlTitleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(lblTitle, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
+            .addComponent(lblTitleExamPaper, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
         );
 
         pnlHeader.add(pnlTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, 830, 40));
@@ -277,21 +347,85 @@ public class ExamPaper extends javax.swing.JFrame {
         pnlContent.setBackground(new java.awt.Color(204, 217, 233));
         pnlContent.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        pnlQuestionBox.setBackground(new java.awt.Color(204, 217, 233));
-        pnlQuestionBox.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        pnlQuestions.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        javax.swing.GroupLayout pnlQuestionBoxLayout = new javax.swing.GroupLayout(pnlQuestionBox);
-        pnlQuestionBox.setLayout(pnlQuestionBoxLayout);
-        pnlQuestionBoxLayout.setHorizontalGroup(
-            pnlQuestionBoxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 246, Short.MAX_VALUE)
-        );
-        pnlQuestionBoxLayout.setVerticalGroup(
-            pnlQuestionBoxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 356, Short.MAX_VALUE)
-        );
+        lblQuestion.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblQuestion.setText("OPTIONS :");
+        pnlQuestions.add(lblQuestion, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 140, 80, 20));
 
-        pnlContent.add(pnlQuestionBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 250, 360));
+        lblQuestionId.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblQuestionId.setText("QUESTION NO :");
+        pnlQuestions.add(lblQuestionId, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, 30));
+
+        rdbOption1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        rdbOption1.setText("a.");
+        pnlQuestions.add(rdbOption1, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 140, -1, -1));
+
+        rdbOption2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        rdbOption2.setText("b.");
+        pnlQuestions.add(rdbOption2, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 170, -1, -1));
+
+        rdbOption3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        rdbOption3.setText("c.");
+        pnlQuestions.add(rdbOption3, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 200, -1, -1));
+
+        rdbOption4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        rdbOption4.setText("d.");
+        pnlQuestions.add(rdbOption4, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 230, -1, -1));
+
+        rdbOption5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        rdbOption5.setText("e.");
+        pnlQuestions.add(rdbOption5, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 260, -1, -1));
+
+        lblQuestion1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblQuestion1.setText("QUESTION : ");
+        pnlQuestions.add(lblQuestion1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 60, 90, 30));
+
+        lblExamQuestionId.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblExamQuestionId.setText("jLabel1");
+        pnlQuestions.add(lblExamQuestionId, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 10, 150, 30));
+
+        lblExamQuestion.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblExamQuestion.setText("jLabel1");
+        pnlQuestions.add(lblExamQuestion, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 60, 540, 30));
+
+        lblOption5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblOption5.setText("jLabel1");
+        pnlQuestions.add(lblOption5, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 260, 330, 30));
+
+        lblOption1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblOption1.setText("jLabel1");
+        pnlQuestions.add(lblOption1, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 140, 330, 30));
+
+        lblOption2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblOption2.setText("jLabel1");
+        pnlQuestions.add(lblOption2, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 170, 330, 30));
+
+        lblOption3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblOption3.setText("jLabel1");
+        pnlQuestions.add(lblOption3, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 200, 330, 30));
+
+        lblOption4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblOption4.setText("jLabel1");
+        pnlQuestions.add(lblOption4, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 230, 330, 30));
+
+        pnlContent.add(pnlQuestions, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 10, 680, 480));
+
+        listQuestionNo.setBackground(new java.awt.Color(204, 204, 255));
+        listQuestionNo.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        listQuestionNo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                listQuestionNoMouseClicked(evt);
+            }
+        });
+        listQuestionNo.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                listQuestionNoValueChanged(evt);
+            }
+        });
+        jScrollPane1.setViewportView(listQuestionNo);
+
+        pnlContent.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 110, 480));
 
         getContentPane().add(pnlContent, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 100, 830, 520));
 
@@ -351,6 +485,45 @@ public class ExamPaper extends javax.swing.JFrame {
         pnlResult.setBackground(new Color(70, 102, 144));
     }//GEN-LAST:event_pnlResultMouseReleased
 
+    private void lblLogoutMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblLogoutMouseClicked
+        // TODO add your handling code here:
+        User.logout();
+        Login login = new Login();
+        this.setVisible(false);
+        login.setVisible(true);
+    }//GEN-LAST:event_lblLogoutMouseClicked
+
+    private void listQuestionNoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listQuestionNoMouseClicked
+        // TODO add your handling code here:
+        System.out.println("clicked");
+        String selectedQuestionId = listQuestionNo.getSelectedValue();
+         List<Question> questionsByUniqueId = examPaperService.getQuestion(ExamModuleContent.examinationCode, selectedQuestionId);
+           questionsByUniqueId.forEach((result) -> {                
+                lblExamQuestionId.setText(result.getQuestionId());
+                lblExamQuestion.setText(result.getQuestion());
+                String options = result.getOptions();
+                System.out.println(options);
+
+                String option1 = options.split(":")[0].split("-")[1];            
+                String option2 = options.split(":")[1].split("-")[1];
+                String option3 = options.split(":")[2].split("-")[1];
+                String option4 = options.split(":")[3].split("-")[1];
+                String option5 = options.split(":")[4].split("-")[1];
+                
+                lblOption1.setText(option1);
+                lblOption2.setText(option2);
+                lblOption3.setText(option3);
+                lblOption4.setText(option4);
+                lblOption5.setText(option5);
+        });
+        
+    }//GEN-LAST:event_listQuestionNoMouseClicked
+
+    private void listQuestionNoValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listQuestionNoValueChanged
+        // TODO add your handling code here:
+       
+    }//GEN-LAST:event_listQuestionNoValueChanged
+
     /**
      * @param args the command line arguments
      */
@@ -387,15 +560,27 @@ public class ExamPaper extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblCourse;
     private javax.swing.JLabel lblDashboard;
     private javax.swing.JLabel lblExam;
+    private javax.swing.JLabel lblExamQuestion;
+    private javax.swing.JLabel lblExamQuestionId;
     private javax.swing.JLabel lblLogo;
     private javax.swing.JLabel lblLogout;
+    private javax.swing.JLabel lblOption1;
+    private javax.swing.JLabel lblOption2;
+    private javax.swing.JLabel lblOption3;
+    private javax.swing.JLabel lblOption4;
+    private javax.swing.JLabel lblOption5;
+    private javax.swing.JLabel lblQuestion;
+    private javax.swing.JLabel lblQuestion1;
+    private javax.swing.JLabel lblQuestionId;
     private javax.swing.JLabel lblResult;
     private javax.swing.JLabel lblSystem;
-    private javax.swing.JLabel lblTitle;
+    public javax.swing.JLabel lblTitleExamPaper;
     private javax.swing.JLabel lblUser;
+    private javax.swing.JList<String> listQuestionNo;
     private javax.swing.JPanel pnlContent;
     private javax.swing.JPanel pnlCourse;
     private javax.swing.JPanel pnlDashboard;
@@ -403,8 +588,13 @@ public class ExamPaper extends javax.swing.JFrame {
     private javax.swing.JPanel pnlHeader;
     private javax.swing.JPanel pnlLogo;
     private javax.swing.JPanel pnlNavigation;
-    private javax.swing.JPanel pnlQuestionBox;
+    private javax.swing.JPanel pnlQuestions;
     private javax.swing.JPanel pnlResult;
     private javax.swing.JPanel pnlTitle;
+    private javax.swing.JRadioButton rdbOption1;
+    private javax.swing.JRadioButton rdbOption2;
+    private javax.swing.JRadioButton rdbOption3;
+    private javax.swing.JRadioButton rdbOption4;
+    private javax.swing.JRadioButton rdbOption5;
     // End of variables declaration//GEN-END:variables
 }

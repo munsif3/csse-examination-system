@@ -471,6 +471,7 @@
                 <Property name="text" type="java.lang.String" value="Selected Quiz"/>
               </Properties>
               <AuxValues>
+                <AuxValue name="JavaCodeGenerator_SerializeTo" type="java.lang.String" value="AttemptExam_lblSelectedQuiz"/>
                 <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
               </AuxValues>
             </Component>

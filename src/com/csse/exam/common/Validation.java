@@ -80,19 +80,14 @@ public class Validation {
         for (Component component : components) 
         {
             if (component instanceof JTextField) 
-            {   
-                System.out.println("in1");
+            {                   
                 JTextField textBox = (JTextField) component;
-                System.out.println(textBox.getText());
-                System.out.println("in2");
+                System.out.println(textBox.getText());                
                 if (textBox.getText().equals("")) 
                 {
-                    System.out.println("in3");
-                    
-                    return false;
-                    
-                }
-                
+                    System.out.println("in3");                    
+                    return false;                    
+                }               
             }
         }
         return true;

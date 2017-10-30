@@ -5,7 +5,6 @@
  */
 package com.csse.exam.main;
 
-import com.csse.exam.model.Exam;
 import com.csse.exam.model.User;
 import com.csse.exam.service.ModuleService;
 import java.awt.Color;
@@ -22,8 +21,9 @@ public class QuizContent extends javax.swing.JFrame {
      */
     DashboardStudent dashboardStudent = new DashboardStudent();
     ExamModuleContent examModuleContent = new ExamModuleContent();
-    
     ModuleService moduleService = new ModuleService();
+    
+    
     public QuizContent() {
         initComponents();
         lblUser.setText(User.getName());
@@ -341,12 +341,13 @@ public class QuizContent extends javax.swing.JFrame {
     }//GEN-LAST:event_lblLogoutMouseClicked
 
     private void lstQuizValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lstQuizValueChanged
+        
         AttemptExam attemptExam = new AttemptExam();
         this.setVisible(false);
         attemptExam.setVisible(true);
         attemptExam.lblHeaderAE.setText(lblSelectedModule.getText() + " - " + lstQuiz.getSelectedValue());
         attemptExam.lblSelectedQuiz.setText(lstQuiz.getSelectedValue());
-
+        
 
     }//GEN-LAST:event_lstQuizValueChanged
 

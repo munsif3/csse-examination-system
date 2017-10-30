@@ -17,6 +17,17 @@ public class Question {
     private String flag;
     private String answer;
 
+   /* public Question(String examId, String questionId, String question, String options) {
+        this.examId = examId;
+        this.questionId = questionId;
+        this.question = question;
+        this.options = options;
+    }
+
+    public Question() {
+        
+    }*/
+
     /**
      * @return the examId
      */

@@ -25,7 +25,7 @@ public class ExamModuleContent extends javax.swing.JFrame {
     private ModuleService moduleService = new ModuleService();
     private DefaultListModel defaultListModelLstModules = new DefaultListModel();
     private DefaultListModel defaultListModelLstExams = new DefaultListModel();
-
+    static String examinationCode;
     public ExamModuleContent() {
         initComponents();
         lblUser.setText(User.getName());
@@ -34,7 +34,7 @@ public class ExamModuleContent extends javax.swing.JFrame {
 
     private void loadAllModules() {
         for (Map.Entry<String, String> modules : moduleService.getModulesByStudentId(User.getUserId()).entrySet()) {
-            defaultListModelLstModules = (DefaultListModel) lstModulesEM.getModel();
+            defaultListModelLstModules = (DefaultListModel) lstModulesEM.getModel();                                            
             defaultListModelLstModules.addElement(modules.getKey() + "-" + modules.getValue());
         }
     }
@@ -397,6 +397,7 @@ public class ExamModuleContent extends javax.swing.JFrame {
                 if (exam != null) {
                     System.out.println(lstModulesEM.getSelectedValue());
                     System.out.println(exam.getExamId());
+                    examinationCode = exam.getExamId();
                     defaultListModelLstExams.addElement(exam.getExamId());
                 }
 
