@@ -41,7 +41,9 @@ public class Modules extends javax.swing.JFrame {
     public boolean validateValues()
     {
         Validation validation = new Validation();
-        if (validation.checkTextNull(txtModuleName.getText()) || validation.checkTextNull(pwdModulePassword.getText())) {
+        String password = new String(pwdModulePassword.getPassword());
+        String moduleName = txtModuleName.getText();
+        if (validation.checkTextNull(moduleName) || validation.checkTextNull(password)) {
             JOptionPane.showMessageDialog(null, "You can't keep fields empty");
             return false;
         } 
@@ -181,6 +183,8 @@ public class Modules extends javax.swing.JFrame {
         btnModuleAdd = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblModule = new javax.swing.JTable();
+        pnlModuleClear = new javax.swing.JPanel();
+        btnModuleClear = new javax.swing.JLabel();
         pnlNavigation = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         lblHome = new javax.swing.JLabel();
@@ -260,7 +264,7 @@ public class Modules extends javax.swing.JFrame {
             pnlModuleDeleteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlModuleDeleteLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(btnModuleDelete, javax.swing.GroupLayout.DEFAULT_SIZE, 39, Short.MAX_VALUE)
+                .addComponent(btnModuleDelete, javax.swing.GroupLayout.DEFAULT_SIZE, 43, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -376,6 +380,46 @@ public class Modules extends javax.swing.JFrame {
         jScrollPane1.setViewportView(tblModule);
 
         jPanel3.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 10, 390, 220));
+
+        pnlModuleClear.setBackground(new java.awt.Color(70, 102, 144));
+        pnlModuleClear.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        pnlModuleClear.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        pnlModuleClear.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                pnlModuleClearMouseClicked(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                pnlModuleClearMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                pnlModuleClearMouseReleased(evt);
+            }
+        });
+
+        btnModuleClear.setFont(new java.awt.Font("Segoe UI Light", 0, 16)); // NOI18N
+        btnModuleClear.setForeground(new java.awt.Color(255, 255, 255));
+        btnModuleClear.setText("       CLEAR");
+        btnModuleClear.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnModuleClearMouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout pnlModuleClearLayout = new javax.swing.GroupLayout(pnlModuleClear);
+        pnlModuleClear.setLayout(pnlModuleClearLayout);
+        pnlModuleClearLayout.setHorizontalGroup(
+            pnlModuleClearLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(btnModuleClear, javax.swing.GroupLayout.DEFAULT_SIZE, 106, Short.MAX_VALUE)
+        );
+        pnlModuleClearLayout.setVerticalGroup(
+            pnlModuleClearLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlModuleClearLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(btnModuleClear, javax.swing.GroupLayout.DEFAULT_SIZE, 39, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        jPanel3.add(pnlModuleClear, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 260, -1, -1));
 
         pnlContent.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 790, 370));
 
@@ -802,6 +846,9 @@ public class Modules extends javax.swing.JFrame {
         String moduleId = getModuleID();
         String query = "delete from sql12196110.module where moduleId='"+moduleId+"';";
         executeQuery(query);
+        txtModuleName.setText("");
+        pwdModulePassword.setText("");
+        
     }//GEN-LAST:event_btnModuleDeleteMouseClicked
 
     private void pnlModuleDeleteMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlModuleDeleteMousePressed
@@ -833,13 +880,15 @@ public class Modules extends javax.swing.JFrame {
         // TODO add your handling code here:
         String moduleId = getModuleID();
         String moduleName = txtModuleName.getText();
-        String password = pwdModulePassword.getText();
+        String password = new String(pwdModulePassword.getPassword());
         String allocated = getAllocatedYearAndSemester();
         
         if(validateValues())
         {
             String query = "update sql12196110.module set moduleName ='"+moduleName+"',modulePassword='"+password+"',allocatedTo='"+allocated+"' where moduleId='"+moduleId+"';";
             executeQuery(query);
+            txtModuleName.setText("");
+            pwdModulePassword.setText("");
         }
         
     }//GEN-LAST:event_btnModuleUpdateMouseClicked
@@ -859,13 +908,15 @@ public class Modules extends javax.swing.JFrame {
     private void btnModuleAddMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnModuleAddMouseClicked
         String newID = getNewModuleId();
         String moduleName = txtModuleName.getText();
-        String password = pwdModulePassword.getText();
+        String password = new String(pwdModulePassword.getPassword());
         String allocated = getAllocatedYearAndSemester();
         
         if(validateValues())
         {
             String query = "Insert into module values('"+newID+"','"+moduleName+"','"+password+"','"+allocated+"')";
             executeQuery(query);
+            txtModuleName.setText("");
+            pwdModulePassword.setText("");
         }
     }//GEN-LAST:event_btnModuleAddMouseClicked
 
@@ -912,6 +963,24 @@ public class Modules extends javax.swing.JFrame {
     private void jPanel9MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel9MouseReleased
         // TODO add your handling code here:
     }//GEN-LAST:event_jPanel9MouseReleased
+
+    private void btnModuleClearMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnModuleClearMouseClicked
+        txtModuleName.setText("");
+        pwdModulePassword.setText("");
+        
+    }//GEN-LAST:event_btnModuleClearMouseClicked
+
+    private void pnlModuleClearMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlModuleClearMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_pnlModuleClearMouseClicked
+
+    private void pnlModuleClearMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlModuleClearMousePressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_pnlModuleClearMousePressed
+
+    private void pnlModuleClearMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlModuleClearMouseReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_pnlModuleClearMouseReleased
 
     /**
      * @param args the command line arguments
@@ -1205,6 +1274,7 @@ public class Modules extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel btnModuleAdd;
+    private javax.swing.JLabel btnModuleClear;
     private javax.swing.JLabel btnModuleDelete;
     private javax.swing.JLabel btnModuleUpdate;
     private javax.swing.JComboBox<String> cmbSemester;
@@ -1237,6 +1307,7 @@ public class Modules extends javax.swing.JFrame {
     private javax.swing.JPanel pnlHeader;
     private javax.swing.JPanel pnlModule;
     private javax.swing.JPanel pnlModuleAdd;
+    private javax.swing.JPanel pnlModuleClear;
     private javax.swing.JPanel pnlModuleDelete;
     private javax.swing.JPanel pnlModuleUpdate;
     private javax.swing.JPanel pnlNavigation;
