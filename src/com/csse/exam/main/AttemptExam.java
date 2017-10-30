@@ -8,8 +8,6 @@ package com.csse.exam.main;
 import com.csse.exam.model.User;
 import com.csse.exam.service.ExamService;
 import java.awt.Color;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
