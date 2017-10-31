@@ -247,7 +247,7 @@ public final class ExamService
         return password.equals(getExam(examId).getExamPassword());
     }
     
-<<<<<<< HEAD
+
     public boolean valaidateExamDate(String examDate)
     {       
         return examDate == null;
@@ -266,16 +266,16 @@ public final class ExamService
                 System.out.println(e);
         }        
         return false;
-=======
+
+    }
     
-    
-    public void submitAnswers(long id , String examID, String userId,String answerSet){
+   public void submitAnswers(long id , String examID, String userId,String answerSet){
         try (Connection dbConnection = DBConnection.getConnection()) {
              dbConnection.createStatement().executeUpdate("insert into student values('" +id + "','" + examID + "','" + userId + "','" + answerSet +"')");
         } catch (SQLException e) {
             e.printStackTrace();
         }
->>>>>>> 6050189b5eb09ae684289f307eb043200b31d80b
+
     }
     
 }
