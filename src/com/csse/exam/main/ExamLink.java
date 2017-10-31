@@ -33,7 +33,6 @@ public class ExamLink extends javax.swing.JFrame {
         initComponents();
         commonComponents.addValueToComboBox(cmbExaminationCode, "exam", "examId");
         commonComponents.addValueToComboBox(cmbExaminationCodeSearch, "exam", "examId");
-        //link.addValueToComboBox(cmbExamLink, "exam", "examState");
         linkService.fillExamLinkTable(tblExamLink);
     }
 

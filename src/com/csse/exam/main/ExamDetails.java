@@ -11,6 +11,7 @@ import com.csse.exam.common.Validation;
 import com.csse.exam.service.ExamService;
 import java.awt.Color;
 import static java.lang.Integer.parseInt;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.RowFilter;
@@ -30,9 +31,9 @@ public class ExamDetails extends javax.swing.JFrame {
     private final ClearComponents clear = new ClearComponents();
     
     DefaultTableModel tableModel;  
-    
-    
-    
+    //Date currentDate = new Date();
+    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
     String examType;
     String examId;
     String moduleId;
@@ -42,7 +43,7 @@ public class ExamDetails extends javax.swing.JFrame {
     String questionNo;
     String allocatedMarks;
     String examDuration;
-    
+    String dateString;
     /**
      * Creates new form ExamDetails
      */
@@ -50,7 +51,7 @@ public class ExamDetails extends javax.swing.JFrame {
         initComponents();
         examService.fillExamDetailsTable(tblExamDetails);
         commonComponents.addValueToComboBox(cmbSearchExamId, "exam", "examId");     
-    
+        
     }
 
     /**
@@ -415,6 +416,11 @@ public class ExamDetails extends javax.swing.JFrame {
 
         btnDelete.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnDelete.setText("DELETE");
+        btnDelete.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnDeleteMouseClicked(evt);
+            }
+        });
         pnlExamDetails.add(btnDelete, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 170, 110, 40));
 
         datePickExamDate.setDateFormatString("yyyy-MM-dd");
@@ -443,6 +449,11 @@ public class ExamDetails extends javax.swing.JFrame {
             }
         });
         tblExamDetails.getTableHeader().setReorderingAllowed(false);
+        tblExamDetails.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblExamDetailsMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblExamDetails);
 
         pnlExamDetailTable.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 770, 190));
@@ -535,14 +546,12 @@ public class ExamDetails extends javax.swing.JFrame {
         clear.clearTextFields(pnlExamDetailTable);
         clear.resetSingleComboBox(cmbDurationUnit);
         
-        if(cmbExamType.getSelectedIndex() != 0)
+        if((cmbExamType.getSelectedIndex() != 0) && (cmbSearchExamId.getSelectedIndex() == 0))
         {
-            txtExamCode.setText(examService.getExamId(examType, moduleId));
-            
-            txtModuleId.setText(moduleId);   
-            
-        }
-             
+            txtExamCode.setText(examService.getExamId(examType, moduleId));            
+            txtModuleId.setText(moduleId);              
+        }             
+        
     }//GEN-LAST:event_cmbExamTypeActionPerformed
 
     /**
@@ -551,8 +560,12 @@ public class ExamDetails extends javax.swing.JFrame {
      */
     private void btnAddMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddMouseClicked
 
+        System.out.println(dateString);
+        System.out.println(datePickExamDate.getDateFormatString());
+        System.out.println(datePickExamDate.getDate());
         boolean emptyValue = validation.checkEmptyTextBox(pnlExamDetails);       
         boolean checkBoxValue = validation.checkComboBox(pnlExamDetails);
+        int itemCount = cmbSearchExamId.getItemCount();
         
         if((emptyValue==false) || (checkBoxValue==false))
         {
@@ -564,11 +577,10 @@ public class ExamDetails extends javax.swing.JFrame {
             examType = cmbExamType.getSelectedItem().toString();
             moduleId = txtModuleId.getText();
             examdate = datePickExamDate.getDate();
-           
+            dateString = dateFormat.format(examdate);            
             examTime = txtDurationValue.getText();
             examTimeUnit = cmbDurationUnit.getSelectedItem().toString();
-            examDuration = examTime+" "+ examTimeUnit ;
-            
+            examDuration = examTime+" "+ examTimeUnit ;            
             questionNo  = txtQuestionNo.getText();
             allocatedMarks = txtMarks.getText();
             
@@ -576,14 +588,17 @@ public class ExamDetails extends javax.swing.JFrame {
             boolean numberValue = validation.checkOverAllNumberBox(numbers);
             boolean moduleIdValue = validation.checkModuleId(moduleId);
             boolean examIdValue = validation.checkExamId(examId, moduleId,examType);
-                  
-        if(numberValue && moduleIdValue && examIdValue)
+            boolean dateValue = examService.valaidateExamDate(dateString);   
+            
+        if(numberValue && moduleIdValue && examIdValue && dateValue==false)
         {
-            boolean value = examService.addExamdetails(examId, examDuration,moduleId, parseInt(questionNo), parseInt(allocatedMarks));
+            boolean value = examService.addExamdetails(examId, examDuration,moduleId, parseInt(questionNo), parseInt(allocatedMarks),dateString);
             
             if(value)
             {
                 JOptionPane.showMessageDialog(this, "Exam details were successfully updated", "Success Message", 1);
+                cmbSearchExamId.addItem(examId);
+                
                 tableModel= (DefaultTableModel) tblExamDetails.getModel();
                 tableModel.setRowCount(0);
                 examService.fillExamDetailsTable(tblExamDetails);
@@ -592,42 +607,56 @@ public class ExamDetails extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Exam details were not added", "Error Message", 1);
         }
         else
-            JOptionPane.showMessageDialog(this, "Enter appropriate values with correct format", "Error Message", 1);
-                    
+            JOptionPane.showMessageDialog(this, "Enter appropriate values with correct format", "Error Message", 1);                   
         }
     }//GEN-LAST:event_btnAddMouseClicked
 
     private void cmbSearchExamIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbSearchExamIdActionPerformed
-        // TODO add your handling code here:
-        tableModel = (DefaultTableModel) tblExamDetails.getModel();   
+
+        clear.clearTextFields(pnlExamDetails);
+        clear.clearTextFields(pnlExamDetailTable);
+        clear.resetSingleComboBox(cmbDurationUnit);
+        datePickExamDate.setDate(null);
         
-        if(cmbSearchExamId.getSelectedIndex() == 0)
-        {                 
+        /*if(cmbSearchExamId.getSelectedIndex() == 0)
+        {   
+            tableModel = (DefaultTableModel) tblExamDetails.getModel(); 
             tableModel.setRowCount(0);           
             examService.fillExamDetailsTable(tblExamDetails);
-        }
-        else
+        }*/
+        if(cmbSearchExamId.getSelectedIndex() != 0)
         { 
+            tableModel = (DefaultTableModel) tblExamDetails.getModel(); 
             TableRowSorter<TableModel> sorter = new TableRowSorter<>(tableModel); 
             sorter.setRowFilter(RowFilter.regexFilter(cmbSearchExamId.getSelectedItem().toString()));
-            tblExamDetails.setRowSorter(sorter); 
-                   
+            tblExamDetails.setRowSorter(sorter);                   
         }
-        
-        examId = tblExamDetails.getModel().getValueAt(0, 0).toString();
+        /*
+            examId = tblExamDetails.getModel().getValueAt(0, 0).toString();
             examType = examId.split("-")[1]; //MO001-ASSIGNMENT-E:01
             moduleId = tblExamDetails.getModel().getValueAt(0, 1).toString();
+            dateString = tblExamDetails.getModel().getValueAt(0, 2).toString();
             examDuration = tblExamDetails.getModel().getValueAt(0, 3).toString();
             examTime = examDuration.split(" ")[0];
             examTimeUnit = examDuration.split(" ")[1];
             questionNo = tblExamDetails.getModel().getValueAt(0, 4).toString();
             allocatedMarks = tblExamDetails.getModel().getValueAt(0, 5).toString();
             
-            cmbExamType.setSelectedItem(examType);
+            txtExamCode.setText(examId);
+            txtModuleId.setText(moduleId);
+            //cmbExamType.setSelectedItem(examType);
             txtDurationValue.setText(examTime);
             cmbDurationUnit.setSelectedItem(examTimeUnit);
             txtQuestionNo.setText(questionNo);
             txtMarks.setText(allocatedMarks);
+            try{
+                datePickExamDate.setDate((Date)dateFormat.parse(dateString));
+            }
+            catch(Exception e)
+            {
+            
+            }
+            
             
             System.out.println(examId);
             System.out.println(moduleId);
@@ -636,7 +665,7 @@ public class ExamDetails extends javax.swing.JFrame {
             System.out.println(allocatedMarks);
         
         
-        
+        */
         
         
     }//GEN-LAST:event_cmbSearchExamIdActionPerformed
@@ -647,18 +676,22 @@ public class ExamDetails extends javax.swing.JFrame {
         clear.resetComboBox(pnlExamDetailTable);              
         clear.resetComboBox(pnlExamDetails);
         clear.clearTextFields(pnlExamDetails);
+        datePickExamDate.setDate(null);
+        tableModel = (DefaultTableModel) tblExamDetails.getModel(); 
+        tableModel.setRowCount(0);           
+        examService.fillExamDetailsTable(tblExamDetails);
         
         
     }//GEN-LAST:event_btnClearMouseClicked
 
     private void btnUpdateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUpdateMouseClicked
         // TODO add your handling code here:
-        tableModel= (DefaultTableModel) tblExamDetails.getModel();
+            tableModel= (DefaultTableModel) tblExamDetails.getModel();
             examId = txtExamCode.getText();
             examType = cmbExamType.getSelectedItem().toString();
             moduleId = txtModuleId.getText();
             examdate = datePickExamDate.getDate();
-           
+            dateString = dateFormat.format(examdate);
             examTime = txtDurationValue.getText();
             examTimeUnit = cmbDurationUnit.getSelectedItem().toString();
             examDuration = examTime+" "+ examTimeUnit ;
@@ -666,9 +699,10 @@ public class ExamDetails extends javax.swing.JFrame {
             questionNo  = txtQuestionNo.getText();
             allocatedMarks = txtMarks.getText();
             
-       boolean updateValue = examService.updateExamDetails(examDuration, parseInt(questionNo),parseInt(allocatedMarks), examId);
-        System.out.println("update value " + updateValue);
-       if(updateValue)
+            boolean updateValue = examService.updateExamDetails(examDuration, parseInt(questionNo),parseInt(allocatedMarks), examId,dateString);
+            System.out.println("update value " + updateValue);
+            
+            if(updateValue)
             {
                 JOptionPane.showMessageDialog(this, "Exam details were successfully updated", "Success Message", 1);
                 
@@ -683,6 +717,65 @@ public class ExamDetails extends javax.swing.JFrame {
         // TODO add your handling code here:
         
     }//GEN-LAST:event_cmbSearchExamIdPropertyChange
+
+    private void tblExamDetailsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblExamDetailsMouseClicked
+        // TODO add your handling code here:
+        int selectedRow = tblExamDetails.getSelectedRow();
+        TableModel tModel = tblExamDetails.getModel();       
+        System.out.println(selectedRow);
+        examId = tModel.getValueAt(selectedRow, 0).toString();
+        examType = examId.split("-")[1]; //MO001-ASSIGNMENT-E:01
+        moduleId = tModel.getValueAt(selectedRow, 1).toString();
+        dateString = tModel.getValueAt(selectedRow, 2).toString();
+        examDuration = tModel.getValueAt(selectedRow, 3).toString();
+        examTime = examDuration.split(" ")[0];
+        examTimeUnit = examDuration.split(" ")[1];
+        questionNo = tModel.getValueAt(selectedRow, 4).toString();
+        allocatedMarks = tModel.getValueAt(selectedRow, 5).toString();
+        
+        //cmbExamType.setSelectedItem(examType);
+        txtExamCode.setText(examId);
+        txtModuleId.setText(moduleId);
+        txtDurationValue.setText(examTime);
+        cmbDurationUnit.setSelectedItem(examTimeUnit);
+        txtQuestionNo.setText(questionNo);
+        txtMarks.setText(allocatedMarks);
+        try{
+                datePickExamDate.setDate((Date)dateFormat.parse(dateString));
+            }
+            catch(Exception e)
+            {
+            
+            }
+    }//GEN-LAST:event_tblExamDetailsMouseClicked
+
+    private void btnDeleteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDeleteMouseClicked
+
+        tableModel= (DefaultTableModel) tblExamDetails.getModel();
+        examId = txtExamCode.getText();
+        examdate = datePickExamDate.getDate();
+        Date date = new Date();
+        boolean val = examdate.after(date);
+        
+        if(val)
+        {
+            boolean deleteValue = examService.deleteExamDetails(examId);
+            
+            if(deleteValue)
+            {
+                JOptionPane.showMessageDialog(this, "Exam details were successfully deleted", "Success Message", 1);
+                tableModel.setRowCount(0);
+                examService.fillExamDetailsTable(tblExamDetails);
+                cmbSearchExamId.removeItem(examId);
+            }
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(this, "Exam that you have selected is already done.\nYou cannot delete the exam history", "Fasilure Message", 1);
+
+        }
+       
+    }//GEN-LAST:event_btnDeleteMouseClicked
 
     /**
      * @param args the command line arguments

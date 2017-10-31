@@ -8,6 +8,7 @@ package com.csse.exam.main;
 import com.csse.exam.common.ClearComponents;
 import com.csse.exam.common.CommonComponents;
 import com.csse.exam.common.Validation;
+import com.csse.exam.model.Question;
 import com.csse.exam.model.Session;
 import com.csse.exam.service.SessionService;
 import java.awt.Color;
@@ -15,10 +16,9 @@ import static java.lang.Integer.parseInt;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import javax.swing.JComboBox;
+import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.JSpinner;
-import javax.swing.JTextField;
 import javax.swing.SpinnerDateModel;
 /**
  *
@@ -30,6 +30,7 @@ public class ExamSession extends javax.swing.JFrame {
     SessionService sessionService = new SessionService();
     Validation validation = new Validation();
     ClearComponents clear = new ClearComponents();
+    private final ArrayList<Session> sessionList = sessionService.getSession();
     
     String examId;
     String moduleId;
@@ -518,13 +519,13 @@ public class ExamSession extends javax.swing.JFrame {
        clear.clearTextFields(pnlSessionDetails);
        clear.resetSingleComboBox(cmbSessionIds);
        if(value==false)
-       {          
+       {                 
            sessionService.getExamDetailsById(examId,txtModuleId, txtExamDate);
            txtSessionId.setText(sessionService.getSessionId(examId));
            sessionService.getSessionIdByExamId(cmbSessionIds,examId);
        }
        else
-       {           
+       {                 
            sessionService.getSessionDetailsById(examId, txtModuleId, txtExamDate, txtSessionId,  spinExamTime, txtExamVenue);
            sessionService.getSessionIdByExamId(cmbSessionIds,examId);
            txtSessionId.setText(sessionService.getSessionId(examId));

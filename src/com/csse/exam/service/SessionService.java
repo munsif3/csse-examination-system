@@ -6,6 +6,7 @@
 package com.csse.exam.service;
 
 import com.csse.exam.config.DBConnection;
+import com.csse.exam.model.Question;
 import com.csse.exam.model.Session;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,6 +14,8 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 import javax.swing.JComboBox;
 import javax.swing.JSpinner;
 import javax.swing.JTable;
@@ -25,12 +28,12 @@ import javax.swing.table.DefaultTableModel;
  */
 public class SessionService {
     
-    private static final Connection connection = DBConnection.getConnection();
-    private Session session;
+    private static final Connection connection = DBConnection.getConnection();   
     private static PreparedStatement preparedStatement;
     private static ResultSet resultSet;
-    private ArrayList<Session> sessionList = new ArrayList<>();
-    DefaultTableModel tableModel;
+    Session session;
+    private final ArrayList<Session> sessionList = new ArrayList<>();   
+    
     
     
     
@@ -41,7 +44,7 @@ public class SessionService {
     public void fillSessionDetailsTable(JTable table)
     {
        
-        tableModel= (DefaultTableModel) table.getModel();       
+        DefaultTableModel tableModel= (DefaultTableModel) table.getModel();       
         try
         {             
             preparedStatement = connection.prepareStatement("SELECT e.examId, e.moduleId, e.examDate,s.sessionId, s.examTime, s.examVenue FROM exam e, session s WHERE e.examId=s.examId");
@@ -78,21 +81,19 @@ public class SessionService {
     {
         try
         {
-            preparedStatement = connection.prepareStatement("SELECT e.examId, e.moduleId, e.examDate,s.sessionId, s.examTime, s.examVenue FROM exam e, session s");
-            
+            preparedStatement = connection.prepareStatement("SELECT e.examId, e.moduleId, e.examDate,s.sessionId, s.examTime, s.examVenue FROM exam e, session s WHERE e.examId=s.examId");           
             resultSet = preparedStatement.executeQuery();
             
             while(resultSet.next())
             {
-                session = new Session();
+               session = new Session();
             
                session.setExamId(resultSet.getString("examId"));
                session.setModuleId(resultSet.getString("moduleId"));
                session.setExamDate(resultSet.getString("examDate"));
                session.setSessionId(resultSet.getInt("sessionId"));
                session.setExamTime(resultSet.getString("examTime"));
-               session.setExamVenue(resultSet.getString("examVenue"));
-               
+               session.setExamVenue(resultSet.getString("examVenue"));               
                sessionList.add(session);
             }
         }
@@ -104,10 +105,10 @@ public class SessionService {
     }
    
    public DefaultTableModel fillSessionTable() {
-        //DefaultTableModel table = new DefaultTableModel(new Object[]{"Student ID", "Exam ID", "Score"}, 0);
+        DefaultTableModel tableModel = new DefaultTableModel(new Object[]{"EXAMINATION ID", "MODULE ID", "EXAMINATION DATE" ,"SESSION ID", "EXAMINATION TIME", "EXAMINATION VENUE"}, 0);
 
-        sessionList.forEach((r) -> {
-            tableModel.addRow(new Object[]{r.getExamId(), r.getModuleId(), r.getExamDate(), r.getSessionId(),r.getExamTime(), r.getExamVenue() });
+        sessionList.forEach((result) -> {
+            tableModel.addRow(new Object[]{result.getExamId(), result.getModuleId(), result.getExamDate(), result.getSessionId(),result.getExamTime(), result.getExamVenue()});
         });
 
         return tableModel;
@@ -303,5 +304,20 @@ public class SessionService {
         }
         return false;
     }
-            
+    
+    public List<Session> getExamDetailsById(String examId) {
+        return sessionList.stream()
+                .filter(t -> t.getExamId().equals(examId))
+                .collect(Collectors.toList());
+
+    }
+    
+    /*public List<Question> getQuestion(String examId, String questionId) {
+        return questionList.stream()
+                .filter(t -> t.getExamId().equals(examId) && t.getQuestionId().equals(questionId))
+                .collect(Collectors.toList());
+    }*/
+    
 }
+            
+

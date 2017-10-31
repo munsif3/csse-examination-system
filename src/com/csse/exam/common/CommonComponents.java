@@ -6,6 +6,7 @@
 package com.csse.exam.common;
 
 import com.csse.exam.config.DBConnection;
+import java.awt.Dimension;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -48,4 +49,6 @@ public class CommonComponents
             System.out.println(e);
         }
     }
+    
+    
 }
