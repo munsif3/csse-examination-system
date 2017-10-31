@@ -8,7 +8,6 @@ package com.csse.exam.service;
 import com.csse.exam.config.DBConnection;
 import com.csse.exam.model.Exam;
 import java.sql.Connection;
-import java.util.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
@@ -25,7 +24,7 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author saranki
+ * @author Saranki
  */
 public final class ExamService 
 {
@@ -145,23 +144,6 @@ public final class ExamService
         return examId;
     }
     
-    /*public void fillExamDetailsTable(JTable table)
-    {
-        DefaultTableModel tableModel = (DefaultTableModel) table.getModel(); 
-        
-        ArrayList<Exam> examDetailsList = getExam();
-        int listSize = examDetailsList.size();
-        
-        Object[] objects = new Object[listSize];
-        
-        for(int i=0; i<listSize; i++)
-        {
-            objects[i] = examDetailsList.get(i);
-            tableModel.addRow(objects);
-        }
-        table.setModel(tableModel);
-    }*/
-    
     public void fillExamDetailsTable(JTable table)
     {
        
@@ -196,16 +178,16 @@ public final class ExamService
         }        
     }
     
-    public boolean addExamdetails(String examId, String examDuration, String moduleId, int noOfQuestion, int totalMarks) {
+    public boolean addExamdetails(String examId, String examDuration, String moduleId, int noOfQuestion, int totalMarks, String dateString) {
         try {
-            preparedStatement = connection.prepareStatement("INSERT INTO exam (examId, examDuration, moduleId, noOfQuestion, totalMarks)" + "VALUES(?,?,?,?,?)");
+            preparedStatement = connection.prepareStatement("INSERT INTO exam (examId, examDuration, moduleId, examDate, noOfQuestion, totalMarks)" + "VALUES(?,?,?,?,?,?)");
               
             preparedStatement.setString(1, examId);
             preparedStatement.setString(2, examDuration);
             preparedStatement.setString(3, moduleId);
-            //preparedStatement.setDate(4, (java.sql.Date) examDate);
-            preparedStatement.setInt(4, noOfQuestion);
-            preparedStatement.setInt(5, totalMarks);
+            preparedStatement.setString(4, dateString);
+            preparedStatement.setInt(5, noOfQuestion);
+            preparedStatement.setInt(6, totalMarks);
 
             int i = preparedStatement.executeUpdate();
             System.out.println(i + " records updated");      
@@ -219,39 +201,23 @@ public final class ExamService
         return false;
     }
     
-    public boolean updateExamDetails(String examDuration, int noOfQuestion, int totalMarks,String examId){
+    public boolean updateExamDetails(String examDuration, int noOfQuestion, int totalMarks,String examId, String dateString){
         try {
-            System.out.println(examId);
-            System.out.println(examDuration);
-            System.out.println(noOfQuestion);
-            System.out.println(totalMarks);
             
-            preparedStatement = connection.prepareStatement("UPDATE exam SET examDuration=?, noOfQuestion=?, totalMarks=? WHERE examId=?");         
+            preparedStatement = connection.prepareStatement("UPDATE exam SET examDuration=?, examDate =?, noOfQuestion=?, totalMarks=? WHERE examId=?");         
             
             preparedStatement.setString(1, examDuration);
-            preparedStatement.setInt(2, noOfQuestion);
-            preparedStatement.setInt(3, totalMarks);
-            preparedStatement.setString(4, examId);
+            preparedStatement.setString(2, dateString);
+            preparedStatement.setInt(3, noOfQuestion);
+            preparedStatement.setInt(4, totalMarks);
+            preparedStatement.setString(5, examId);
             
             int i = preparedStatement.executeUpdate();
             System.out.println(i + " records updated");            
             return true;
         } catch (SQLException e) {
                 System.out.println(e);
-        }
-       /* finally {
-
-			if (preparedStatement != null) {
-				preparedStatement.close();
-			}
-
-			if (connection != null) {
-				connection.close();
-			}
-
-		}*/
-
-        
+        }        
         return false;
     }
   
@@ -279,6 +245,26 @@ public final class ExamService
     
     public boolean validateExamPassword(String examId , String password){
         return password.equals(getExam(examId).getExamPassword());
+    }
+    
+    public boolean valaidateExamDate(String examDate)
+    {       
+        return examDate == null;
+    }
+    
+    public boolean deleteExamDetails(String examId){
+        try {
+            
+            preparedStatement = connection.prepareStatement("DELETE FROM exam WHERE examId=?");                     
+            preparedStatement.setString(1, examId);
+            
+            int i = preparedStatement.executeUpdate();
+            System.out.println(i + " records deleted");            
+            return true;
+        } catch (SQLException e) {
+                System.out.println(e);
+        }        
+        return false;
     }
     
 }

@@ -18,7 +18,7 @@ public class Session {
     private static int sessionId;
     private static String examVenue;
     
-    public Session(String examId, String moduleId, String examDate, String examTime,int sessionId,String examVenue)
+   /* public Session(String examId, String moduleId, String examDate, String examTime,int sessionId,String examVenue)
     {
         Session.examId = examId;
         Session.moduleId = moduleId;
@@ -30,7 +30,7 @@ public class Session {
     public Session()
     {
     
-    }
+    }*/
 
     public static String getExamId() {
         return examId;
