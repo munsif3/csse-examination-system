@@ -56,7 +56,8 @@ public class SetExamPassword extends javax.swing.JFrame {
     public boolean validateValues()
     {
         Validation validation = new Validation();
-        if (validation.checkTextNull(pwdExamPassword.getText())) {
+        String examPassword = new String(pwdExamPassword.getPassword());
+        if (validation.checkTextNull(examPassword)) {
             JOptionPane.showMessageDialog(null, "You can't keep fields empty");
             return false;
         } 
@@ -635,7 +636,7 @@ public class SetExamPassword extends javax.swing.JFrame {
     private void btnUpdateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUpdateMouseClicked
         // TODO add your handling code here:
         String examId = cmbExamID.getSelectedItem().toString();
-        String examPassword = pwdExamPassword.getText();
+        String examPassword = new String(pwdExamPassword.getPassword());
         
         if(validateValues())
         {

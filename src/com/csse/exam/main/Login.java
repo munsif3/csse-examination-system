@@ -135,7 +135,7 @@ public class Login extends javax.swing.JFrame {
 
         // Collecting the input
         String username = txtUsername.getText();
-        String password = txtPassword.getText();
+        String password = new String(txtPassword.getPassword());
 
         //validating empty fields
         if (validation.checkTextNull(username)) {

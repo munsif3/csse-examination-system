@@ -9,48 +9,54 @@ package com.csse.exam.main;
  *
  * @author saranki
  */
-
-
 import com.csse.exam.model.Question;
-import com.csse.exam.model.Result;
 import com.csse.exam.model.User;
 import com.csse.exam.service.ExamPaperService;
 import com.csse.exam.service.ExamService;
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.swing.DefaultListModel;
-import javax.swing.JButton;
 import javax.swing.JOptionPane;
+
 public class ExamPaper extends javax.swing.JFrame {
 
     /**
      * Creates new form ExamPaper
      */
+    public HashMap<String, String> answerMap = new HashMap<String, String>();
+    long startTime = System.currentTimeMillis();
+    Calendar c = Calendar.getInstance();
+    long elapsedTime = 0L;
     ExamService examService = new ExamService();
-   
+
     ExamPaperService examPaperService = new ExamPaperService();
- 
+
     private final ArrayList<Question> questionList = examPaperService.getQuestions();
-    String questionId; 
-    String question; 
-   /* int x = 18;
+    String questionId;
+    String question;
+    /* int x = 18;
     int y = 5;*/
-    
+
     DefaultListModel listModel = new DefaultListModel();
+
     public ExamPaper() {
-        
+
         initComponents();
         lblUser.setText(User.getName());
         lblTitleExamPaper.setText(ExamModuleContent.examinationCode);
-       
-        
-           List<Question> questionsByExamId = examPaperService.getQuestionId(ExamModuleContent.examinationCode);
-           questionsByExamId.forEach((result) -> {                
-                questionId = result.getQuestionId();
-                question = result.getQuestion();
-                
-                /*JButton button = new JButton();
+
+        List<Question> questionsByExamId = examPaperService.getQuestionId(ExamModuleContent.examinationCode);
+        questionsByExamId.forEach((result) -> {
+
+            questionId = result.getQuestionId();
+            question = result.getQuestion();
+            answerMap.put(questionId, "NA");
+            /*JButton button = new JButton();
                 button.setLocation(x,y);
                 button.setSize(60, 40);
                 button.setText(questionId);
@@ -60,11 +66,56 @@ public class ExamPaper extends javax.swing.JFrame {
                 //System.out.println(question);
                 //System.out.println(questionId);
                 y = y+45;*/
-                listModel.addElement(questionId);
+            listModel.addElement(questionId);
         });
-              listQuestionNo.setModel(listModel);   
-                    
-        
+        listQuestionNo.setModel(listModel);
+
+    }
+
+    public void closeUi() {
+        while (elapsedTime < 600000) {
+            elapsedTime = (new Date()).getTime() - startTime;
+            jLabel1.setText("00" + ":" + Long.toString((600000 - elapsedTime) / 60000) + ":" + Long.toString(((600000 - elapsedTime) % 60000) / 1000));
+        }
+        if (elapsedTime > 600000) {
+            JOptionPane.showMessageDialog(null, "The given time has passed", "OK",
+                    JOptionPane.INFORMATION_MESSAGE);
+            System.out.println(getAnswerSetValues());
+            this.setVisible(false);
+        }
+    }
+
+    private void recordAnswers() {
+        if (buttonGroup1.getSelection()!= null) {
+            answerMap.replace(listQuestionNo.getSelectedValue(), buttonGroup1.getSelection().getActionCommand());
+        }
+
+    }
+
+    private void setSelected() {
+        if ("NA".equals(answerMap.get(listQuestionNo.getSelectedValue()))) {
+            buttonGroup1.clearSelection();
+        } else if ("a".equals(answerMap.get(listQuestionNo.getSelectedValue()))) {
+            rdbOption1.setSelected(true);
+
+        } else if ("b".equals(answerMap.get(listQuestionNo.getSelectedValue()))) {
+            rdbOption2.setSelected(true);
+        } else if ("c".equals(answerMap.get(listQuestionNo.getSelectedValue()))) {
+            rdbOption3.setSelected(true);
+        } else if ("d".equals(answerMap.get(listQuestionNo.getSelectedValue()))) {
+            rdbOption4.setSelected(true);
+        } else if ("e".equals(answerMap.get(listQuestionNo.getSelectedValue()))) {
+            rdbOption5.setSelected(true);
+        }
+    }
+
+    private String getAnswerSetValues() {
+        String answerSet = "";
+        for (Map.Entry<String, String> map : answerMap.entrySet()) {
+            answerSet = answerSet + map.getKey() + "." + map.getValue() + ",";
+            System.out.println(map.getKey() + "-" + map.getValue());
+        }
+        return answerSet;
     }
 
     /**
@@ -76,6 +127,7 @@ public class ExamPaper extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
         pnlNavigation = new javax.swing.JPanel();
         pnlDashboard = new javax.swing.JPanel();
         lblDashboard = new javax.swing.JLabel();
@@ -112,6 +164,9 @@ public class ExamPaper extends javax.swing.JFrame {
         lblOption4 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         listQuestionNo = new javax.swing.JList<>();
+        pnlResult1 = new javax.swing.JPanel();
+        lblResult1 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -157,7 +212,7 @@ public class ExamPaper extends javax.swing.JFrame {
             pnlDashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlDashboardLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lblDashboard, javax.swing.GroupLayout.DEFAULT_SIZE, 24, Short.MAX_VALUE)
+                .addComponent(lblDashboard, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -193,7 +248,7 @@ public class ExamPaper extends javax.swing.JFrame {
             pnlCourseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlCourseLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lblCourse, javax.swing.GroupLayout.DEFAULT_SIZE, 24, Short.MAX_VALUE)
+                .addComponent(lblCourse, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -228,7 +283,7 @@ public class ExamPaper extends javax.swing.JFrame {
             pnlExamLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlExamLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lblExam, javax.swing.GroupLayout.DEFAULT_SIZE, 24, Short.MAX_VALUE)
+                .addComponent(lblExam, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -263,7 +318,7 @@ public class ExamPaper extends javax.swing.JFrame {
             pnlResultLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlResultLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lblResult, javax.swing.GroupLayout.DEFAULT_SIZE, 24, Short.MAX_VALUE)
+                .addComponent(lblResult, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -337,7 +392,7 @@ public class ExamPaper extends javax.swing.JFrame {
         );
         pnlTitleLayout.setVerticalGroup(
             pnlTitleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(lblTitleExamPaper, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
+            .addComponent(lblTitleExamPaper, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pnlHeader.add(pnlTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, 830, 40));
@@ -357,24 +412,59 @@ public class ExamPaper extends javax.swing.JFrame {
         lblQuestionId.setText("QUESTION NO :");
         pnlQuestions.add(lblQuestionId, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, 30));
 
+        buttonGroup1.add(rdbOption1);
         rdbOption1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         rdbOption1.setText("a.");
+        rdbOption1.setActionCommand("a");
+        rdbOption1.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                rdbOption1ItemStateChanged(evt);
+            }
+        });
         pnlQuestions.add(rdbOption1, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 140, -1, -1));
 
+        buttonGroup1.add(rdbOption2);
         rdbOption2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         rdbOption2.setText("b.");
+        rdbOption2.setActionCommand("b");
+        rdbOption2.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                rdbOption2ItemStateChanged(evt);
+            }
+        });
         pnlQuestions.add(rdbOption2, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 170, -1, -1));
 
+        buttonGroup1.add(rdbOption3);
         rdbOption3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         rdbOption3.setText("c.");
+        rdbOption3.setActionCommand("c");
+        rdbOption3.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                rdbOption3ItemStateChanged(evt);
+            }
+        });
         pnlQuestions.add(rdbOption3, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 200, -1, -1));
 
+        buttonGroup1.add(rdbOption4);
         rdbOption4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         rdbOption4.setText("d.");
+        rdbOption4.setActionCommand("d");
+        rdbOption4.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                rdbOption4ItemStateChanged(evt);
+            }
+        });
         pnlQuestions.add(rdbOption4, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 230, -1, -1));
 
+        buttonGroup1.add(rdbOption5);
         rdbOption5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         rdbOption5.setText("e.");
+        rdbOption5.setActionCommand("e");
+        rdbOption5.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                rdbOption5ItemStateChanged(evt);
+            }
+        });
         pnlQuestions.add(rdbOption5, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 260, -1, -1));
 
         lblQuestion1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -409,7 +499,7 @@ public class ExamPaper extends javax.swing.JFrame {
         lblOption4.setText("jLabel1");
         pnlQuestions.add(lblOption4, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 230, 330, 30));
 
-        pnlContent.add(pnlQuestions, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 10, 680, 480));
+        pnlContent.add(pnlQuestions, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 10, 680, 410));
 
         listQuestionNo.setBackground(new java.awt.Color(204, 204, 255));
         listQuestionNo.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -426,6 +516,45 @@ public class ExamPaper extends javax.swing.JFrame {
         jScrollPane1.setViewportView(listQuestionNo);
 
         pnlContent.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 110, 480));
+
+        pnlResult1.setBackground(new java.awt.Color(70, 102, 144));
+        pnlResult1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        pnlResult1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        pnlResult1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                pnlResult1MousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                pnlResult1MouseReleased(evt);
+            }
+        });
+
+        lblResult1.setFont(new java.awt.Font("Segoe UI Light", 0, 16)); // NOI18N
+        lblResult1.setForeground(new java.awt.Color(255, 255, 255));
+        lblResult1.setText("Finish Attempt");
+        lblResult1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblResult1MouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout pnlResult1Layout = new javax.swing.GroupLayout(pnlResult1);
+        pnlResult1.setLayout(pnlResult1Layout);
+        pnlResult1Layout.setHorizontalGroup(
+            pnlResult1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lblResult1, javax.swing.GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE)
+        );
+        pnlResult1Layout.setVerticalGroup(
+            pnlResult1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lblResult1, javax.swing.GroupLayout.DEFAULT_SIZE, 46, Short.MAX_VALUE)
+        );
+
+        pnlContent.add(pnlResult1, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 430, 130, 50));
+
+        jLabel1.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel1.setText("jLabel1");
+        pnlContent.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 440, 120, 30));
 
         getContentPane().add(pnlContent, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 100, 830, 520));
 
@@ -497,32 +626,70 @@ public class ExamPaper extends javax.swing.JFrame {
         // TODO add your handling code here:
         System.out.println("clicked");
         String selectedQuestionId = listQuestionNo.getSelectedValue();
-         List<Question> questionsByUniqueId = examPaperService.getQuestion(ExamModuleContent.examinationCode, selectedQuestionId);
-           questionsByUniqueId.forEach((result) -> {                
-                lblExamQuestionId.setText(result.getQuestionId());
-                lblExamQuestion.setText(result.getQuestion());
-                String options = result.getOptions();
-                System.out.println(options);
+        List<Question> questionsByUniqueId = examPaperService.getQuestion(ExamModuleContent.examinationCode, selectedQuestionId);
+        questionsByUniqueId.forEach((result) -> {
+            lblExamQuestionId.setText(result.getQuestionId());
+            lblExamQuestion.setText(result.getQuestion());
+            String options = result.getOptions();
+            System.out.println(options);
 
-                String option1 = options.split(":")[0].split("-")[1];            
-                String option2 = options.split(":")[1].split("-")[1];
-                String option3 = options.split(":")[2].split("-")[1];
-                String option4 = options.split(":")[3].split("-")[1];
-                String option5 = options.split(":")[4].split("-")[1];
-                
-                lblOption1.setText(option1);
-                lblOption2.setText(option2);
-                lblOption3.setText(option3);
-                lblOption4.setText(option4);
-                lblOption5.setText(option5);
+            String option1 = options.split(":")[0].split("-")[1];
+            String option2 = options.split(":")[1].split("-")[1];
+            String option3 = options.split(":")[2].split("-")[1];
+            String option4 = options.split(":")[3].split("-")[1];
+            String option5 = options.split(":")[4].split("-")[1];
+
+            lblOption1.setText(option1);
+            lblOption2.setText(option2);
+            lblOption3.setText(option3);
+            lblOption4.setText(option4);
+            lblOption5.setText(option5);
         });
-        
     }//GEN-LAST:event_listQuestionNoMouseClicked
 
     private void listQuestionNoValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listQuestionNoValueChanged
-        // TODO add your handling code here:
-       
+        setSelected();
+
     }//GEN-LAST:event_listQuestionNoValueChanged
+
+    private void pnlResult1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlResult1MousePressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_pnlResult1MousePressed
+
+    private void pnlResult1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlResult1MouseReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_pnlResult1MouseReleased
+
+    private void rdbOption1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_rdbOption1ItemStateChanged
+        recordAnswers();
+    }//GEN-LAST:event_rdbOption1ItemStateChanged
+
+    private void rdbOption2ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_rdbOption2ItemStateChanged
+        recordAnswers();
+    }//GEN-LAST:event_rdbOption2ItemStateChanged
+
+    private void rdbOption3ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_rdbOption3ItemStateChanged
+        recordAnswers();
+    }//GEN-LAST:event_rdbOption3ItemStateChanged
+
+    private void rdbOption4ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_rdbOption4ItemStateChanged
+        recordAnswers();
+    }//GEN-LAST:event_rdbOption4ItemStateChanged
+
+    private void rdbOption5ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_rdbOption5ItemStateChanged
+        recordAnswers();
+    }//GEN-LAST:event_rdbOption5ItemStateChanged
+
+    private void lblResult1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblResult1MouseClicked
+        int input = JOptionPane.showConfirmDialog(null,
+                "Do you want to proceed?", "Select an Option...", JOptionPane.YES_NO_CANCEL_OPTION);
+        if (input == 0) {
+            System.out.println(getAnswerSetValues());
+            this.setVisible(false);
+        }
+
+
+    }//GEN-LAST:event_lblResult1MouseClicked
 
     /**
      * @param args the command line arguments
@@ -560,6 +727,8 @@ public class ExamPaper extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblCourse;
     private javax.swing.JLabel lblDashboard;
@@ -577,6 +746,7 @@ public class ExamPaper extends javax.swing.JFrame {
     private javax.swing.JLabel lblQuestion1;
     private javax.swing.JLabel lblQuestionId;
     private javax.swing.JLabel lblResult;
+    private javax.swing.JLabel lblResult1;
     private javax.swing.JLabel lblSystem;
     public javax.swing.JLabel lblTitleExamPaper;
     private javax.swing.JLabel lblUser;
@@ -590,6 +760,7 @@ public class ExamPaper extends javax.swing.JFrame {
     private javax.swing.JPanel pnlNavigation;
     private javax.swing.JPanel pnlQuestions;
     private javax.swing.JPanel pnlResult;
+    private javax.swing.JPanel pnlResult1;
     private javax.swing.JPanel pnlTitle;
     private javax.swing.JRadioButton rdbOption1;
     private javax.swing.JRadioButton rdbOption2;

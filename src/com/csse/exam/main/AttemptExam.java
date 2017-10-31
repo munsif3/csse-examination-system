@@ -20,12 +20,10 @@ public class AttemptExam extends javax.swing.JFrame {
      * Creates new form Dashboard
      */
     private static final ExamService examService = new ExamService();
-    
 
     public AttemptExam() {
         initComponents();
         lblUser.setText(User.getName());
-        
 
     }
 
@@ -427,20 +425,24 @@ public class AttemptExam extends javax.swing.JFrame {
         if (txtExamPwd.getText().equals("") || txtExamPwd.getText() == null) {
             JOptionPane.showMessageDialog(null, "Please provide a exam password", "OK",
                     JOptionPane.INFORMATION_MESSAGE);
-        }
-        else{
-            if(examService.validateExamPassword(lblSelectedQuiz.getText(), txtExamPwd.getText())){
-                System.out.println("Correct password");                
-
-                ExamPaper examPaper = new ExamPaper();                
+        } else {
+            if (examService.validateExamPassword(lblSelectedQuiz.getText(), txtExamPwd.getText())) {
+                ExamPaper examPaper = new ExamPaper();
                 this.setVisible(false);
                 examPaper.setVisible(true);
-                //examPaper.lblTitleExamPaper.setText(lblSelectedQuiz.getText());
-              
-            }
-            else{
+                new java.util.Timer().schedule(
+                        new java.util.TimerTask() {
+                    @Override
+                    public void run() {
+                        examPaper.closeUi();
+                    }
+                },
+                        5000
+                );
+                
+            } else {
                 JOptionPane.showMessageDialog(null, "Incorrect Password", "OK",
-                    JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.INFORMATION_MESSAGE);
             }
         }
     }//GEN-LAST:event_jLabel14MouseClicked
