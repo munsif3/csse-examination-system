@@ -48,9 +48,9 @@ public class ExamPaper extends javax.swing.JFrame {
 
         initComponents();
         lblUser.setText(User.getName());
-        lblTitleExamPaper.setText(ExamModuleContent.examinationCode);
+        lblTitleExamPaper.setText(AttemptExam.examinationCode);
 
-        List<Question> questionsByExamId = examPaperService.getQuestionId(ExamModuleContent.examinationCode);
+        List<Question> questionsByExamId = examPaperService.getQuestionId(AttemptExam.examinationCode);
         questionsByExamId.forEach((result) -> {
 
             questionId = result.getQuestionId();
@@ -95,16 +95,16 @@ public class ExamPaper extends javax.swing.JFrame {
     private void setSelected() {
         if ("NA".equals(answerMap.get(listQuestionNo.getSelectedValue()))) {
             buttonGroup1.clearSelection();
-        } else if ("a".equals(answerMap.get(listQuestionNo.getSelectedValue()))) {
+        } else if ("1".equals(answerMap.get(listQuestionNo.getSelectedValue()))) {
             rdbOption1.setSelected(true);
 
-        } else if ("b".equals(answerMap.get(listQuestionNo.getSelectedValue()))) {
+        } else if ("2".equals(answerMap.get(listQuestionNo.getSelectedValue()))) {
             rdbOption2.setSelected(true);
-        } else if ("c".equals(answerMap.get(listQuestionNo.getSelectedValue()))) {
+        } else if ("3".equals(answerMap.get(listQuestionNo.getSelectedValue()))) {
             rdbOption3.setSelected(true);
-        } else if ("d".equals(answerMap.get(listQuestionNo.getSelectedValue()))) {
+        } else if ("4".equals(answerMap.get(listQuestionNo.getSelectedValue()))) {
             rdbOption4.setSelected(true);
-        } else if ("e".equals(answerMap.get(listQuestionNo.getSelectedValue()))) {
+        } else if ("5".equals(answerMap.get(listQuestionNo.getSelectedValue()))) {
             rdbOption5.setSelected(true);
         }
     }
@@ -112,8 +112,7 @@ public class ExamPaper extends javax.swing.JFrame {
     private String getAnswerSetValues() {
         String answerSet = "";
         for (Map.Entry<String, String> map : answerMap.entrySet()) {
-            answerSet = answerSet + map.getKey() + "." + map.getValue() + ",";
-            System.out.println(map.getKey() + "-" + map.getValue());
+            answerSet = answerSet + map.getKey() + "." + map.getValue() + ":";
         }
         return answerSet;
     }
@@ -415,7 +414,7 @@ public class ExamPaper extends javax.swing.JFrame {
         buttonGroup1.add(rdbOption1);
         rdbOption1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         rdbOption1.setText("a.");
-        rdbOption1.setActionCommand("a");
+        rdbOption1.setActionCommand("1");
         rdbOption1.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 rdbOption1ItemStateChanged(evt);
@@ -426,7 +425,7 @@ public class ExamPaper extends javax.swing.JFrame {
         buttonGroup1.add(rdbOption2);
         rdbOption2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         rdbOption2.setText("b.");
-        rdbOption2.setActionCommand("b");
+        rdbOption2.setActionCommand("2");
         rdbOption2.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 rdbOption2ItemStateChanged(evt);
@@ -437,7 +436,7 @@ public class ExamPaper extends javax.swing.JFrame {
         buttonGroup1.add(rdbOption3);
         rdbOption3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         rdbOption3.setText("c.");
-        rdbOption3.setActionCommand("c");
+        rdbOption3.setActionCommand("3");
         rdbOption3.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 rdbOption3ItemStateChanged(evt);
@@ -448,7 +447,7 @@ public class ExamPaper extends javax.swing.JFrame {
         buttonGroup1.add(rdbOption4);
         rdbOption4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         rdbOption4.setText("d.");
-        rdbOption4.setActionCommand("d");
+        rdbOption4.setActionCommand("4");
         rdbOption4.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 rdbOption4ItemStateChanged(evt);
@@ -459,7 +458,7 @@ public class ExamPaper extends javax.swing.JFrame {
         buttonGroup1.add(rdbOption5);
         rdbOption5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         rdbOption5.setText("e.");
-        rdbOption5.setActionCommand("e");
+        rdbOption5.setActionCommand("5");
         rdbOption5.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 rdbOption5ItemStateChanged(evt);
@@ -626,7 +625,7 @@ public class ExamPaper extends javax.swing.JFrame {
         // TODO add your handling code here:
         System.out.println("clicked");
         String selectedQuestionId = listQuestionNo.getSelectedValue();
-        List<Question> questionsByUniqueId = examPaperService.getQuestion(ExamModuleContent.examinationCode, selectedQuestionId);
+        List<Question> questionsByUniqueId = examPaperService.getQuestion(AttemptExam.examinationCode, selectedQuestionId);
         questionsByUniqueId.forEach((result) -> {
             lblExamQuestionId.setText(result.getQuestionId());
             lblExamQuestion.setText(result.getQuestion());

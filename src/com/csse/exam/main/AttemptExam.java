@@ -20,7 +20,7 @@ public class AttemptExam extends javax.swing.JFrame {
      * Creates new form Dashboard
      */
     private static final ExamService examService = new ExamService();
-
+    static String examinationCode;
     public AttemptExam() {
         initComponents();
         lblUser.setText(User.getName());
@@ -427,6 +427,7 @@ public class AttemptExam extends javax.swing.JFrame {
                     JOptionPane.INFORMATION_MESSAGE);
         } else {
             if (examService.validateExamPassword(lblSelectedQuiz.getText(), txtExamPwd.getText())) {
+                examinationCode=lblSelectedQuiz.getText();
                 ExamPaper examPaper = new ExamPaper();
                 this.setVisible(false);
                 examPaper.setVisible(true);
