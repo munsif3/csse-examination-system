@@ -11,7 +11,6 @@ import com.csse.exam.service.ModuleService;
 import java.awt.Color;
 import java.util.Map;
 import javax.swing.DefaultListModel;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -25,7 +24,7 @@ public class ExamModuleContent extends javax.swing.JFrame {
     private ModuleService moduleService = new ModuleService();
     private DefaultListModel defaultListModelLstModules = new DefaultListModel();
     private DefaultListModel defaultListModelLstExams = new DefaultListModel();
-    static String examinationCode;
+    
     public ExamModuleContent() {
         initComponents();
         lblUser.setText(User.getName());
@@ -397,11 +396,12 @@ public class ExamModuleContent extends javax.swing.JFrame {
                 if (exam != null) {
                     System.out.println(lstModulesEM.getSelectedValue());
                     System.out.println(exam.getExamId());
-                    examinationCode = exam.getExamId();
                     defaultListModelLstExams.addElement(exam.getExamId());
                 }
 
             }
+           
+            
         } else {
             ModuleEnrollment moduleEnrollment = new ModuleEnrollment();
             this.setVisible(false);
