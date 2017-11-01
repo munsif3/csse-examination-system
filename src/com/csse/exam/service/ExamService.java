@@ -7,6 +7,7 @@ package com.csse.exam.service;
 
 import com.csse.exam.config.DBConnection;
 import com.csse.exam.model.Exam;
+import com.csse.exam.model.User;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -269,9 +270,9 @@ public final class ExamService
 
     }
     
-   public void submitAnswers(long id , String examID, String userId,String answerSet){
+   public void submitAnswers(String examID,String answerSet){
         try (Connection dbConnection = DBConnection.getConnection()) {
-             dbConnection.createStatement().executeUpdate("insert into student values('" +id + "','" + examID + "','" + userId + "','" + answerSet +"')");
+             dbConnection.createStatement().executeUpdate("insert into  answer('" + examID + "','" + User.getUserId() + "','" + answerSet +"')");
         } catch (SQLException e) {
             e.printStackTrace();
         }

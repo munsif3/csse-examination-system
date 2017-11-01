@@ -80,7 +80,7 @@ public class ExamPaper extends javax.swing.JFrame {
         if (elapsedTime > 600000) {
             JOptionPane.showMessageDialog(null, "The given time has passed", "OK",
                     JOptionPane.INFORMATION_MESSAGE);
-            System.out.println(getAnswerSetValues());
+            examService.submitAnswers(AttemptExam.examinationCode, getAnswerSetValues());
             this.setVisible(false);
         }
     }
@@ -683,7 +683,7 @@ public class ExamPaper extends javax.swing.JFrame {
         int input = JOptionPane.showConfirmDialog(null,
                 "Do you want to proceed?", "Select an Option...", JOptionPane.YES_NO_CANCEL_OPTION);
         if (input == 0) {
-            System.out.println(getAnswerSetValues());
+            examService.submitAnswers(AttemptExam.examinationCode, getAnswerSetValues());
             this.setVisible(false);
         }
 
