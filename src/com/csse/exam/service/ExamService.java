@@ -272,7 +272,7 @@ public final class ExamService
     
    public void submitAnswers(String examID,String answerSet){
         try (Connection dbConnection = DBConnection.getConnection()) {
-             dbConnection.createStatement().executeUpdate("insert into  answer('" + examID + "','" + User.getUserId() + "','" + answerSet +"')");
+             dbConnection.createStatement().executeUpdate("insert into  answer values('" + User.getUserId() + "','" + examID + "','" + answerSet +"')");
         } catch (SQLException e) {
             e.printStackTrace();
         }
