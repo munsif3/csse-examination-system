@@ -80,8 +80,10 @@ public class ExamPaper extends javax.swing.JFrame {
         if (elapsedTime > 600000) {
             JOptionPane.showMessageDialog(null, "The given time has passed", "OK",
                     JOptionPane.INFORMATION_MESSAGE);
-            System.out.println(getAnswerSetValues());
-            this.setVisible(false);
+            examService.submitAnswers(AttemptExam.examinationCode, getAnswerSetValues());
+            ExamModuleContent examModuleContent = new ExamModuleContent();
+            examModuleContent.setVisible(true);
+            this.dispose();
         }
     }
 
@@ -112,7 +114,7 @@ public class ExamPaper extends javax.swing.JFrame {
     private String getAnswerSetValues() {
         String answerSet = "";
         for (Map.Entry<String, String> map : answerMap.entrySet()) {
-            answerSet = answerSet + map.getKey() + "." + map.getValue() + ":";
+            answerSet = answerSet + map.getKey() + "-" + map.getValue() + ":";
         }
         return answerSet;
     }
@@ -683,8 +685,10 @@ public class ExamPaper extends javax.swing.JFrame {
         int input = JOptionPane.showConfirmDialog(null,
                 "Do you want to proceed?", "Select an Option...", JOptionPane.YES_NO_CANCEL_OPTION);
         if (input == 0) {
-            System.out.println(getAnswerSetValues());
-            this.setVisible(false);
+            examService.submitAnswers(AttemptExam.examinationCode, getAnswerSetValues());
+            ExamModuleContent examModuleContent = new ExamModuleContent();
+            examModuleContent.setVisible(true);
+            this.dispose();
         }
 
 
