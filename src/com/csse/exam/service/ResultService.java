@@ -41,6 +41,9 @@ public final class ResultService {
     private static Handler fileHandler = null;
     private static Handler consoleHandler = null;
 
+    /**
+     * Constructor to initialize the logger specific tasks
+     */
     public ResultService() {
         try {
             consoleHandler = new ConsoleHandler();
@@ -85,6 +88,16 @@ public final class ResultService {
             LOGGER.log(Level.SEVERE, "Error occur in getResult() : ", e);
         }
         return resultList;
+    }
+
+    /**
+     *
+     * @return List of unique student id
+     */
+    public List<Result> getStudentId() {
+        return resultList.stream()
+                .distinct()
+                .collect(Collectors.toList());
     }
 
     /**

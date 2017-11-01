@@ -5,7 +5,13 @@
  */
 package com.csse.exam.main;
 
+import com.csse.exam.common.ClearComponents;
+import com.csse.exam.model.Answer;
+import com.csse.exam.model.Question;
+import com.csse.exam.service.AnswerService;
 import java.awt.Color;
+import java.util.ArrayList;
+import javax.swing.DefaultListModel;
 
 /**
  *
@@ -13,11 +19,17 @@ import java.awt.Color;
  */
 public class Answers extends javax.swing.JFrame {
 
+    private final AnswerService answerService = new AnswerService();
+    private final ArrayList<Question> questionList = answerService.getQuestions();
+    ClearComponents clear;
+    DefaultListModel questionIdList = new DefaultListModel();
+
     /**
      * Creates new form Answers
      */
     public Answers() {
         initComponents();
+        setExamIdCombobox();
     }
 
     /**
@@ -44,10 +56,12 @@ public class Answers extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         jSeparator1 = new javax.swing.JSeparator();
         jLabel11 = new javax.swing.JLabel();
-        jComboBox3 = new javax.swing.JComboBox<>();
+        cmbExamId = new javax.swing.JComboBox<>();
         lblBack = new javax.swing.JLabel();
         pnlQuestionsAnswers = new javax.swing.JPanel();
         pnlQuestionNumbers = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        lstQuestionId = new javax.swing.JList<>();
         pnlQuestion = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
@@ -56,8 +70,8 @@ public class Answers extends javax.swing.JFrame {
         jLabel15 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox<>();
-        jButton1 = new javax.swing.JButton();
+        cmbCorrectAns = new javax.swing.JComboBox<>();
+        btnSubmit = new javax.swing.JButton();
         pnlHeader = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -261,9 +275,9 @@ public class Answers extends javax.swing.JFrame {
         jLabel11.setText("EXAMINATION ID");
         jPanel3.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, 40));
 
-        jComboBox3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SELECT EXAMINATION ID", "EX001", "EX002", "EX003" }));
-        jPanel3.add(jComboBox3, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 10, 190, 40));
+        cmbExamId.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        cmbExamId.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SELECT EXAMINATION ID", "EX001", "EX002", "EX003" }));
+        jPanel3.add(cmbExamId, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 10, 190, 40));
 
         pnlContent.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 780, 60));
 
@@ -283,49 +297,59 @@ public class Answers extends javax.swing.JFrame {
         pnlQuestionNumbers.setBackground(new java.awt.Color(204, 217, 233));
         pnlQuestionNumbers.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         pnlQuestionNumbers.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jScrollPane1.setBorder(null);
+
+        lstQuestionId.setBackground(new java.awt.Color(204, 217, 233));
+        lstQuestionId.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        lstQuestionId.setFont(new java.awt.Font("Segoe UI", 0, 11)); // NOI18N
+        jScrollPane1.setViewportView(lstQuestionId);
+
+        pnlQuestionNumbers.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 190, 270));
+
         pnlQuestionsAnswers.add(pnlQuestionNumbers, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 190, 270));
 
         pnlQuestion.setBackground(new java.awt.Color(204, 217, 233));
         pnlQuestion.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         pnlQuestion.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel10.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel10.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel10.setText("Question Description:");
         pnlQuestion.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, -1, -1));
 
-        jLabel12.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel12.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel12.setText("Option 5:  ");
         pnlQuestion.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 240, -1, -1));
 
-        jLabel13.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel13.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel13.setText("Question ID: ");
         pnlQuestion.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, -1, -1));
 
-        jLabel14.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel14.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel14.setText("Option 1:  ");
         pnlQuestion.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 120, -1, -1));
 
-        jLabel15.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel15.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel15.setText("Option 2:  ");
         pnlQuestion.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 150, -1, -1));
 
-        jLabel16.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel16.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel16.setText("Option 3:  ");
         pnlQuestion.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 180, -1, -1));
 
-        jLabel17.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel17.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel17.setText("Option 4:  ");
         pnlQuestion.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 210, -1, -1));
 
         pnlQuestionsAnswers.add(pnlQuestion, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 10, 560, 270));
 
-        jComboBox2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SELECT CORRECT ANSWER", "OPTION 1", "OPTION 2", "OPTION 3", "OPTION 4", "OPTION 5" }));
-        pnlQuestionsAnswers.add(jComboBox2, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 290, 190, 40));
+        cmbCorrectAns.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        cmbCorrectAns.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SELECT CORRECT ANSWER", "OPTION 1", "OPTION 2", "OPTION 3", "OPTION 4", "OPTION 5" }));
+        pnlQuestionsAnswers.add(cmbCorrectAns, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 290, 190, 40));
 
-        jButton1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jButton1.setText("SUBMIT");
-        pnlQuestionsAnswers.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 290, 190, 40));
+        btnSubmit.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnSubmit.setText("SUBMIT");
+        pnlQuestionsAnswers.add(btnSubmit, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 290, 190, 40));
 
         pnlContent.add(pnlQuestionsAnswers, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 120, 780, 340));
 
@@ -438,6 +462,13 @@ public class Answers extends javax.swing.JFrame {
         lblBack.setBackground(Color.WHITE);
     }//GEN-LAST:event_lblBackMousePressed
 
+    private void setExamIdCombobox() {
+        for (int i = 0; i < questionList.size(); i++) {
+            String examId = questionList.get(i).getExamId();
+            cmbExamId.addItem(examId);
+        }
+    }
+
     /**
      * @param args the command line arguments
      */
@@ -454,13 +485,17 @@ public class Answers extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
+        }
+        catch (ClassNotFoundException ex) {
             java.util.logging.Logger.getLogger(Answers.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
+        }
+        catch (InstantiationException ex) {
             java.util.logging.Logger.getLogger(Answers.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
+        }
+        catch (IllegalAccessException ex) {
             java.util.logging.Logger.getLogger(Answers.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        }
+        catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(Answers.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
@@ -474,9 +509,9 @@ public class Answers extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JComboBox<String> jComboBox2;
-    private javax.swing.JComboBox<String> jComboBox3;
+    private javax.swing.JButton btnSubmit;
+    private javax.swing.JComboBox<String> cmbCorrectAns;
+    private javax.swing.JComboBox<String> cmbExamId;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -501,8 +536,10 @@ public class Answers extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JLabel lblBack;
+    private javax.swing.JList<String> lstQuestionId;
     private javax.swing.JPanel pnlContent;
     private javax.swing.JPanel pnlHeader;
     private javax.swing.JPanel pnlNavigation;

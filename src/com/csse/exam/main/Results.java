@@ -29,6 +29,8 @@ public class Results extends javax.swing.JFrame {
      */
     public Results() {
         initComponents();
+//        List<Result> result = resultService.getStudentId();
+//        System.out.println(result);
         setStudentIdCombobox();
         setResultTableModel();
     }
