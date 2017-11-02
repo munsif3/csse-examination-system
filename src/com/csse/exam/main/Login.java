@@ -35,12 +35,14 @@ public class Login extends javax.swing.JFrame {
     }
 
     public boolean validateLogin(String username, String password) {
+        PreparedStatement pst;
+        ResultSet rs;
         try {
-            conn = (Connection) DBConnection.getConnection();
-            PreparedStatement pst = (PreparedStatement) conn.prepareStatement("Select * from user where username=? and userPassword=?");
+            conn = (Connection) DBConnection.getConnection();            
+            pst = (PreparedStatement) conn.prepareStatement("Select * from user where username=? and userPassword=?");
             pst.setString(1, username);
             pst.setString(2, password);
-            ResultSet rs = pst.executeQuery();
+            rs = pst.executeQuery();
 
             if (rs.next()) {
                 user = new User(rs.getString("userId"), rs.getString("name"), rs.getString("role"), rs.getString("username"), rs.getString("userPassword"));
@@ -49,7 +51,6 @@ public class Login extends javax.swing.JFrame {
                 return false;
             }
         } catch (Exception e) {
-            e.printStackTrace();
             return false;
         }
     }
@@ -140,12 +141,11 @@ public class Login extends javax.swing.JFrame {
         //validating empty fields
         if (validation.checkTextNull(username)) {
             JOptionPane.showMessageDialog(null, "Please enter your username!");
-        } else if (validation.checkTextNull(password)) // Checking for empty field
+        } else if (validation.checkTextNull(password))
         {
             JOptionPane.showMessageDialog(null, "Please enter your password");
         } else {
             if (validateLogin(username, password)) {
-                //JOptionPane.showMessageDialog(null, "Correct Login Credentials");
                 switch (User.checkRole()) {
                     case 0:
                         adminHome = new DashboardAdmin();

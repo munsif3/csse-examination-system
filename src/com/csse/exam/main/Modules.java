@@ -59,7 +59,7 @@ public class Modules extends javax.swing.JFrame {
         try {
                
                 Connection con = DBConnection.getConnection();
-                String query = " SELECT moduleId FROM module\n" +
+                String query = "SELECT moduleId FROM module\n" +
                                 "order by moduleId desc limit 1;";
                 PreparedStatement preparedStmt = (PreparedStatement) con.prepareStatement(query);
                 
@@ -844,7 +844,7 @@ public class Modules extends javax.swing.JFrame {
     private void btnModuleDeleteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnModuleDeleteMouseClicked
         // TODO add your handling code here:
         String moduleId = getModuleID();
-        String query = "delete from sql12196110.module where moduleId='"+moduleId+"';";
+        String query = "delete from module where moduleId='"+moduleId+"';";
         executeQuery(query);
         txtModuleName.setText("");
         pwdModulePassword.setText("");
@@ -885,7 +885,7 @@ public class Modules extends javax.swing.JFrame {
         
         if(validateValues())
         {
-            String query = "update sql12196110.module set moduleName ='"+moduleName+"',modulePassword='"+password+"',allocatedTo='"+allocated+"' where moduleId='"+moduleId+"';";
+            String query = "update module set moduleName ='"+moduleName+"',modulePassword='"+password+"',allocatedTo='"+allocated+"' where moduleId='"+moduleId+"';";
             executeQuery(query);
             txtModuleName.setText("");
             pwdModulePassword.setText("");

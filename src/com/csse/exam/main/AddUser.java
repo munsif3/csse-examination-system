@@ -661,6 +661,11 @@ public class AddUser extends javax.swing.JFrame {
 
                 con.close();
                 JOptionPane.showMessageDialog(null, "Suceesfully Added!");
+                //clearing the fields
+                txtName.setText("");
+                txtUsername.setText("");
+                pwdUserPassword.setText("");
+                
                 } catch (SQLException | HeadlessException e) {
                     JOptionPane.showMessageDialog(null, e);
                 }

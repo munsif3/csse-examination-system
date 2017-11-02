@@ -7,7 +7,7 @@ import java.sql.SQLException;
 
 /**
  *
- * @author Ruban1
+ * 
  */
 public class DBConnection {
 
@@ -24,7 +24,6 @@ public class DBConnection {
         try {
             Class.forName(driver);
             Connection connection = DriverManager.getConnection(url, username, password);
-            //JOptionPane.showMessageDialog(null,"Connection to MySQL server Established");
             return connection;
         } catch (ClassNotFoundException | SQLException e) {
             JOptionPane.showMessageDialog(null, e);
