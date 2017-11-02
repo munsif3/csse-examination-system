@@ -7,18 +7,23 @@ package com.csse.exam.main;
 
 /**
  *
- * @author user
+ * @author Saranki
  */
 import com.csse.exam.common.ClearComponents;
 import com.csse.exam.common.CommonComponents;
 import com.csse.exam.common.Validation;
+import com.csse.exam.model.Exam;
+import com.csse.exam.model.Question;
+import com.csse.exam.service.ExamPaperService;
+import com.csse.exam.service.ExamService;
 import com.csse.exam.service.QuestionService;
 import java.awt.Color;
-import static java.lang.Integer.parseInt;
-import java.util.Arrays;
-import java.util.Objects;
-import javax.swing.JButton;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
+
 public class ExamQuestion extends javax.swing.JFrame {
 
     /**
@@ -26,8 +31,18 @@ public class ExamQuestion extends javax.swing.JFrame {
      */
     private final CommonComponents commonComponents = new CommonComponents();
     private final QuestionService questionService = new QuestionService();
+    Exam exam = new Exam();
+    Question questions =new Question();
+    private final ExamService examService = new ExamService();
+    ExamPaperService examPaperService = new ExamPaperService();
+    
     private final Validation validation = new Validation();
     private final ClearComponents clear = new ClearComponents();
+    DefaultListModel listModel = new DefaultListModel();
+    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    
+    ArrayList<Exam> examList = examService.getExam();
+    ArrayList<Question> questionList = examPaperService.getQuestions();
     
     String examType;
     String examId;
@@ -51,6 +66,7 @@ public class ExamQuestion extends javax.swing.JFrame {
     public ExamQuestion() {
         initComponents();
         commonComponents.addValueToComboBox(cmbExamId, "exam", "examId");
+        
     }
 
     /**
@@ -93,7 +109,6 @@ public class ExamQuestion extends javax.swing.JFrame {
         txtExamType = new javax.swing.JTextField();
         txtExamDuration = new javax.swing.JTextField();
         txtAllocatedMarks = new javax.swing.JTextField();
-        pnlQuestionBank = new javax.swing.JPanel();
         pnlQuestions = new javax.swing.JPanel();
         lblOption5 = new javax.swing.JLabel();
         lblQuestionNumber1 = new javax.swing.JLabel();
@@ -112,6 +127,8 @@ public class ExamQuestion extends javax.swing.JFrame {
         txtOption2 = new javax.swing.JTextField();
         btnAdd = new javax.swing.JButton();
         btnClear = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        listExamQuestionNo = new javax.swing.JList<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("EXAM");
@@ -403,22 +420,6 @@ public class ExamQuestion extends javax.swing.JFrame {
 
         pnlContent.add(pnlExamDetails, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 800, 100));
 
-        pnlQuestionBank.setBackground(javax.swing.UIManager.getDefaults().getColor("InternalFrame.activeTitleGradient"));
-        pnlQuestionBank.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-
-        javax.swing.GroupLayout pnlQuestionBankLayout = new javax.swing.GroupLayout(pnlQuestionBank);
-        pnlQuestionBank.setLayout(pnlQuestionBankLayout);
-        pnlQuestionBankLayout.setHorizontalGroup(
-            pnlQuestionBankLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 226, Short.MAX_VALUE)
-        );
-        pnlQuestionBankLayout.setVerticalGroup(
-            pnlQuestionBankLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 326, Short.MAX_VALUE)
-        );
-
-        pnlContent.add(pnlQuestionBank, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 230, 330));
-
         pnlQuestions.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         pnlQuestions.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -475,7 +476,7 @@ public class ExamQuestion extends javax.swing.JFrame {
         txtOption2.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         pnlQuestions.add(txtOption2, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 200, 450, 27));
 
-        pnlContent.add(pnlQuestions, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 120, 560, 330));
+        pnlContent.add(pnlQuestions, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 120, 690, 330));
 
         btnAdd.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnAdd.setText("ADD");
@@ -494,6 +495,17 @@ public class ExamQuestion extends javax.swing.JFrame {
             }
         });
         pnlContent.add(btnClear, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 460, 180, 40));
+
+        listExamQuestionNo.setBackground(new java.awt.Color(204, 204, 255));
+        listExamQuestionNo.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        listExamQuestionNo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                listExamQuestionNoMouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(listExamQuestionNo);
+
+        pnlContent.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 100, 330));
 
         getContentPane().add(pnlContent, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 100, 830, 520));
 
@@ -560,117 +572,115 @@ public class ExamQuestion extends javax.swing.JFrame {
         txtAreaQuestion.setText(null);
         clear.clearTextFields(pnlQuestions);
         clear.clearTextFields(pnlExamDetails);
+        listModel.clear();
     }//GEN-LAST:event_btnClearMouseClicked
 
     private void cmbExamIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbExamIdActionPerformed
         // TODO add your handling code here:
+        listModel.clear();
+        
+        clear.clearTextFields(pnlExamDetails);
+        listModel.clear();
+    
         examId = cmbExamId.getSelectedItem().toString();
-        Object[] object = new Objects[6];
-        object = questionService.getExamDetailsById(examId);
-      
-        examType = object[1].toString().split("-")[1];
-        examDate = object[2].toString();
-        examDuration = object[3].toString();
-        questionNo = object[4].toString();
-        allocatedMarks = object[5].toString();
-        
-        txtExamType.setText(examType);
-        txtExamDate.setText(examDate);
-        txtExamDuration.setText(examDuration);
-        txtTotalQuestions.setText(questionNo);
-        txtAllocatedMarks.setText(allocatedMarks);
-        
-        questionId =  questionService.getQuestionId(examId);
-        txtQuestionId.setText(questionId);
-        
-        String totalNoQues = questionService.getLatestQuestionId(examId);
-        int id = parseInt(totalNoQues.split("Q")[1]);
-        System.out.println(totalNoQues.split("Q")[1]);
-        System.out.println(totalNoQues);
-        int row = id/5;
-        int remain = id%5;
-        System.out.println(row);
-        System.out.println(remain);
-        int x = 5;
-        int y = 5;
-        
-     System.out.println("start");
-     for(int i=0; i<row; i++)
-     {                               
-        for(int j=0; j<=4; j++)
-        {   
-            JButton button = new JButton();
-            button.setSize(35, 35);
-            button.setLocation(x,y);
-            button.setText(questionId);  
+        if(cmbExamId.getSelectedIndex() !=0 )
+        {
             
-            pnlQuestionBank.add(button);
-            button.setVisible(true);
-            System.out.println(button.getLocation());
-            x=x+40;           
-        }
-        x = 5;
-        y = y+40;
-                  
-        System.out.println("");       
-     }
-     
-     if(remain!=0)
-     {
-         System.out.println(Arrays.toString(pnlQuestionBank.getComponents()));
-     }
+            examType = examId.split("-")[1];
         
+            List<Exam> getExamByExamId = examService.getExamByExamId(examId);            
+            getExamByExamId.forEach((result) -> {
+            
+                examDate = dateFormat.format(result.getExamDate());
+                examDuration = result.getExamDuration();
+                allocatedMarks = String.valueOf(result.getTotalMarks());
+                questionNo = String.valueOf(result.getNumberOfQuestions());
+            
+                txtExamType.setText(examType);
+                txtExamDate.setText(examDate);
+                txtExamDuration.setText(examDuration);
+                txtTotalQuestions.setText(questionNo);
+                txtAllocatedMarks.setText(allocatedMarks);
+
+            });
+        
+            
+            List<Question> questionById = examPaperService.getQuestionId(examId);
+            questionById.forEach((result) -> {
+
+                questionId = result.getQuestionId(); 
+                System.out.println(questionId);
+                listModel.addElement(questionId);
+            });
+            listExamQuestionNo.setModel(listModel);
+        
+            questionId =  questionService.getQuestionId(examId);
+            txtQuestionId.setText(questionId);
+        }
     }//GEN-LAST:event_cmbExamIdActionPerformed
 
     private void btnAddMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddMouseClicked
         // TODO add your handling code here:
+       
         examId = cmbExamId.getSelectedItem().toString();
         questionId = txtQuestionId.getText();
         question = txtAreaQuestion.getText();
-        option1 = txtOption1.getText();
-        option2 = txtOption1.getText();
-        option3 = txtOption1.getText();
-        option4 = txtOption1.getText();
-        option5 = txtOption1.getText();
         
-        options = "1-"+option1+":"+"2-"+option2+":"+"3-"+option3+":"+"4-"+option4+":"+"5-"+option5+":";
+        option1 = txtOption1.getText();
+        option2 = txtOption2.getText();
+        option3 = txtOption3.getText();
+        option4 = txtOption4.getText();
+        option5 = txtOption5.getText();
+        
+        options = "a-"+option1+":"+"b-"+option2+":"+"c-"+option3+":"+"d-"+option4+":"+"e-"+option5;
         System.out.println(options);
         
         boolean nullValue = validation.checkEmptyTextBox(pnlQuestions);
         boolean checkBox = validation.checkComboBox(pnlExamDetails);
-        System.out.println("yes");
-        System.out.println(nullValue);
-        
-        if(nullValue==false)
-        {
-            JOptionPane.showMessageDialog(this, "Please fill all the text boxes", "Error Message", 1);
-        }
-        else
+
+        if((nullValue==true) && (checkBox==true))
         {
             boolean value = questionService.addQuestion(examId, questionId, question,options);
             if(value)
             {
                 JOptionPane.showMessageDialog(this, "Exam question was successfully added", "Success Message", 1);
-                
-                int x = 15;
-                int y = 15;
-                System.out.println("start");
-                while(true)
-                {
-                        JButton button = new JButton();
-                        button.setSize(35, 35);
-                        button.setLocation(x,y);
-                        button.setText(questionId);  
-            
-                            pnlQuestionBank.add(button);
-                            //button.setVisible(true);
-                            System.out.println(button.getLocation());
-                        
-                }
-     
+                listModel.addElement(questionId);           
+                listExamQuestionNo.setModel(listModel);                          
             }
         }
+        else
+        {
+            JOptionPane.showMessageDialog(this, "Please fill all the text boxes and select an exam ID from the drop down list.", "Error Message", 1);
+        }
     }//GEN-LAST:event_btnAddMouseClicked
+
+    private void listExamQuestionNoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listExamQuestionNoMouseClicked
+        // TODO add your handling code here:
+        clear.clearTextFields(pnlQuestions);
+        System.out.println("clicked");
+        examId = cmbExamId.getSelectedItem().toString();
+        String selectedQuestionId = listExamQuestionNo.getSelectedValue();
+        List<Question> questionsByUniqueId = examPaperService.getQuestion(examId, selectedQuestionId);
+        questionsByUniqueId.forEach((result) -> {
+            
+            txtQuestionId.setText(result.getQuestionId());
+            txtAreaQuestion.setText(result.getQuestion());
+            options = result.getOptions();
+            System.out.println(options);
+
+            option1 = options.split(":")[0].split("-")[1];
+            option2 = options.split(":")[1].split("-")[1];
+            option3 = options.split(":")[2].split("-")[1];
+            option4 = options.split(":")[3].split("-")[1];
+            option5 = options.split(":")[4].split("-")[1];
+
+            txtOption1.setText(option1);
+            txtOption2.setText(option2);
+            txtOption3.setText(option3);
+            txtOption4.setText(option4);
+            txtOption5.setText(option5);
+        });
+    }//GEN-LAST:event_listExamQuestionNoMouseClicked
 
     /**
      * @param args the command line arguments
@@ -712,6 +722,7 @@ public class ExamQuestion extends javax.swing.JFrame {
     private javax.swing.JButton btnClear;
     private javax.swing.JComboBox<String> cmbExamId;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblAllocatedMarks;
     private javax.swing.JLabel lblCourse;
     private javax.swing.JLabel lblDashboard;
@@ -734,6 +745,7 @@ public class ExamQuestion extends javax.swing.JFrame {
     private javax.swing.JLabel lblSystem;
     private javax.swing.JLabel lblTitle;
     private javax.swing.JLabel lblUser;
+    private javax.swing.JList<String> listExamQuestionNo;
     private javax.swing.JPanel pnlContent;
     private javax.swing.JPanel pnlCourse;
     private javax.swing.JPanel pnlDashboard;
@@ -742,7 +754,6 @@ public class ExamQuestion extends javax.swing.JFrame {
     private javax.swing.JPanel pnlHeader;
     private javax.swing.JPanel pnlLogo;
     private javax.swing.JPanel pnlNavigation;
-    private javax.swing.JPanel pnlQuestionBank;
     private javax.swing.JPanel pnlQuestions;
     private javax.swing.JPanel pnlResult;
     private javax.swing.JPanel pnlTitle;
