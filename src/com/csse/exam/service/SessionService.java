@@ -6,7 +6,6 @@
 package com.csse.exam.service;
 
 import com.csse.exam.config.DBConnection;
-import com.csse.exam.model.Question;
 import com.csse.exam.model.Session;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -144,40 +143,41 @@ public class SessionService {
         }           
     }
    
-   public boolean isExamIdExisting(String examId)
+   public String isExamIdExisting(String examId)
    {
+       String id = null;
        try
        {
-           preparedStatement = connection.prepareStatement("SELECT examId FROM session WHERE examId=?");
+           preparedStatement = connection.prepareStatement("SELECT DISTINCT examId FROM session WHERE examId=?");
            preparedStatement.setString(1, examId);
            resultSet = preparedStatement.executeQuery();
            
-           if(resultSet.next())
+           while(resultSet.next())
            {
-               return true;
+                 id= resultSet.getString("examId");
            }
        }
        catch(SQLException e)
        {
            
        }
-       return false;
+       return id;
    }
    
-   public void getSessionDetailsById(String examId, JTextField module, JTextField examDate, JTextField sessionId, JSpinner examTime, JTextField examVenue) 
+   public void getSessionDetailsById(String examId, int sessionId, JSpinner examTime, JTextField examVenue) 
     {
         try
         {           
-            preparedStatement = connection.prepareStatement("SELECT e.examId, e.moduleId, e.examDate,s.sessionId, s.examTime, s.examVenue FROM exam e, session s WHERE e.examId=s.examId and e.examId=?");
+            preparedStatement = connection.prepareStatement("SELECT examTime, examVenue FROM session WHERE examId=? AND sessionId=?");
             preparedStatement.setString(1, examId);
+            preparedStatement.setInt(2, sessionId);
             resultSet = preparedStatement.executeQuery();
             
             while(resultSet.next())
-            {
-               module.setText(resultSet.getString("moduleId"));              
-               examDate.setText(resultSet.getString("examDate"));
-               sessionId.setText(resultSet.getString("sessionId"));              
-               examVenue.setText(resultSet.getString("examVenue"));
+            {              
+               examVenue.setText(resultSet.getString("examVenue"));               
+               //System.out.println(resultSet.getObject("examTime"));
+               //examTime.setValue(resultSet.getObject("examTime"));
             }
         }
         catch(SQLException e)
@@ -273,39 +273,34 @@ public class SessionService {
         return false;
     }
     
-    public boolean checkSessionAvailability(String examDate,String examTime, String examVenue)
+    public int checkSessionAvailability(String examDate,String examTime, String examVenue, String examId)
     {       
+        int value = 0;
         try
         {
-           /* preparedStatement = connection.prepareStatement("SELECT s.examId FROM session s, exam e WHERE e.examId = s.examId AND e.examDate=? AND s.examTime=? AND s.examVenue=?");
-            preparedStatement.setString(1, examDate);
-            preparedStatement.setString(2, examTime);
-            preparedStatement.setString(3, examVenue);*/
+           
+            preparedStatement = connection.prepareStatement("SELECT (COUNT(DISTINCT s.examId)) FROM session s, exam e WHERE e.examId = s.examId AND e.examDate=? AND s.examTime=? AND s.examVenue=?");           
             
-            System.out.println("From checkSessionAvailability method");
-            System.out.println(examDate);
-            System.out.println(examTime);
-            System.out.println(examVenue);
-            
-            preparedStatement = connection.prepareStatement("SELECT s.examId FROM session s, exam e WHERE e.examId = s.examId AND e.examDate='"+examDate+"' AND s.examTime='"+examTime+"' AND s.examVenue='"+examVenue+"'");           
             preparedStatement.setString(1, examDate);
             preparedStatement.setString(2, examTime);
             preparedStatement.setString(3, examVenue);
             
-            int executeUpdate = preparedStatement.executeUpdate();
-            System.out.println(executeUpdate + " records found");  
+            resultSet = preparedStatement.executeQuery(); 
             
-            
-            return true;            
+            while(resultSet.next()) {
+                value = resultSet.getInt(1);
+                System.out.println("value = "+value);
+            }
+                       
         }
         catch(SQLException e)
         {
         
         }
-        return false;
+        return value;
     }
     
-    public List<Session> getExamDetailsById(String examId) {
+    public List<Session> getSessionDetailsById(String examId) {
         return sessionList.stream()
                 .filter(t -> t.getExamId().equals(examId))
                 .collect(Collectors.toList());

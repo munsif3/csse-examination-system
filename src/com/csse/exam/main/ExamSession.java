@@ -8,18 +8,20 @@ package com.csse.exam.main;
 import com.csse.exam.common.ClearComponents;
 import com.csse.exam.common.CommonComponents;
 import com.csse.exam.common.Validation;
-import com.csse.exam.model.Question;
 import com.csse.exam.model.Session;
 import com.csse.exam.service.SessionService;
 import java.awt.Color;
 import static java.lang.Integer.parseInt;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerDateModel;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 /**
  *
  * @author saranki
@@ -31,6 +33,10 @@ public class ExamSession extends javax.swing.JFrame {
     Validation validation = new Validation();
     ClearComponents clear = new ClearComponents();
     private final ArrayList<Session> sessionList = sessionService.getSession();
+    DefaultTableModel tableModel; 
+    SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
+    Date date = new Date();
+
     
     String examId;
     String moduleId;
@@ -50,7 +56,7 @@ public class ExamSession extends javax.swing.JFrame {
         
         //Fill exam session details table by fetching data from the database
         sessionService.fillSessionDetailsTable(tblSession);
-        //tblSession.setModel(sessionService.fillSessionTable());     
+
     }
 
     /**
@@ -88,14 +94,12 @@ public class ExamSession extends javax.swing.JFrame {
         spinExamTime = new javax.swing.JSpinner(spinnerDate);
         txtModuleId = new javax.swing.JTextField();
         lblModuleId = new javax.swing.JLabel();
-        lblAvailableSessionId = new javax.swing.JLabel();
         txtSessionId = new javax.swing.JTextField();
         btnClearAll = new javax.swing.JButton();
         btnAdd = new javax.swing.JButton();
         btnUpdate = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
         lblSessionId = new javax.swing.JLabel();
-        cmbSessionIds = new javax.swing.JComboBox<>();
         pnlSessionTable = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblSession = new javax.swing.JTable();
@@ -306,7 +310,7 @@ public class ExamSession extends javax.swing.JFrame {
 
         lblExamTime.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblExamTime.setText("EXAMINATION TIME :");
-        pnlSessionDetails.add(lblExamTime, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 124, 150, 30));
+        pnlSessionDetails.add(lblExamTime, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 20, 150, 30));
 
         lblExamVenue.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblExamVenue.setText("EXAMINATION VENUE :");
@@ -327,7 +331,7 @@ public class ExamSession extends javax.swing.JFrame {
 
         JSpinner.DateEditor dateEditor = new JSpinner.DateEditor(spinExamTime, "HH:mm");
         spinExamTime.setEditor(dateEditor);
-        pnlSessionDetails.add(spinExamTime, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 125, 220, 30));
+        pnlSessionDetails.add(spinExamTime, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 20, 180, 30));
 
         txtModuleId.setEditable(false);
         pnlSessionDetails.add(txtModuleId, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 55, 220, 30));
@@ -336,16 +340,17 @@ public class ExamSession extends javax.swing.JFrame {
         lblModuleId.setText("MODULE ID :");
         pnlSessionDetails.add(lblModuleId, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 55, 100, 30));
 
-        lblAvailableSessionId.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        lblAvailableSessionId.setText("AVAILABLE SESSION IDs : ");
-        pnlSessionDetails.add(lblAvailableSessionId, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 20, -1, 30));
-
         txtSessionId.setEditable(false);
         pnlSessionDetails.add(txtSessionId, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 55, 180, 30));
 
         btnClearAll.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnClearAll.setText("CLEAR ALL");
-        pnlSessionDetails.add(btnClearAll, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 160, 110, 40));
+        btnClearAll.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnClearAllMouseClicked(evt);
+            }
+        });
+        pnlSessionDetails.add(btnClearAll, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 140, 110, 40));
 
         btnAdd.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnAdd.setText("ADD");
@@ -354,25 +359,21 @@ public class ExamSession extends javax.swing.JFrame {
                 btnAddMouseClicked(evt);
             }
         });
-        pnlSessionDetails.add(btnAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 160, 110, 40));
+        pnlSessionDetails.add(btnAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 140, 110, 40));
 
         btnUpdate.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnUpdate.setText("UPDATE");
-        pnlSessionDetails.add(btnUpdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 160, 110, 40));
+        pnlSessionDetails.add(btnUpdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 140, 110, 40));
 
         btnDelete.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnDelete.setText("DELETE");
-        pnlSessionDetails.add(btnDelete, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 160, 110, 40));
+        pnlSessionDetails.add(btnDelete, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 140, 110, 40));
 
         lblSessionId.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblSessionId.setText("EXAMINATION SESSION :");
         pnlSessionDetails.add(lblSessionId, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 55, -1, 30));
 
-        cmbSessionIds.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        cmbSessionIds.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SELECT SESSION ID" }));
-        pnlSessionDetails.add(cmbSessionIds, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 20, 180, 30));
-
-        pnlContent.add(pnlSessionDetails, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 800, 210));
+        pnlContent.add(pnlSessionDetails, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 800, 200));
 
         pnlSessionTable.setBackground(new java.awt.Color(204, 217, 233));
         pnlSessionTable.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -394,9 +395,14 @@ public class ExamSession extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        tblSession.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblSessionMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblSession);
 
-        pnlSessionTable.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 780, 170));
+        pnlSessionTable.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 780, 210));
 
         lblSearchExamId.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblSearchExamId.setText("EXAMINATION CODE : ");
@@ -406,7 +412,7 @@ public class ExamSession extends javax.swing.JFrame {
         cmbSearchExamId.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SELECT EXAMINATION ID" }));
         pnlSessionTable.add(cmbSearchExamId, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 10, 240, 30));
 
-        pnlContent.add(pnlSessionTable, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 250, 800, 240));
+        pnlContent.add(pnlSessionTable, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 220, 800, 270));
 
         getContentPane().add(pnlContent, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 100, 830, 520));
 
@@ -514,28 +520,21 @@ public class ExamSession extends javax.swing.JFrame {
     private void cmbExamIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbExamIdActionPerformed
         // TODO add your handling code here:
        
-       examId = cmbExamId.getSelectedItem().toString();
-       boolean value = sessionService.isExamIdExisting(examId);
-       clear.clearTextFields(pnlSessionDetails);
-       clear.resetSingleComboBox(cmbSessionIds);
-       if(value==false)
-       {                 
-           sessionService.getExamDetailsById(examId,txtModuleId, txtExamDate);
-           txtSessionId.setText(sessionService.getSessionId(examId));
-           sessionService.getSessionIdByExamId(cmbSessionIds,examId);
+       if(cmbExamId.getSelectedIndex() !=0)
+       {
+            examId = cmbExamId.getSelectedItem().toString();           
+            clear.clearTextFields(pnlSessionDetails);       
+            sessionService.getExamDetailsById(examId,txtModuleId, txtExamDate);
+            txtSessionId.setText(sessionService.getSessionId(examId));
        }
-       else
-       {                 
-           sessionService.getSessionDetailsById(examId, txtModuleId, txtExamDate, txtSessionId,  spinExamTime, txtExamVenue);
-           sessionService.getSessionIdByExamId(cmbSessionIds,examId);
-           txtSessionId.setText(sessionService.getSessionId(examId));
-       }
+
     }//GEN-LAST:event_cmbExamIdActionPerformed
 
     private void btnAddMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddMouseClicked
         // TODO add your handling code here:
        
-        boolean nullValue = validation.checkEmptyTextBox(pnlSessionDetails);                       
+        boolean nullValue = validation.checkEmptyTextBox(pnlSessionDetails);  
+        boolean addValue;
         if(!nullValue)
         {            
             JOptionPane.showMessageDialog(null, "Please fill all the text boxes", "Failure Message", 1);
@@ -548,26 +547,89 @@ public class ExamSession extends javax.swing.JFrame {
             examVenue = txtExamVenue.getText();
             examDate = txtExamDate.getText();
             
-            boolean availableValue = sessionService.checkSessionAvailability(examDate,examTime, examVenue);
-            System.out.println(availableValue);
-            if(!availableValue)
+            String isExisting = sessionService.isExamIdExisting(examId);
+            System.out.println("existing "+isExisting);
+            if(isExisting != null)
             {
-                JOptionPane.showMessageDialog(null, "The requested slot is already booked for another exam.\nPlease provide another time and venue.", "Failure Message", 1);
+                int availableValue = sessionService.checkSessionAvailability(examDate,examTime, examVenue, examId);
+                System.out.println("available "+availableValue);
+                if(availableValue != 0)
+                {
+                    JOptionPane.showMessageDialog(null, "The requested slot is already booked for another exam.\nPlease provide another time and venue.", "Failure Message", 1);
 
+                }
+                else
+                {
+                    addValue  = sessionService.addExamSessionDetails(examId, sessionId, examTime, examVenue);
+        
+                    if(addValue)
+                    {
+                        JOptionPane.showMessageDialog(null, "Exam session details were successfully added to the database", "Success Message", 1);
+                        tableModel= (DefaultTableModel) tblSession.getModel();
+                        tableModel.setRowCount(0);
+                        sessionService.fillSessionDetailsTable(tblSession);
+                    }          
+                }
+            
             }
+            
             else
             {
-                boolean addValue  = sessionService.addExamSessionDetails(examId, sessionId, examTime, examVenue);
+                addValue  = sessionService.addExamSessionDetails(examId, sessionId, examTime, examVenue);
         
-                if(addValue)
-                {
-                JOptionPane.showMessageDialog(null, "Exam session details were successfully added to the database", "Success Message", 1);
-                }          
+                    if(addValue)
+                    {
+                        JOptionPane.showMessageDialog(null, "Exam session details were successfully added to the database", "Success Message", 1);
+                        tableModel= (DefaultTableModel) tblSession.getModel();
+                        tableModel.setRowCount(0);
+                        sessionService.fillSessionDetailsTable(tblSession);
+                    }  
             }
-       
-            
         }       
     }//GEN-LAST:event_btnAddMouseClicked
+
+    private void btnClearAllMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnClearAllMouseClicked
+        // TODO add your handling code here:
+        clear.clearTextFields(pnlSessionDetails);
+        clear.resetComboBox(pnlSessionDetails);
+        txtSessionId.setText("");
+        tableModel = (DefaultTableModel) tblSession.getModel(); 
+        tableModel.setRowCount(0);           
+        sessionService.fillSessionDetailsTable(tblSession);
+         try{
+            spinExamTime.setValue((Date)dateFormat.parse(dateFormat.format(date)));
+             System.out.println(dateFormat.format(date));
+        }catch(ParseException e)
+        {
+       
+        }
+    }//GEN-LAST:event_btnClearAllMouseClicked
+
+    private void tblSessionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblSessionMouseClicked
+        // TODO add your handling code here:
+        int selectedRow = tblSession.getSelectedRow();
+        TableModel tModel = tblSession.getModel();   
+        
+        examId = tModel.getValueAt(selectedRow, 0).toString();
+        moduleId = tModel.getValueAt(selectedRow, 1).toString();
+        examDate = tModel.getValueAt(selectedRow, 2).toString();
+        sessionId = parseInt(tModel.getValueAt(selectedRow, 3).toString());
+        examTime = tModel.getValueAt(selectedRow, 4).toString();
+        examVenue = tModel.getValueAt(selectedRow, 5).toString();
+        
+        cmbExamId.setSelectedItem(examId);
+        txtModuleId.setText(moduleId);
+        txtExamDate.setText(examDate);
+        txtSessionId.setText(String.valueOf(sessionId));
+        try{
+            spinExamTime.setValue((Date)dateFormat.parse(examTime));
+        }catch(ParseException e)
+        {
+        
+        }
+        txtExamVenue.setText(examVenue);
+        
+    }//GEN-LAST:event_tblSessionMouseClicked
 
     /**
      * @param args the command line arguments
@@ -612,9 +674,7 @@ public class ExamSession extends javax.swing.JFrame {
     private javax.swing.JButton btnUpdate;
     private javax.swing.JComboBox<String> cmbExamId;
     private javax.swing.JComboBox<String> cmbSearchExamId;
-    private javax.swing.JComboBox<String> cmbSessionIds;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JLabel lblAvailableSessionId;
     private javax.swing.JLabel lblCourse;
     private javax.swing.JLabel lblDashboard;
     private javax.swing.JLabel lblExam;

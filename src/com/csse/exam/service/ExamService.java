@@ -98,9 +98,9 @@ public final class ExamService
      * @param examType
      * @return 
      */
-    public List<Exam> getExamIdByExamType(String examType) {
+    public List<Exam> getExamByExamId(String examType) {
         return examList.stream()
-                .filter(t -> t.getExamId().contains(examType))
+                .filter(t -> t.getExamId().equals(examType))
                 .collect(Collectors.toList());
                 
 
@@ -269,7 +269,7 @@ public final class ExamService
         return false;
 
     }
-    
+
    public void submitAnswers(String examID,String answerSet){
         try (Connection dbConnection = DBConnection.getConnection()) {
              dbConnection.createStatement().executeUpdate("insert into  answer values('" + User.getUserId() + "','" + examID + "','" + answerSet +"')");

@@ -6,7 +6,6 @@
 package com.csse.exam.common;
 
 import com.csse.exam.config.DBConnection;
-import java.awt.Dimension;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,7 +14,7 @@ import javax.swing.JComboBox;
 
 /**
  *
- * @author user
+ * @author Saranki
  */
 public class CommonComponents 
 {

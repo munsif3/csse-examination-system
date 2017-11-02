@@ -6,16 +6,11 @@
 package com.csse.exam.service;
 
 import com.csse.exam.config.DBConnection;
-import com.csse.exam.model.Exam;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-import javax.swing.JOptionPane;
 
 /**
  *
