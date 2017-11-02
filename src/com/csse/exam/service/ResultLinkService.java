@@ -102,8 +102,8 @@ public class ResultLinkService {
             preparedStatement.setString(1, resultState);
             preparedStatement.setString(2, examId);
             int updated = preparedStatement.executeUpdate();
-            System.out.println(updated + " Records Updated");
-            LOGGER.log(Level.INFO, "{0} Records Updated", updated);
+            System.out.println(updated + " Record Updated");
+            LOGGER.log(Level.INFO, "{0} Record Updated", updated);
             status = true;
         }
         catch (SQLException e) {
