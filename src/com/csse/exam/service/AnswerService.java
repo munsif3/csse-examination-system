@@ -150,6 +150,7 @@ public class AnswerService {
             preparedStatement.setString(3, questionId);
             int updated = preparedStatement.executeUpdate();
             System.out.println(updated + " Records Updated");
+            LOGGER.log(Level.INFO, "{0} Records Updated", updated);
             status = true;
         }
         catch (SQLException e) {

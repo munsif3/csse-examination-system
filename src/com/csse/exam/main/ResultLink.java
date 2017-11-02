@@ -6,34 +6,32 @@
 package com.csse.exam.main;
 
 import com.csse.exam.common.ClearComponents;
-import com.csse.exam.common.CommonComponents;
-import com.csse.exam.service.LinkService;
+import com.csse.exam.model.Exam;
+import com.csse.exam.service.ResultLinkService;
 import java.awt.Color;
+import java.util.List;
+import java.util.logging.Level;
 import javax.swing.JOptionPane;
-import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
-import javax.swing.table.TableRowSorter;
 
 /**
  *
- * @author Saranki
+ * @author munsif
  */
-public class ExamLink extends javax.swing.JFrame {
+public class ResultLink extends javax.swing.JFrame {
+
+    ClearComponents clear;
+    private final ResultLinkService resultLinkService = new ResultLinkService();
+    private final List<Exam> examsList = resultLinkService.getExamDetails();
+    DefaultTableModel table;
 
     /**
-     * Creates new form ExamLink
+     * Creates new form ResultLink
      */
-    
-    LinkService linkService = new LinkService();
-    ClearComponents clear = new ClearComponents();
-    CommonComponents commonComponents = new CommonComponents();
-    DefaultTableModel tableModel;  
-    public ExamLink() {
+    public ResultLink() {
         initComponents();
-        commonComponents.addValueToComboBox(cmbExaminationCode, "exam", "examId");
-        commonComponents.addValueToComboBox(cmbExaminationCodeSearch, "exam", "examId");
-        linkService.fillExamLinkTable(tblExamLink);
+        setExamIdComboBox();
+        setResultTable();
     }
 
     /**
@@ -71,8 +69,8 @@ public class ExamLink extends javax.swing.JFrame {
         btnEnableLink = new javax.swing.JButton();
         btnClearAll = new javax.swing.JButton();
         btnBlockLink = new javax.swing.JButton();
-        txtExamLinkAvailable = new javax.swing.JTextField();
-        txtExamState = new javax.swing.JTextField();
+        txtResultLink = new javax.swing.JTextField();
+        txtResultState = new javax.swing.JTextField();
         pnlExamLinkTable = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblExamLink = new javax.swing.JTable();
@@ -80,7 +78,7 @@ public class ExamLink extends javax.swing.JFrame {
         cmbExaminationCodeSearch = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("EXAMINATION LINK");
+        setTitle("RESULT LINK");
         setMaximumSize(new java.awt.Dimension(950, 600));
         setMinimumSize(new java.awt.Dimension(950, 600));
         setPreferredSize(new java.awt.Dimension(950, 600));
@@ -290,7 +288,7 @@ public class ExamLink extends javax.swing.JFrame {
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("Examination Link Availability");
+        jLabel2.setText("Result Link Availability");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -322,7 +320,7 @@ public class ExamLink extends javax.swing.JFrame {
         pnlExamLink.add(lblExamCode, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 10, -1, 30));
 
         lblExamLink.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        lblExamLink.setText("EXAMINATION LINK :");
+        lblExamLink.setText("RESULT LINK :");
         pnlExamLink.add(lblExamLink, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 50, -1, 30));
 
         lblLinkStatus.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -346,7 +344,7 @@ public class ExamLink extends javax.swing.JFrame {
                 cmbExaminationCodePropertyChange(evt);
             }
         });
-        pnlExamLink.add(cmbExaminationCode, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 10, 220, 30));
+        pnlExamLink.add(cmbExaminationCode, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 10, 310, 30));
 
         btnEnableLink.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnEnableLink.setText("ENABLE LINK");
@@ -369,18 +367,30 @@ public class ExamLink extends javax.swing.JFrame {
                 btnClearAllMouseClicked(evt);
             }
         });
+        btnClearAll.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnClearAllActionPerformed(evt);
+            }
+        });
         pnlExamLink.add(btnClearAll, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 140, 180, 40));
 
         btnBlockLink.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btnBlockLink.setText("BLOCK LINK");
+        btnBlockLink.setText("DISABLE LINK");
         btnBlockLink.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnBlockLinkMouseClicked(evt);
             }
         });
+        btnBlockLink.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBlockLinkActionPerformed(evt);
+            }
+        });
         pnlExamLink.add(btnBlockLink, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 140, 180, 40));
-        pnlExamLink.add(txtExamLinkAvailable, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 50, 220, 30));
-        pnlExamLink.add(txtExamState, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 90, 220, 30));
+        pnlExamLink.add(txtResultLink, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 50, 310, 30));
+
+        txtResultState.setEnabled(false);
+        pnlExamLink.add(txtResultState, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 90, 310, 30));
 
         pnlContent.add(pnlExamLink, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 780, 190));
 
@@ -393,7 +403,7 @@ public class ExamLink extends javax.swing.JFrame {
 
             },
             new String [] {
-                "EXAMINATION CODE", "MODULE ID", "EXAMINATION DATE", "EXAM LINK STATUS"
+                "Exam Code", "Module Id", "Examination Date", "Result Link Status"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -485,114 +495,88 @@ public class ExamLink extends javax.swing.JFrame {
 
     private void cmbExaminationCodeItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbExaminationCodeItemStateChanged
         // TODO add your handling code here:
-                                  
+        String examId = cmbExaminationCode.getSelectedItem().toString();
+        setExamLinkDetails(examId);
     }//GEN-LAST:event_cmbExaminationCodeItemStateChanged
-
-    private void cmbExaminationCodePropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_cmbExaminationCodePropertyChange
-        // TODO add your handling code here:
-        
-    }//GEN-LAST:event_cmbExaminationCodePropertyChange
 
     private void cmbExaminationCodeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbExaminationCodeActionPerformed
         // TODO add your handling code here:
-        String examId = cmbExaminationCode.getSelectedItem().toString();
-        String examinationStatus = linkService.getExamLinkStatus(examId);
-        
-        txtExamLinkAvailable.setText(linkService.showExamLink(examId));
-        
-        if(examinationStatus == null)
-        {
-            //cmbExamLink.setSelectedIndex(0);
-            txtExamState.setText("");
-        }
-        else
-            //cmbExamLink.setSelectedItem(examinationStatus);
-            txtExamState.setText(examinationStatus);
+
     }//GEN-LAST:event_cmbExaminationCodeActionPerformed
 
-    private void btnClearAllMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnClearAllMouseClicked
+    private void cmbExaminationCodePropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_cmbExaminationCodePropertyChange
         // TODO add your handling code here:
-        clear.clearTextFields(pnlExamLink);        
-        clear.resetComboBox(pnlExamLink);
-        clear.resetComboBox(pnlExamLinkTable);
-        
-        //tableModel = (DefaultTableModel) tblExamLink.getModel();  
-        //tableModel.setRowCount(0);
-        //link.fillExamLinkTable(tblExamLink); 
-        
-        
-        
-                           
-    }//GEN-LAST:event_btnClearAllMouseClicked
+
+    }//GEN-LAST:event_cmbExaminationCodePropertyChange
 
     private void btnEnableLinkMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEnableLinkMouseClicked
         // TODO add your handling code here:
-        String examId = cmbExaminationCode.getSelectedItem().toString();
-        String examState = "Enabled";
-        tableModel = (DefaultTableModel) tblExamLink.getModel();       
-        boolean value = linkService.updateExamLinkStatus(examId,examState);
-        
-        if(cmbExaminationCode.getSelectedIndex()!=0 && value)
-        {
-            JOptionPane.showMessageDialog(this, "Exam Link status was successfully updated", "Success Message", 1);  
-            tableModel.setRowCount(0);
-            linkService.fillExamLinkTable(tblExamLink);
-        }
-        else
-            JOptionPane.showMessageDialog(this, "Sorry, Exam link status couldn't be updated", "Failure Message", 1);
-             
-        txtExamState.setText(linkService.getExamLinkStatus(examId));
-       
-        
-       
+
     }//GEN-LAST:event_btnEnableLinkMouseClicked
+
+    private void btnClearAllMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnClearAllMouseClicked
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_btnClearAllMouseClicked
 
     private void btnBlockLinkMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBlockLinkMouseClicked
         // TODO add your handling code here:
-        String examId = cmbExaminationCode.getSelectedItem().toString();
-        String examState = "Blocked";
-        tableModel = (DefaultTableModel) tblExamLink.getModel();        
-        boolean value = linkService.updateExamLinkStatus(examId,examState);
-        
-        if(cmbExaminationCode.getSelectedIndex()!=0 && value)
-        {
-            JOptionPane.showMessageDialog(this, "Exam Link status was successfully updated", "Success Message", 1);  
-            tableModel.setRowCount(0);
-            linkService.fillExamLinkTable(tblExamLink);
-        }
-        else
-            JOptionPane.showMessageDialog(this, "Sorry, Exam link status couldn't be updated", "Failure Message", 1);
-        
-        txtExamState.setText((linkService.getExamLinkStatus(examId)));
 
     }//GEN-LAST:event_btnBlockLinkMouseClicked
 
-    /**
-     * 
-     * @param evt 
-     */
-    
     private void cmbExaminationCodeSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbExaminationCodeSearchActionPerformed
         // TODO add your handling code here:
-        tableModel = (DefaultTableModel) tblExamLink.getModel();   
-        
-        if(cmbExaminationCodeSearch.getSelectedIndex() == 0)
-        {                 
-            tableModel.setRowCount(0);
-            linkService.fillExamLinkTable(tblExamLink);
-        }
-        else
-        { 
-            TableRowSorter<TableModel> sorter = new TableRowSorter<>(tableModel); 
-            sorter.setRowFilter(RowFilter.regexFilter(cmbExaminationCodeSearch.getSelectedItem().toString()));
-            tblExamLink.setRowSorter(sorter);
-        
-        }
+
     }//GEN-LAST:event_cmbExaminationCodeSearchActionPerformed
+
+    private void btnClearAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearAllActionPerformed
+        // TODO add your handling code here:
+        clear = new ClearComponents();
+        clear.clearTextFields(pnlExamLink);
+        clear.resetComboBox(pnlExamLink);
+    }//GEN-LAST:event_btnClearAllActionPerformed
 
     private void btnEnableLinkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnableLinkActionPerformed
         // TODO add your handling code here:
+        String examId = cmbExaminationCode.getSelectedItem().toString();
+        String resultState = "Enabled";
+
+        int answer = JOptionPane.showConfirmDialog(this, "Are you sure you want to Enable the Link?");
+        if (answer == 0) {
+            boolean resultUpdate = resultLinkService.updateResultLinkStatus(resultState, examId);
+
+            if (resultUpdate) {
+                JOptionPane.showMessageDialog(this, "Updated " + examId + "'s Result Link to " + resultState + " state");
+                resultLinkService.LOGGER.log(Level.INFO, "Updated {0}''s Result Link to {1} state", new Object[]{examId, resultState});
+            }
+            else {
+                JOptionPane.showMessageDialog(this, "Failed to Update. Please try again");
+                resultLinkService.LOGGER.info("Failed to Update. Please try again");
+            }
+        }
+        btnClearAllActionPerformed(evt);
     }//GEN-LAST:event_btnEnableLinkActionPerformed
+
+    private void btnBlockLinkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBlockLinkActionPerformed
+        // TODO add your handling code here:
+        String examId = cmbExaminationCode.getSelectedItem().toString();
+        String resultState = "Disabled";
+
+        int answer = JOptionPane.showConfirmDialog(this, "Are you sure you want to Disable the Link?");
+        if (answer == 0) {
+            boolean resultUpdate = resultLinkService.updateResultLinkStatus(resultState, examId);
+
+            if (resultUpdate) {
+                JOptionPane.showMessageDialog(this, "Updated " + examId + "'s Result Link to " + resultState + " state");
+                resultLinkService.LOGGER.log(Level.INFO, "Updated {0}''s Result Link to {1} state", new Object[]{examId, resultState});
+            }
+            else {
+                JOptionPane.showMessageDialog(this, "Failed to Update. Please try again");
+                resultLinkService.LOGGER.info("Failed to Update. Please try again");
+            }
+        }
+        btnClearAllActionPerformed(evt);
+    }//GEN-LAST:event_btnBlockLinkActionPerformed
 
     /**
      * @param args the command line arguments
@@ -610,21 +594,25 @@ public class ExamLink extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ExamLink.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ExamLink.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ExamLink.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ExamLink.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(ResultLink.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(ResultLink.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(ResultLink.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(ResultLink.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ExamLink().setVisible(true);
+                new ResultLink().setVisible(true);
             }
         });
     }
@@ -661,7 +649,29 @@ public class ExamLink extends javax.swing.JFrame {
     private javax.swing.JPanel pnlResult;
     private javax.swing.JPanel pnlSystem;
     private javax.swing.JTable tblExamLink;
-    private javax.swing.JTextField txtExamLinkAvailable;
-    private javax.swing.JTextField txtExamState;
+    private javax.swing.JTextField txtResultLink;
+    private javax.swing.JTextField txtResultState;
     // End of variables declaration//GEN-END:variables
+
+    private void setResultTable() {
+        table.getDataVector().removeAllElements();
+        table = resultLinkService.fillResultLinkTable();
+        tblExamLink.setModel(table);
+    }
+
+    private void setExamIdComboBox() {
+        for (int i = 0; i < examsList.size(); i++) {
+            String examId = examsList.get(i).getExamId();
+            cmbExaminationCode.addItem(examId);
+        }
+    }
+
+    public void setExamLinkDetails(String examId) {
+        examId = cmbExaminationCode.getSelectedItem().toString();
+        List<Exam> resultLinkList = resultLinkService.getResultLinkState(examId);
+        resultLinkList.forEach((result) -> {
+            txtResultLink.setText((result.getExamId() + result.getExamDate()));
+            txtResultState.setText(result.getResultState());
+        });
+    }
 }
