@@ -21,6 +21,7 @@ public class Exam {
     private  int totalMarks;
     private  String examState;
     private  String examPassword;
+    
 
     public Exam() {
 
