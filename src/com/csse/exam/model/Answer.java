@@ -9,66 +9,56 @@ package com.csse.exam.model;
  *
  * @author munsif
  */
-public class Result {
+public class Answer {
     private String userId;
     private String examId;
-    private String score;
-    private String grade;
+    private String answer;
 
     /**
-     * @return the userId
+     *
+     * @return userId
      */
     public String getUserId() {
         return userId;
     }
 
     /**
-     * @param userId the userId to set
+     * 
+     * @param userId set the userId
      */
     public void setUserId(String userId) {
         this.userId = userId;
     }
 
     /**
-     * @return the examId
+     * 
+     * @return examId
      */
     public String getExamId() {
         return examId;
     }
 
     /**
-     * @param examId the examId to set
+     * 
+     * @param examId set the examId
      */
     public void setExamId(String examId) {
         this.examId = examId;
     }
 
     /**
-     * @return the score
+     * 
+     * @return answer
      */
-    public String getScore() {
-        return score;
+    public String getAnswer() {
+        return answer;
     }
 
     /**
-     * @param score the score to set
+     * 
+     * @param answer set the answer
      */
-    public void setScore(String score) {
-        this.score = score;
+    public void setAnswer(String answer) {
+        this.answer = answer;
     }
-    
-    /**
-     * @return the grade
-     */
-    public String getGrade() {
-        return grade;
-    }
-
-    /**
-     * @param grade the grade to set
-     */
-    public void setGrade(String grade) {
-        this.grade = grade;
-    }
-    
 }

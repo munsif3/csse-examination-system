@@ -9,10 +9,10 @@ import com.csse.exam.common.ClearComponents;
 import com.csse.exam.model.Result;
 import com.csse.exam.service.ResultService;
 import java.awt.Color;
-import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -21,14 +21,16 @@ import javax.swing.JOptionPane;
 public class Results extends javax.swing.JFrame {
 
     private final ResultService resultService = new ResultService();
-    private final ArrayList<Result> resultList = resultService.getResult();
+    private final List<Result> resultList = resultService.getDistinctStudentId();
     ClearComponents clear;
+    DefaultTableModel table = new DefaultTableModel();
 
     /**
      * Creates new form Result
      */
     public Results() {
         initComponents();
+        
         setStudentIdCombobox();
         setResultTableModel();
     }
@@ -371,12 +373,19 @@ public class Results extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Student ID", "Exam ID", "Score"
+                "Student ID", "Exam ID", "Score", "Grade"
             }
         ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
@@ -503,12 +512,11 @@ public class Results extends javax.swing.JFrame {
 
         DefaultComboBoxModel comboBoxModel = new DefaultComboBoxModel();
         comboBoxModel.addElement("SELECT EXAMINATION ID");
+        
         for (int i = 0; i < examIdByStudentId.size(); i++) {
-
             comboBoxModel.addElement(examIdByStudentId.get(i).getExamId());
         }
         cmbExamId.setModel(comboBoxModel);
-
     }//GEN-LAST:event_cmbStudentIdActionPerformed
 
     private void cmbExamIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbExamIdActionPerformed
@@ -530,13 +538,15 @@ public class Results extends javax.swing.JFrame {
     }//GEN-LAST:event_btnResetActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        txtGrade.setText(String.valueOf(resultService.getGrade(Integer.parseInt(txtMarks.getText()))));
         String studentId = cmbStudentId.getSelectedItem().toString();
         String examId = cmbExamId.getSelectedItem().toString();
         int score = Integer.parseInt(txtMarks.getText());
+        String grade = txtGrade.getText();
 
         int answer = JOptionPane.showConfirmDialog(this, "Are you sure you want to Update?");
         if (answer == 0) {
-            boolean updateScore = resultService.updateScore(studentId, examId, score);
+            boolean updateScore = resultService.updateScore(studentId, examId, grade, score);
 
             if (updateScore) {
                 JOptionPane.showMessageDialog(this, "Updated " + studentId + "'s " + examId.split("-")[1] + " score");
@@ -551,17 +561,6 @@ public class Results extends javax.swing.JFrame {
         btnResetActionPerformed(evt);
         setResultTableModel();
     }//GEN-LAST:event_btnUpdateActionPerformed
-
-    private void setStudentIdCombobox() {
-        for (int i = 0; i < resultList.size(); i++) {
-            String userId = resultList.get(i).getUserId();
-            cmbStudentId.addItem(userId);
-        }
-    }
-
-    private void setResultTableModel() {
-        tblResults.setModel(resultService.fillResultsTable());
-    }
 
     /**
      * @param args the command line arguments
@@ -638,4 +637,18 @@ public class Results extends javax.swing.JFrame {
     private javax.swing.JTextField txtMarks;
     private javax.swing.JTextField txtModuleCode;
     // End of variables declaration//GEN-END:variables
+
+    private void setStudentIdCombobox() {
+        for (int i = 0; i < resultList.size(); i++) {
+            String userId = resultList.get(i).getUserId();
+            cmbStudentId.addItem(userId);
+        }
+    }
+
+    private void setResultTableModel() {
+        table.getDataVector().removeAllElements();
+        table = resultService.fillResultsTable();
+        tblResults.setModel(table);
+    }
+
 }

@@ -5,7 +5,14 @@
  */
 package com.csse.exam.main;
 
+import com.csse.exam.common.ClearComponents;
+import com.csse.exam.model.Question;
+import com.csse.exam.service.AnswerService;
 import java.awt.Color;
+import java.util.List;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -13,11 +20,22 @@ import java.awt.Color;
  */
 public class Answers extends javax.swing.JFrame {
 
+    private final AnswerService answerService = new AnswerService();
+    private final List<Question> questionList = answerService.getDistinctExamId();
+    ClearComponents clear;
+    DefaultListModel questionIdList = new DefaultListModel();
+    DefaultComboBoxModel selectedAnswers = new DefaultComboBoxModel();
+    String questionId;
+    String question;
+    String options;
+
     /**
      * Creates new form Answers
      */
     public Answers() {
         initComponents();
+        setExamIdCombobox();
+
     }
 
     /**
@@ -44,20 +62,29 @@ public class Answers extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         jSeparator1 = new javax.swing.JSeparator();
         jLabel11 = new javax.swing.JLabel();
-        jComboBox3 = new javax.swing.JComboBox<>();
+        cmbExamId = new javax.swing.JComboBox<>();
         lblBack = new javax.swing.JLabel();
         pnlQuestionsAnswers = new javax.swing.JPanel();
         pnlQuestionNumbers = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        lstQuestionId = new javax.swing.JList<>();
         pnlQuestion = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
-        jLabel13 = new javax.swing.JLabel();
-        jLabel14 = new javax.swing.JLabel();
+        lblQuestionDesc = new javax.swing.JLabel();
+        lblOpt5 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox<>();
-        jButton1 = new javax.swing.JButton();
+        jLabel18 = new javax.swing.JLabel();
+        lblQuestionId = new javax.swing.JLabel();
+        jLabel19 = new javax.swing.JLabel();
+        lblOpt1 = new javax.swing.JLabel();
+        lblOpt2 = new javax.swing.JLabel();
+        lblOpt3 = new javax.swing.JLabel();
+        lblOpt4 = new javax.swing.JLabel();
+        cmbCorrectAns = new javax.swing.JComboBox<>();
+        btnSubmit = new javax.swing.JButton();
         pnlHeader = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -228,14 +255,16 @@ public class Answers extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(204, 217, 233));
 
+        jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/csse/exam/resource/SLIIT_Crest.png"))); // NOI18N
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(33, 33, 33)
+                .addGap(31, 31, 31)
                 .addComponent(jLabel9)
-                .addContainerGap(37, Short.MAX_VALUE))
+                .addContainerGap(39, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -261,9 +290,14 @@ public class Answers extends javax.swing.JFrame {
         jLabel11.setText("EXAMINATION ID");
         jPanel3.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, 40));
 
-        jComboBox3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SELECT EXAMINATION ID", "EX001", "EX002", "EX003" }));
-        jPanel3.add(jComboBox3, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 10, 190, 40));
+        cmbExamId.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        cmbExamId.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SELECT EXAMINATION ID" }));
+        cmbExamId.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbExamIdActionPerformed(evt);
+            }
+        });
+        jPanel3.add(cmbExamId, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 10, 300, 40));
 
         pnlContent.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 780, 60));
 
@@ -283,49 +317,97 @@ public class Answers extends javax.swing.JFrame {
         pnlQuestionNumbers.setBackground(new java.awt.Color(204, 217, 233));
         pnlQuestionNumbers.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         pnlQuestionNumbers.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        pnlQuestionsAnswers.add(pnlQuestionNumbers, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 190, 270));
+
+        jScrollPane1.setBorder(null);
+
+        lstQuestionId.setBackground(new java.awt.Color(204, 217, 233));
+        lstQuestionId.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        lstQuestionId.setFont(new java.awt.Font("Segoe UI", 0, 11)); // NOI18N
+        lstQuestionId.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                lstQuestionIdValueChanged(evt);
+            }
+        });
+        jScrollPane1.setViewportView(lstQuestionId);
+
+        pnlQuestionNumbers.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 100, 270));
+
+        pnlQuestionsAnswers.add(pnlQuestionNumbers, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 100, 270));
 
         pnlQuestion.setBackground(new java.awt.Color(204, 217, 233));
         pnlQuestion.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         pnlQuestion.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel10.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel10.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel10.setText("Question Description:");
         pnlQuestion.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, -1, -1));
 
-        jLabel12.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel12.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel12.setText("Option 5:  ");
         pnlQuestion.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 240, -1, -1));
 
-        jLabel13.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel13.setText("Question ID: ");
-        pnlQuestion.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, -1, -1));
+        lblQuestionDesc.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblQuestionDesc.setText("Question Desc");
+        pnlQuestion.add(lblQuestionDesc, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, 610, 30));
 
-        jLabel14.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel14.setText("Option 1:  ");
-        pnlQuestion.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 120, -1, -1));
+        lblOpt5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblOpt5.setText("Option 1:  ");
+        pnlQuestion.add(lblOpt5, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 240, 550, -1));
 
-        jLabel15.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel15.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel15.setText("Option 2:  ");
         pnlQuestion.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 150, -1, -1));
 
-        jLabel16.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel16.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel16.setText("Option 3:  ");
         pnlQuestion.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 180, -1, -1));
 
-        jLabel17.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel17.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel17.setText("Option 4:  ");
         pnlQuestion.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 210, -1, -1));
 
-        pnlQuestionsAnswers.add(pnlQuestion, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 10, 560, 270));
+        jLabel18.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel18.setText("Question ID: ");
+        pnlQuestion.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, -1, -1));
 
-        jComboBox2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SELECT CORRECT ANSWER", "OPTION 1", "OPTION 2", "OPTION 3", "OPTION 4", "OPTION 5" }));
-        pnlQuestionsAnswers.add(jComboBox2, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 290, 190, 40));
+        lblQuestionId.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblQuestionId.setText("Question ID ");
+        pnlQuestion.add(lblQuestionId, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 20, 250, -1));
 
-        jButton1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jButton1.setText("SUBMIT");
-        pnlQuestionsAnswers.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 290, 190, 40));
+        jLabel19.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel19.setText("Option 1:  ");
+        pnlQuestion.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 120, -1, -1));
+
+        lblOpt1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblOpt1.setText("Option 1:  ");
+        pnlQuestion.add(lblOpt1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 120, 550, -1));
+
+        lblOpt2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblOpt2.setText("Option 1:  ");
+        pnlQuestion.add(lblOpt2, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 150, 550, -1));
+
+        lblOpt3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblOpt3.setText("Option 1:  ");
+        pnlQuestion.add(lblOpt3, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 180, 550, -1));
+
+        lblOpt4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblOpt4.setText("Option 1:  ");
+        pnlQuestion.add(lblOpt4, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 210, 550, -1));
+
+        pnlQuestionsAnswers.add(pnlQuestion, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 10, 650, 270));
+
+        cmbCorrectAns.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        cmbCorrectAns.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SELECT CORRECT ANSWER", " " }));
+        pnlQuestionsAnswers.add(cmbCorrectAns, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 290, 220, 40));
+
+        btnSubmit.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnSubmit.setText("SUBMIT");
+        btnSubmit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSubmitActionPerformed(evt);
+            }
+        });
+        pnlQuestionsAnswers.add(btnSubmit, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 290, 190, 40));
 
         pnlContent.add(pnlQuestionsAnswers, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 120, 780, 340));
 
@@ -438,6 +520,24 @@ public class Answers extends javax.swing.JFrame {
         lblBack.setBackground(Color.WHITE);
     }//GEN-LAST:event_lblBackMousePressed
 
+    private void cmbExamIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbExamIdActionPerformed
+        // TODO add your handling code here:
+        String examId = cmbExamId.getSelectedItem().toString();
+        setQuestionsOnListBox(examId);
+    }//GEN-LAST:event_cmbExamIdActionPerformed
+
+    private void lstQuestionIdValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lstQuestionIdValueChanged
+        // TODO add your handling code here:
+        String eid = cmbExamId.getSelectedItem().toString();
+        String qid = lstQuestionId.getSelectedValue();
+        setQuestionDetails(eid, qid);
+    }//GEN-LAST:event_lstQuestionIdValueChanged
+
+    private void btnSubmitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubmitActionPerformed
+        // TODO add your handling code here:
+        updateCorrectAnswer();
+    }//GEN-LAST:event_btnSubmitActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -454,13 +554,17 @@ public class Answers extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
+        }
+        catch (ClassNotFoundException ex) {
             java.util.logging.Logger.getLogger(Answers.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
+        }
+        catch (InstantiationException ex) {
             java.util.logging.Logger.getLogger(Answers.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
+        }
+        catch (IllegalAccessException ex) {
             java.util.logging.Logger.getLogger(Answers.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        }
+        catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(Answers.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
@@ -474,18 +578,18 @@ public class Answers extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JComboBox<String> jComboBox2;
-    private javax.swing.JComboBox<String> jComboBox3;
+    private javax.swing.JButton btnSubmit;
+    private javax.swing.JComboBox<String> cmbCorrectAns;
+    private javax.swing.JComboBox<String> cmbExamId;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -501,8 +605,17 @@ public class Answers extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JLabel lblBack;
+    private javax.swing.JLabel lblOpt1;
+    private javax.swing.JLabel lblOpt2;
+    private javax.swing.JLabel lblOpt3;
+    private javax.swing.JLabel lblOpt4;
+    private javax.swing.JLabel lblOpt5;
+    private javax.swing.JLabel lblQuestionDesc;
+    private javax.swing.JLabel lblQuestionId;
+    private javax.swing.JList<String> lstQuestionId;
     private javax.swing.JPanel pnlContent;
     private javax.swing.JPanel pnlHeader;
     private javax.swing.JPanel pnlNavigation;
@@ -510,4 +623,68 @@ public class Answers extends javax.swing.JFrame {
     private javax.swing.JPanel pnlQuestionNumbers;
     private javax.swing.JPanel pnlQuestionsAnswers;
     // End of variables declaration//GEN-END:variables
+
+    private void setExamIdCombobox() {
+        for (int i = 0; i < questionList.size(); i++) {
+            String examId = questionList.get(i).getExamId();
+            cmbExamId.addItem(examId);
+        }
+    }
+
+    private void setQuestionsOnListBox(String examId) {
+        questionIdList.removeAllElements();
+        List<Question> questionIdByExamId = answerService.getQuestionIdByExamId(examId);
+        questionIdByExamId.forEach((result) -> {
+            questionId = result.getQuestionId();
+            question = result.getQuestion();
+            questionIdList.addElement(questionId);
+        });
+        lstQuestionId.setModel(questionIdList);
+    }
+
+    private void setQuestionDetails(String examId, String questionId) {
+        cmbCorrectAns.removeAllItems();
+        List<Question> questionsByExamIdByQuestionId = answerService.getQuestion(examId, questionId);
+        questionsByExamIdByQuestionId.forEach((result) -> {
+            lblQuestionId.setText(result.getQuestionId());
+            lblQuestionDesc.setText(result.getQuestion());
+            options = result.getOptions();
+            String option1 = options.split(":")[0].split("-")[1];
+            String option2 = options.split(":")[1].split("-")[1];
+            String option3 = options.split(":")[2].split("-")[1];
+            String option4 = options.split(":")[3].split("-")[1];
+            String option5 = options.split(":")[4].split("-")[1];
+
+            lblOpt1.setText(option1);
+            lblOpt2.setText(option2);
+            lblOpt3.setText(option3);
+            lblOpt4.setText(option4);
+            lblOpt5.setText(option5);
+
+            for (int i = 0; i < 5; i++) {
+                selectedAnswers.addElement(options.split(":")[i].split("-")[1]);
+            }
+            cmbCorrectAns.setModel(selectedAnswers);
+        });
+    }
+
+    private void updateCorrectAnswer() {
+        String correctAnswer = cmbCorrectAns.getSelectedItem().toString();
+        String eid = cmbExamId.getSelectedItem().toString();
+        String qid = lblQuestionId.getText();
+
+        int answer = JOptionPane.showConfirmDialog(this, "Are you sure you want to Update?");
+        if (answer == 0) {
+            boolean updateScore = answerService.updateCorrectAnswer(correctAnswer, eid, qid);
+
+            if (updateScore) {
+                JOptionPane.showMessageDialog(this, "Updated the Correct Answer for question " + qid);
+                answerService.LOGGER.info("Updated the Correct Answer for question " + qid);
+            }
+            else {
+                JOptionPane.showMessageDialog(this, "Failed to Update. Please try again");
+                answerService.LOGGER.info("Failed to Update. Please try again");
+            }
+        }
+    }
 }

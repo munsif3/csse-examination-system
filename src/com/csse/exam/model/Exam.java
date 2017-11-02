@@ -13,15 +13,23 @@ import java.util.Date;
  */
 public class Exam {
 
-    private  String examId;
-    private  String examDuration;
-    private  String moduleId;
-    private  Date examDate;
-    private  int numberOfQuestions;
-    private  int totalMarks;
-    private  String examState;
-    private  String examPassword;
-    
+    private String examId;
+    private String examDuration;
+    private String moduleId;
+    private Date examDate;
+    private int numberOfQuestions;
+    private int totalMarks;
+    private String examState;
+    private String examPassword;
+    private String resultState;
+
+    public String getResultState() {
+        return resultState;
+    }
+
+    public void setResultState(String resultState) {
+        this.resultState = resultState;
+    }
 
     public Exam() {
 
@@ -102,7 +110,5 @@ public class Exam {
     public void setExamPassword(String examPassword) {
         this.examPassword = examPassword;
     }
-
-    
 
 }

@@ -282,6 +282,11 @@ public class QuizContent extends javax.swing.JFrame {
         lstQuiz.setForeground(new java.awt.Color(51, 102, 255));
         lstQuiz.setModel(new DefaultListModel<String>());
         lstQuiz.setSelectionBackground(new java.awt.Color(204, 204, 204));
+        lstQuiz.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lstQuizMouseClicked(evt);
+            }
+        });
         lstQuiz.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
                 lstQuizValueChanged(evt);
@@ -342,11 +347,7 @@ public class QuizContent extends javax.swing.JFrame {
 
     private void lstQuizValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lstQuizValueChanged
         
-        AttemptExam attemptExam = new AttemptExam();
-        this.setVisible(false);
-        attemptExam.setVisible(true);
-        attemptExam.lblHeaderAE.setText(lblSelectedModule.getText() + " - " + lstQuiz.getSelectedValue());
-        attemptExam.lblSelectedQuiz.setText(lstQuiz.getSelectedValue());
+       
         
 
     }//GEN-LAST:event_lstQuizValueChanged
@@ -378,6 +379,14 @@ public class QuizContent extends javax.swing.JFrame {
         dashboardStudent.setVisible(true);
 
     }//GEN-LAST:event_lblHomeMEMouseClicked
+
+    private void lstQuizMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lstQuizMouseClicked
+        AttemptExam attemptExam = new AttemptExam();
+        this.setVisible(false);
+        attemptExam.setVisible(true);
+        attemptExam.lblHeaderAE.setText(lblSelectedModule.getText() + " - " + lstQuiz.getSelectedValue());
+        attemptExam.lblSelectedQuiz.setText(lstQuiz.getSelectedValue());
+    }//GEN-LAST:event_lstQuizMouseClicked
 
     /**
      * @param args the command line arguments

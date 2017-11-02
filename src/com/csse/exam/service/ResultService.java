@@ -14,6 +14,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.FileHandler;
 import java.util.logging.Handler;
@@ -41,6 +45,9 @@ public final class ResultService {
     private static Handler fileHandler = null;
     private static Handler consoleHandler = null;
 
+    /**
+     * Constructor to initialize the logger specific tasks
+     */
     public ResultService() {
         try {
             consoleHandler = new ConsoleHandler();
@@ -55,6 +62,8 @@ public final class ResultService {
             LOGGER.setLevel(Level.ALL);
 
             LOGGER.info("Result Service Initiated");
+            this.getResult();
+            LOGGER.info("Results retrieved from the Database");
         }
         catch (IOException | SecurityException e) {
             LOGGER.log(Level.SEVERE, "Error occur in FileHandler : ", e);
@@ -77,6 +86,7 @@ public final class ResultService {
                 result.setUserId(resultSet.getString("userId"));
                 result.setExamId(resultSet.getString("examId"));
                 result.setScore(resultSet.getString("score"));
+                result.setGrade(resultSet.getString("grade"));
                 resultList.add(result);
             }
 
@@ -85,6 +95,37 @@ public final class ResultService {
             LOGGER.log(Level.SEVERE, "Error occur in getResult() : ", e);
         }
         return resultList;
+    }
+    
+    /**
+     *
+     * @return Distinct ExamId from the ArrayList
+     */
+    public List<Result> getDistinctStudentId() {
+        return resultList.stream()
+                .filter(distinctByKey(p -> p.getUserId()))
+                .collect(Collectors.toList());
+    }
+    
+    /**
+     *
+     * @param <T>
+     * @param keyExtractor
+     * @return key and true if seen already in the Array
+     */
+    public static <T> Predicate<T> distinctByKey(Function<? super T, ?> keyExtractor) {
+        Map<Object, Boolean> seen = new ConcurrentHashMap<>();
+        return t -> seen.putIfAbsent(keyExtractor.apply(t), Boolean.TRUE) == null;
+    }
+
+    /**
+     *
+     * @return List of unique student id
+     */
+    public List<Result> getStudentId() {
+        return resultList.stream()
+                .distinct()
+                .collect(Collectors.toList());
     }
 
     /**
@@ -140,25 +181,26 @@ public final class ResultService {
      * @return Default Table Model to populate the jTable in View
      */
     public DefaultTableModel fillResultsTable() {
-        DefaultTableModel table = new DefaultTableModel(new Object[]{"Student ID", "Exam ID", "Score"}, 0);
-
-        resultList.forEach((r) -> {
-            table.addRow(new Object[]{r.getUserId(), r.getExamId(), r.getScore()});
+        DefaultTableModel table = new DefaultTableModel(new Object[]{"Student ID", "Exam ID", "Score", "Grade"}, 0);
+        
+        resultList.forEach((result) -> {
+            table.addRow(new Object[]{result.getUserId(), result.getExamId(), result.getScore(), result.getGrade()});
         });
 
         return table;
     }
 
-    public boolean updateScore(String studentId, String examId, int score) {
+    public boolean updateScore(String studentId, String examId, String grade, int score) {
         boolean status = false;
 
         try {
-            preparedStatement = CONNECTION.prepareStatement("UPDATE result SET score = ? WHERE userId = ? AND examId = ?");
+            preparedStatement = CONNECTION.prepareStatement("UPDATE result SET score = ?, grade = ? WHERE userId = ? AND examId = ?");
             preparedStatement.setInt(1, score);
-            preparedStatement.setString(2, studentId);
-            preparedStatement.setString(3, examId);
+            preparedStatement.setString(2, grade);
+            preparedStatement.setString(3, studentId);
+            preparedStatement.setString(4, examId);
             int updated = preparedStatement.executeUpdate();
-            System.out.println(updated + " Records Updated");
+            LOGGER.log(Level.INFO, "{0} Records Updated", updated);
             status = true;
         }
         catch (SQLException e) {

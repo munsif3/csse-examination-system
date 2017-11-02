@@ -80,7 +80,7 @@ public class ModuleService {
 
         ArrayList<Exam> exams = new ArrayList<Exam>();
         try (Connection dbConnection = DBConnection.getConnection()) {
-            resultSet = dbConnection.createStatement().executeQuery("select * from exam where examDate > CURDATE() and moduleId = '" + moduleId + "' and examState = 'Enabled'");
+            resultSet = dbConnection.createStatement().executeQuery("select * from exam  where examDate > CURDATE() and moduleId = '" + moduleId + "' and examState = 'Enabled'");
             while (resultSet.next()) {
                 exams.add(new Exam(resultSet.getString("examId"), resultSet.getString("examDuration"), resultSet.getString("moduleId"), oDateFormat.parse(resultSet.getString("examDate")), Integer.parseInt(resultSet.getString("noOfQuestion")), Integer.parseInt(resultSet.getString("totalMarks")), resultSet.getString("examState"), resultSet.getString("examPassword")));
             }
