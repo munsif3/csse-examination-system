@@ -13,6 +13,7 @@ public class Result {
     private String userId;
     private String examId;
     private String score;
+    private String grade;
 
     /**
      * @return the userId
@@ -54,6 +55,20 @@ public class Result {
      */
     public void setScore(String score) {
         this.score = score;
+    }
+    
+    /**
+     * @return the grade
+     */
+    public String getGrade() {
+        return grade;
+    }
+
+    /**
+     * @param grade the grade to set
+     */
+    public void setGrade(String grade) {
+        this.grade = grade;
     }
     
 }

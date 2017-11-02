@@ -6,7 +6,6 @@
 package com.csse.exam.service;
 
 import com.csse.exam.config.DBConnection;
-import com.csse.exam.model.Answer;
 import com.csse.exam.model.Question;
 import java.io.IOException;
 import java.sql.Connection;
@@ -15,6 +14,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.FileHandler;
 import java.util.logging.Handler;
@@ -58,6 +61,8 @@ public class AnswerService {
             LOGGER.setLevel(Level.ALL);
 
             LOGGER.info("Result Service Initiated");
+            this.getQuestions();
+            LOGGER.info("Questions retrieved from the Database");
         }
         catch (IOException | SecurityException e) {
             LOGGER.log(Level.SEVERE, "Error occur in FileHandler : ", e);
@@ -69,7 +74,7 @@ public class AnswerService {
      * @return ArrayList of type Answer and complete extraction of the result
      *         table
      */
-    public ArrayList<Question> getQuestions() {
+    public final ArrayList<Question> getQuestions() {
         try {
             preparedStatement = CONNECTION.prepareStatement("SELECT * FROM question");
             resultSet = preparedStatement.executeQuery();
@@ -84,12 +89,32 @@ public class AnswerService {
                 question.setAnswer(resultSet.getString("answer"));
                 questionList.add(question);
             }
-
         }
         catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, "Error occur in getAnswers() : ", e);
+            LOGGER.log(Level.SEVERE, "Error occured in getAnswers() : ", e);
         }
         return questionList;
+    }
+
+    /**
+     *
+     * @return Distinct ExamId from the ArrayList
+     */
+    public List<Question> getDistinctExamId() {
+        return questionList.stream()
+                .filter(distinctByKey(p -> p.getExamId()))
+                .collect(Collectors.toList());
+    }
+
+    /**
+     *
+     * @param <T>
+     * @param keyExtractor
+     * @return key and true if seen already in the Array
+     */
+    public static <T> Predicate<T> distinctByKey(Function<? super T, ?> keyExtractor) {
+        Map<Object, Boolean> seen = new ConcurrentHashMap<>();
+        return t -> seen.putIfAbsent(keyExtractor.apply(t), Boolean.TRUE) == null;
     }
 
     /**
@@ -97,11 +122,10 @@ public class AnswerService {
      * @param examId
      * @return List of ExamId particular to that User
      */
-    public List<Question> getQuestionId(String examId) {
+    public List<Question> getQuestionIdByExamId(String examId) {
         return questionList.stream()
                 .filter(t -> t.getExamId().equals(examId))
                 .collect(Collectors.toList());
-
     }
 
     /**
@@ -114,5 +138,24 @@ public class AnswerService {
         return questionList.stream()
                 .filter(t -> t.getExamId().equals(examId) && t.getQuestionId().equals(questionId))
                 .collect(Collectors.toList());
+    }
+
+    public boolean updateCorrectAnswer(String answer, String examId, String questionId) {
+        boolean status = false;
+
+        try {
+            preparedStatement = CONNECTION.prepareStatement("UPDATE question SET answer = ? WHERE examId = ? AND questionId = ?");
+            preparedStatement.setString(1, answer);
+            preparedStatement.setString(2, examId);
+            preparedStatement.setString(3, questionId);
+            int updated = preparedStatement.executeUpdate();
+            System.out.println(updated + " Records Updated");
+            status = true;
+        }
+        catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "Error occur in updateCorrectAnswer() : ", e);
+        }
+
+        return status;
     }
 }
