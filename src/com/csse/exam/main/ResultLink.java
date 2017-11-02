@@ -6,13 +6,18 @@
 package com.csse.exam.main;
 
 import com.csse.exam.common.ClearComponents;
+import com.csse.exam.common.Validation;
 import com.csse.exam.model.Exam;
 import com.csse.exam.service.ResultLinkService;
 import java.awt.Color;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.logging.Level;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import java.util.Date;
 
 /**
  *
@@ -21,6 +26,7 @@ import javax.swing.table.DefaultTableModel;
 public class ResultLink extends javax.swing.JFrame {
 
     ClearComponents clear;
+    Validation validate;
     private final ResultLinkService resultLinkService = new ResultLinkService();
     private final List<Exam> examsList = resultLinkService.getExamDetails();
     DefaultTableModel table;
@@ -30,6 +36,7 @@ public class ResultLink extends javax.swing.JFrame {
      */
     public ResultLink() {
         initComponents();
+        lblHiddenExamDate.setVisible(false);
         setExamIdComboBox();
         setResultTable();
     }
@@ -71,6 +78,7 @@ public class ResultLink extends javax.swing.JFrame {
         btnBlockLink = new javax.swing.JButton();
         txtResultLink = new javax.swing.JTextField();
         txtResultState = new javax.swing.JTextField();
+        lblHiddenExamDate = new javax.swing.JLabel();
         pnlExamLinkTable = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblExamLink = new javax.swing.JTable();
@@ -387,10 +395,15 @@ public class ResultLink extends javax.swing.JFrame {
             }
         });
         pnlExamLink.add(btnBlockLink, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 140, 180, 40));
+
+        txtResultLink.setEditable(false);
         pnlExamLink.add(txtResultLink, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 50, 310, 30));
 
-        txtResultState.setEnabled(false);
+        txtResultState.setEditable(false);
         pnlExamLink.add(txtResultState, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 90, 310, 30));
+
+        lblHiddenExamDate.setText("jLabel1");
+        pnlExamLink.add(lblHiddenExamDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 160, -1, -1));
 
         pnlContent.add(pnlExamLink, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 780, 190));
 
@@ -538,44 +551,80 @@ public class ResultLink extends javax.swing.JFrame {
 
     private void btnEnableLinkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnableLinkActionPerformed
         // TODO add your handling code here:
-        String examId = cmbExaminationCode.getSelectedItem().toString();
-        String resultState = "Enabled";
+        validate = new Validation();
+        boolean checkComboBox = validate.checkComboBox(pnlExamLink);
+        if (checkComboBox) {
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            Date date = new Date();
+            String currentDate = dateFormat.format(date);
+            String examDate = lblHiddenExamDate.getText();
 
-        int answer = JOptionPane.showConfirmDialog(this, "Are you sure you want to Enable the Link?");
-        if (answer == 0) {
-            boolean resultUpdate = resultLinkService.updateResultLinkStatus(resultState, examId);
+            try {
+                Date today = dateFormat.parse(currentDate);
+                Date examDay = dateFormat.parse(examDate);
+                if (examDay.before(today) || examDay.equals(today)) {
+                    String examId = cmbExaminationCode.getSelectedItem().toString();
+                    String resultState = "Enabled";
 
-            if (resultUpdate) {
-                JOptionPane.showMessageDialog(this, "Updated " + examId + "'s Result Link to " + resultState + " state");
-                resultLinkService.LOGGER.log(Level.INFO, "Updated {0}''s Result Link to {1} state", new Object[]{examId, resultState});
+                    int answer = JOptionPane.showConfirmDialog(this, "Are you sure you want to Enable the Link?");
+                    if (answer == 0) {
+                        boolean resultUpdate = resultLinkService.updateResultLinkStatus(resultState, examId);
+
+                        if (resultUpdate) {
+                            JOptionPane.showMessageDialog(this, "Updated " + examId + "'s Result Link to " + resultState + " state");
+                            resultLinkService.LOGGER.log(Level.INFO, "Updated {0}''s Result Link to {1} state", new Object[]{examId, resultState});
+                        }
+                        else {
+                            JOptionPane.showMessageDialog(this, "Failed to Update. Please try again");
+                            resultLinkService.LOGGER.info("Failed to Update. Please try again");
+                        }
+                    }
+                    btnClearAllActionPerformed(evt);
+                }
+                else {
+                    JOptionPane.showMessageDialog(this, "You cannot Enable the Exam Link before the Exam Finishes");
+                }
+
             }
-            else {
-                JOptionPane.showMessageDialog(this, "Failed to Update. Please try again");
-                resultLinkService.LOGGER.info("Failed to Update. Please try again");
+            catch (ParseException e) {
+                resultLinkService.LOGGER.log(Level.SEVERE, "Error occured in getExamDetails() : ", e);
             }
+
         }
-        btnClearAllActionPerformed(evt);
+        else {
+            JOptionPane.showMessageDialog(this, "Please Select an Exam from the Dropdown to Update!");
+        }
+
+
     }//GEN-LAST:event_btnEnableLinkActionPerformed
 
     private void btnBlockLinkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBlockLinkActionPerformed
         // TODO add your handling code here:
-        String examId = cmbExaminationCode.getSelectedItem().toString();
-        String resultState = "Disabled";
+        validate = new Validation();
+        boolean checkComboBox = validate.checkComboBox(pnlExamLink);
+        if (checkComboBox) {
+            String examId = cmbExaminationCode.getSelectedItem().toString();
+            String resultState = "Disabled";
 
-        int answer = JOptionPane.showConfirmDialog(this, "Are you sure you want to Disable the Link?");
-        if (answer == 0) {
-            boolean resultUpdate = resultLinkService.updateResultLinkStatus(resultState, examId);
+            int answer = JOptionPane.showConfirmDialog(this, "Are you sure you want to Disable the Link?");
+            if (answer == 0) {
+                boolean resultUpdate = resultLinkService.updateResultLinkStatus(resultState, examId);
 
-            if (resultUpdate) {
-                JOptionPane.showMessageDialog(this, "Updated " + examId + "'s Result Link to " + resultState + " state");
-                resultLinkService.LOGGER.log(Level.INFO, "Updated {0}''s Result Link to {1} state", new Object[]{examId, resultState});
+                if (resultUpdate) {
+                    JOptionPane.showMessageDialog(this, "Updated " + examId + "'s Result Link to " + resultState + " state");
+                    resultLinkService.LOGGER.log(Level.INFO, "Updated {0}''s Result Link to {1} state", new Object[]{examId, resultState});
+                }
+                else {
+                    JOptionPane.showMessageDialog(this, "Failed to Update. Please try again");
+                    resultLinkService.LOGGER.info("Failed to Update. Please try again");
+                }
             }
-            else {
-                JOptionPane.showMessageDialog(this, "Failed to Update. Please try again");
-                resultLinkService.LOGGER.info("Failed to Update. Please try again");
-            }
+            btnClearAllActionPerformed(evt);
         }
-        btnClearAllActionPerformed(evt);
+        else {
+            JOptionPane.showMessageDialog(this, "Please Select an Exam from the Dropdown to Update!");
+        }
+
     }//GEN-LAST:event_btnBlockLinkActionPerformed
 
     /**
@@ -632,6 +681,7 @@ public class ResultLink extends javax.swing.JFrame {
     private javax.swing.JLabel lblExamCode;
     private javax.swing.JLabel lblExamCode1;
     private javax.swing.JLabel lblExamLink;
+    private javax.swing.JLabel lblHiddenExamDate;
     private javax.swing.JLabel lblLinkStatus;
     private javax.swing.JLabel lblLogo;
     private javax.swing.JLabel lblLogout;
@@ -654,7 +704,7 @@ public class ResultLink extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     private void setResultTable() {
-        table.getDataVector().removeAllElements();
+//        table.getDataVector().removeAllElements();
         table = resultLinkService.fillResultLinkTable();
         tblExamLink.setModel(table);
     }
@@ -672,6 +722,7 @@ public class ResultLink extends javax.swing.JFrame {
         resultLinkList.forEach((result) -> {
             txtResultLink.setText((result.getExamId() + result.getExamDate()));
             txtResultState.setText(result.getResultState());
+            lblHiddenExamDate.setText(result.getExamDate().toString());
         });
     }
 }
