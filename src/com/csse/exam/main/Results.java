@@ -512,12 +512,11 @@ public class Results extends javax.swing.JFrame {
 
         DefaultComboBoxModel comboBoxModel = new DefaultComboBoxModel();
         comboBoxModel.addElement("SELECT EXAMINATION ID");
+        
         for (int i = 0; i < examIdByStudentId.size(); i++) {
-
             comboBoxModel.addElement(examIdByStudentId.get(i).getExamId());
         }
         cmbExamId.setModel(comboBoxModel);
-
     }//GEN-LAST:event_cmbStudentIdActionPerformed
 
     private void cmbExamIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbExamIdActionPerformed
