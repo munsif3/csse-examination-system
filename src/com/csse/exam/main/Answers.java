@@ -22,8 +22,8 @@ import javax.swing.JOptionPane;
  */
 public class Answers extends javax.swing.JFrame {
 
-    private AnswerService answerService ;
-    private final List<Question> questionList = answerService.getDistinctExamId();
+    private AnswerService answerService;
+    private List<Question> questionList;
     ClearComponents clear;
     DefaultListModel questionIdList = new DefaultListModel();
     DefaultComboBoxModel selectedAnswers = new DefaultComboBoxModel();
@@ -36,6 +36,8 @@ public class Answers extends javax.swing.JFrame {
      */
     public Answers() {
         initComponents();
+        answerService = new AnswerService();
+        questionList = answerService.getDistinctExamId();
         lblUser.setText(User.getName());
         setExamIdCombobox();
     }
@@ -637,20 +639,28 @@ public class Answers extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         }
         catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Answers.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Answers.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         }
         catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Answers.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Answers.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         }
         catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Answers.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Answers.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         }
         catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Answers.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Answers.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
