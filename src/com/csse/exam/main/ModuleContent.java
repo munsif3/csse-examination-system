@@ -300,7 +300,7 @@ public class ModuleContent extends javax.swing.JFrame {
         lblViewHeading.setFont(new java.awt.Font("Segoe UI Light", 0, 24)); // NOI18N
         lblViewHeading.setForeground(new java.awt.Color(70, 102, 144));
         lblViewHeading.setText("Modules");
-        pnlModuleContent.add(lblViewHeading, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 130, 100, 30));
+        pnlModuleContent.add(lblViewHeading, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 130, 100, 30));
 
         lstModules.setBackground(new java.awt.Color(204, 217, 233));
         lstModules.setFont(new java.awt.Font("Segoe UI Light", 0, 16)); // NOI18N
@@ -321,11 +321,9 @@ public class ModuleContent extends javax.swing.JFrame {
         });
         jScrollPane4.setViewportView(lstModules);
 
-        pnlModuleContent.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 170, 310, 130));
+        pnlModuleContent.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 170, 360, 130));
 
-        txtSrchModule.setBackground(new java.awt.Color(255, 255, 255));
         txtSrchModule.setFont(new java.awt.Font("Segoe UI Light", 0, 14)); // NOI18N
-        txtSrchModule.setForeground(new java.awt.Color(0, 0, 0));
         txtSrchModule.setBorder(null);
         txtSrchModule.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -337,11 +335,10 @@ public class ModuleContent extends javax.swing.JFrame {
                 txtSrchModuleKeyReleased(evt);
             }
         });
-        pnlModuleContent.add(txtSrchModule, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 40, 110, 30));
+        pnlModuleContent.add(txtSrchModule, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 30, 240, 40));
 
         jLabel2.setBackground(new java.awt.Color(255, 255, 255));
         jLabel2.setFont(new java.awt.Font("Segoe UI Light", 0, 18)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setText("Module Name");
         pnlModuleContent.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 40, 120, 20));
 

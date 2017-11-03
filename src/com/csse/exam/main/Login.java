@@ -56,7 +56,6 @@ public class Login extends javax.swing.JFrame {
         pnlLogin.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         txtUsername.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-        txtUsername.setForeground(new java.awt.Color(153, 153, 153));
         txtUsername.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
         txtUsername.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {

@@ -70,24 +70,32 @@ public class DashboardLecturer extends javax.swing.JFrame {
         lblUpcomingEvents.setText("Upcoming Events");
         pnlContent.add(lblUpcomingEvents, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 30, -1, -1));
 
+        lstUpcomingEvents.setBackground(new java.awt.Color(204, 217, 233));
+        lstUpcomingEvents.setFont(new java.awt.Font("Segoe UI Light", 0, 20)); // NOI18N
         lstUpcomingEvents.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            String[] strings = { "MO001-ASSIGNMENT-E:01", "MO001-ASSIGNMENT-E:02", "MO001-ASSIGNMENT-E:03", "MO002-ASSIGNMENT-E:01", "MO002-ASSIGNMENT-E:02" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
+        lstUpcomingEvents.setFixedCellHeight(50);
+        lstUpcomingEvents.setSelectionBackground(new java.awt.Color(204, 217, 233));
         jScrollPane1.setViewportView(lstUpcomingEvents);
 
-        pnlContent.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 60, 240, 280));
+        pnlContent.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 60, 270, 280));
 
         lblRecentActivity.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblRecentActivity.setText("Recent Activity");
         pnlContent.add(lblRecentActivity, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 30, -1, -1));
 
+        jList1.setBackground(new java.awt.Color(204, 217, 233));
+        jList1.setFont(new java.awt.Font("Segoe UI Light", 0, 20)); // NOI18N
         jList1.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
+        jList1.setFixedCellHeight(50);
+        jList1.setSelectionBackground(new java.awt.Color(204, 217, 233));
         jScrollPane2.setViewportView(jList1);
 
         pnlContent.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 60, 210, 280));

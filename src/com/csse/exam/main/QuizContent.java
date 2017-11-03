@@ -297,7 +297,7 @@ public class QuizContent extends javax.swing.JFrame {
         });
         jScrollPane3.setViewportView(lstQuiz);
 
-        pnlQuizContent.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 90, 310, 130));
+        pnlQuizContent.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 100, 310, 130));
 
         getContentPane().add(pnlQuizContent, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 100, 830, 520));
 

@@ -31,6 +31,7 @@ public class ResultLink extends javax.swing.JFrame {
     private ResultLinkService resultLinkService;
     private List<Exam> examsList;
     DefaultTableModel table;
+    String moduleId = LecturerSearchCourse.moduleCode;
 
     /**
      * Creates new form ResultLink
@@ -39,7 +40,7 @@ public class ResultLink extends javax.swing.JFrame {
         initComponents();
         lblUser.setText(User.getName());
         resultLinkService = new ResultLinkService();
-        examsList = resultLinkService.getExamDetails();
+        examsList = resultLinkService.getExamDetails(moduleId);
         lblHiddenExamDate.setVisible(false);
         setExamIdComboBox();
         setResultTable();
@@ -86,8 +87,6 @@ public class ResultLink extends javax.swing.JFrame {
         pnlExamLinkTable = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblExamLink = new javax.swing.JTable();
-        lblExamCode1 = new javax.swing.JLabel();
-        cmbExaminationCodeSearch = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("RESULT LINK");
@@ -123,7 +122,12 @@ public class ResultLink extends javax.swing.JFrame {
 
         lblDashboard.setFont(new java.awt.Font("Segoe UI Light", 0, 16)); // NOI18N
         lblDashboard.setForeground(new java.awt.Color(255, 255, 255));
-        lblDashboard.setText("Dashboard");
+        lblDashboard.setText("Home");
+        lblDashboard.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblDashboardMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout pnlDashboardLayout = new javax.swing.GroupLayout(pnlDashboard);
         pnlDashboard.setLayout(pnlDashboardLayout);
@@ -158,8 +162,13 @@ public class ResultLink extends javax.swing.JFrame {
 
         lblCourse.setFont(new java.awt.Font("Segoe UI Light", 0, 16)); // NOI18N
         lblCourse.setForeground(new java.awt.Color(255, 255, 255));
-        lblCourse.setText("Course");
+        lblCourse.setText("Module");
         lblCourse.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lblCourse.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblCourseMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout pnlCourseLayout = new javax.swing.GroupLayout(pnlCourse);
         pnlCourse.setLayout(pnlCourseLayout);
@@ -194,7 +203,12 @@ public class ResultLink extends javax.swing.JFrame {
 
         lblExam.setFont(new java.awt.Font("Segoe UI Light", 0, 16)); // NOI18N
         lblExam.setForeground(new java.awt.Color(255, 255, 255));
-        lblExam.setText("Exam");
+        lblExam.setText("About Us");
+        lblExam.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblExamMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout pnlExamLayout = new javax.swing.GroupLayout(pnlExam);
         pnlExam.setLayout(pnlExamLayout);
@@ -229,7 +243,12 @@ public class ResultLink extends javax.swing.JFrame {
 
         lblResult.setFont(new java.awt.Font("Segoe UI Light", 0, 16)); // NOI18N
         lblResult.setForeground(new java.awt.Color(255, 255, 255));
-        lblResult.setText("Result");
+        lblResult.setText("Contact Us");
+        lblResult.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblResultMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout pnlResultLayout = new javax.swing.GroupLayout(pnlResult);
         pnlResult.setLayout(pnlResultLayout);
@@ -411,7 +430,7 @@ public class ResultLink extends javax.swing.JFrame {
         txtResultState.setEditable(false);
         pnlExamLink.add(txtResultState, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 90, 310, 30));
 
-        lblHiddenExamDate.setText("jLabel1");
+        lblHiddenExamDate.setText(" ");
         pnlExamLink.add(lblHiddenExamDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 160, -1, -1));
 
         pnlContent.add(pnlExamLink, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 780, 190));
@@ -439,20 +458,7 @@ public class ResultLink extends javax.swing.JFrame {
         tblExamLink.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(tblExamLink);
 
-        pnlExamLinkTable.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 760, 210));
-
-        lblExamCode1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        lblExamCode1.setText("SEARCH EXAMINATION CODE :");
-        pnlExamLinkTable.add(lblExamCode1, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 10, -1, 30));
-
-        cmbExaminationCodeSearch.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        cmbExaminationCodeSearch.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SELECT EXAMINATION CODE" }));
-        cmbExaminationCodeSearch.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmbExaminationCodeSearchActionPerformed(evt);
-            }
-        });
-        pnlExamLinkTable.add(cmbExaminationCodeSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 10, 220, 30));
+        pnlExamLinkTable.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 760, 250));
 
         pnlContent.add(pnlExamLinkTable, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 220, 780, 270));
 
@@ -545,11 +551,6 @@ public class ResultLink extends javax.swing.JFrame {
         // TODO add your handling code here:
 
     }//GEN-LAST:event_btnBlockLinkMouseClicked
-
-    private void cmbExaminationCodeSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbExaminationCodeSearchActionPerformed
-        // TODO add your handling code here:
-
-    }//GEN-LAST:event_cmbExaminationCodeSearchActionPerformed
 
     private void btnClearAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearAllActionPerformed
         // TODO add your handling code here:
@@ -645,6 +646,34 @@ public class ResultLink extends javax.swing.JFrame {
         login.setVisible(true);         // TODO add your handling code here:
     }//GEN-LAST:event_lblLogoutMouseClicked
 
+    private void lblExamMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblExamMouseClicked
+        // TODO add your handling code here:
+        AboutUs aboutUs = new AboutUs();
+        aboutUs.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_lblExamMouseClicked
+
+    private void lblDashboardMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblDashboardMouseClicked
+        // TODO add your handling code here:
+        DashboardLecturer lecturer = new DashboardLecturer();
+        lecturer.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_lblDashboardMouseClicked
+
+    private void lblCourseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCourseMouseClicked
+        // TODO add your handling code here:
+        LecturerSearchCourse course = new LecturerSearchCourse();
+        course.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_lblCourseMouseClicked
+
+    private void lblResultMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblResultMouseClicked
+        // TODO add your handling code here:
+        ContactUs contactUs = new ContactUs();
+        contactUs.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_lblResultMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -689,7 +718,6 @@ public class ResultLink extends javax.swing.JFrame {
     private javax.swing.JButton btnClearAll;
     private javax.swing.JButton btnEnableLink;
     private javax.swing.JComboBox<String> cmbExaminationCode;
-    private javax.swing.JComboBox<String> cmbExaminationCodeSearch;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
@@ -697,7 +725,6 @@ public class ResultLink extends javax.swing.JFrame {
     private javax.swing.JLabel lblDashboard;
     private javax.swing.JLabel lblExam;
     private javax.swing.JLabel lblExamCode;
-    private javax.swing.JLabel lblExamCode1;
     private javax.swing.JLabel lblExamLink;
     private javax.swing.JLabel lblHiddenExamDate;
     private javax.swing.JLabel lblLinkStatus;
@@ -723,7 +750,7 @@ public class ResultLink extends javax.swing.JFrame {
 
     private void setResultTable() {
         resultLinkService = new ResultLinkService();
-        examsList = resultLinkService.getExamDetails();
+        examsList = resultLinkService.getExamDetails(moduleId);
         table = (DefaultTableModel) tblExamLink.getModel();
         table = resultLinkService.fillResultLinkTable();
         tblExamLink.setModel(table);

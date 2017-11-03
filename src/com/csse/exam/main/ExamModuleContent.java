@@ -301,7 +301,7 @@ public class ExamModuleContent extends javax.swing.JFrame {
         });
         jScrollPane4.setViewportView(lstModulesEM);
 
-        pnlModuleContent.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 90, 310, 130));
+        pnlModuleContent.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 90, 310, 130));
 
         getContentPane().add(pnlModuleContent, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 100, 830, 520));
 

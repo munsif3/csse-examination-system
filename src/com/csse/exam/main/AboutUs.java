@@ -199,6 +199,8 @@ public class AboutUs extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(204, 217, 233));
 
+        jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/csse/exam/resource/SLIIT_Crest.png"))); // NOI18N
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(

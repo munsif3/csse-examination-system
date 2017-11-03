@@ -271,11 +271,11 @@ public class ModuleEnrollment extends javax.swing.JFrame {
         pnlAttemptQuizContent.setBackground(new java.awt.Color(204, 217, 233));
         pnlAttemptQuizContent.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel3.setBackground(new java.awt.Color(51, 153, 255));
+        jPanel3.setBackground(new java.awt.Color(105, 135, 170));
 
         lblSelectedModuleName.setBackground(new java.awt.Color(70, 102, 144));
         lblSelectedModuleName.setFont(new java.awt.Font("Segoe UI Light", 0, 36)); // NOI18N
-        lblSelectedModuleName.setForeground(new java.awt.Color(51, 51, 51));
+        lblSelectedModuleName.setForeground(new java.awt.Color(255, 255, 255));
         lblSelectedModuleName.setText("Selected Module");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -291,15 +291,17 @@ public class ModuleEnrollment extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lblSelectedModuleName, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addComponent(lblSelectedModuleName, javax.swing.GroupLayout.PREFERRED_SIZE, 38, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pnlAttemptQuizContent.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 30, 300, 60));
 
-        lblEnrollModule.setBackground(new java.awt.Color(70, 102, 144));
+        jPanel4.setBackground(new java.awt.Color(105, 135, 170));
+
+        lblEnrollModule.setBackground(new java.awt.Color(105, 135, 170));
         lblEnrollModule.setFont(new java.awt.Font("Segoe UI Light", 0, 36)); // NOI18N
-        lblEnrollModule.setForeground(new java.awt.Color(51, 51, 51));
+        lblEnrollModule.setForeground(new java.awt.Color(255, 255, 255));
         lblEnrollModule.setText("     Enroll Me");
         lblEnrollModule.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -311,18 +313,24 @@ public class ModuleEnrollment extends javax.swing.JFrame {
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(lblEnrollModule, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblEnrollModule, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(lblEnrollModule, javax.swing.GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblEnrollModule, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
-        pnlAttemptQuizContent.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 230, 250, 70));
+        pnlAttemptQuizContent.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 240, 250, 70));
 
         jPanel9.setBackground(new java.awt.Color(204, 217, 233));
         jPanel9.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        jPanel9.add(txtEnrollModule, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 120, 30));
+        jPanel9.add(txtEnrollModule, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 120, 30));
 
         pnlAttemptQuizContent.add(jPanel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 130, 150, 50));
 
@@ -330,7 +338,7 @@ public class ModuleEnrollment extends javax.swing.JFrame {
         jLabel13.setFont(new java.awt.Font("Segoe UI Light", 0, 24)); // NOI18N
         jLabel13.setForeground(new java.awt.Color(51, 51, 51));
         jLabel13.setText("Enrollment key");
-        pnlAttemptQuizContent.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 140, 200, 30));
+        pnlAttemptQuizContent.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 140, 170, 30));
 
         getContentPane().add(pnlAttemptQuizContent, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 100, 830, 520));
 

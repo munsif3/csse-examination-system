@@ -62,11 +62,12 @@ public class ResultLinkService {
 
     /**
      *
+     * @param moduleId
      * @return ArrayList of type Exam and extraction of the specific fields
      */
-    public ArrayList<Exam> getExamDetails() {
+    public ArrayList<Exam> getExamDetails(String moduleId) {
         try {
-            preparedStatement = CONNECTION.prepareStatement("SELECT * FROM exam");
+            preparedStatement = CONNECTION.prepareStatement("SELECT * FROM exam WHERE moduleId = '" + moduleId + "'");
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
