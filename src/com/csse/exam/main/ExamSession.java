@@ -41,7 +41,7 @@ public class ExamSession extends javax.swing.JFrame {
 
     
     String examId;
-    String moduleId;
+    String moduleId = LecturerSearchCourse.moduleCode;
     int sessionId;
     String examTime;
     String examVenue;
@@ -52,12 +52,15 @@ public class ExamSession extends javax.swing.JFrame {
      */
     public ExamSession() {
         initComponents();
+        cmbSearchExamId.setVisible(true);
+        lblSearchExamId.setVisible(true);
+        sessionService.addValueToComboBoxBasedOnField(cmbExamId, moduleId);
         //Load examination id from database to cmbExamId, cmbSearchExamId comboboxes.
-        commonComponents.addValueToComboBox(cmbExamId, "exam", "examId");
-        commonComponents.addValueToComboBox(cmbSearchExamId, "exam", "examId");
+        //commonComponents.addValueToComboBox(cmbExamId, "exam", "examId");
+        //commonComponents.addValueToComboBox(cmbSearchExamId, "exam", "examId");
         
         //Fill exam session details table by fetching data from the database
-        sessionService.fillSessionDetailsTable(tblSession);
+        sessionService.fillSessionDetailsTable(tblSession,moduleId);
 
     }
 
@@ -584,7 +587,7 @@ public class ExamSession extends javax.swing.JFrame {
                         JOptionPane.showMessageDialog(null, "Exam session details were successfully added to the database", "Success Message", 1);
                         tableModel= (DefaultTableModel) tblSession.getModel();
                         tableModel.setRowCount(0);
-                        sessionService.fillSessionDetailsTable(tblSession);
+                        sessionService.fillSessionDetailsTable(tblSession, moduleId);
                     }          
                 }
             
@@ -599,7 +602,7 @@ public class ExamSession extends javax.swing.JFrame {
                         JOptionPane.showMessageDialog(null, "Exam session details were successfully added to the database", "Success Message", 1);
                         tableModel= (DefaultTableModel) tblSession.getModel();
                         tableModel.setRowCount(0);
-                        sessionService.fillSessionDetailsTable(tblSession);
+                        sessionService.fillSessionDetailsTable(tblSession, moduleId);
                     }  
             }
         }       
@@ -612,7 +615,7 @@ public class ExamSession extends javax.swing.JFrame {
         txtSessionId.setText("");
         tableModel = (DefaultTableModel) tblSession.getModel(); 
         tableModel.setRowCount(0);           
-        sessionService.fillSessionDetailsTable(tblSession);
+        sessionService.fillSessionDetailsTable(tblSession, moduleId);
          try{
             spinExamTime.setValue((Date)dateFormat.parse(dateFormat.format(date)));
              System.out.println(dateFormat.format(date));
@@ -670,7 +673,7 @@ public class ExamSession extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Exam details were successfully updated", "Success Message", 1);
                 
                 tableModel.setRowCount(0);
-                sessionService.fillSessionDetailsTable(tblSession);
+                sessionService.fillSessionDetailsTable(tblSession,moduleId);
             }
             else
                 JOptionPane.showMessageDialog(this, "Exam details were not updated", "Error Message", 1);
@@ -712,7 +715,7 @@ public class ExamSession extends javax.swing.JFrame {
             {
                 JOptionPane.showMessageDialog(this, "Exam details were successfully deleted", "Success Message", 1);
                 tableModel.setRowCount(0);
-                sessionService.fillSessionDetailsTable(tblSession);
+                sessionService.fillSessionDetailsTable(tblSession, moduleId);
                 
             }
         }

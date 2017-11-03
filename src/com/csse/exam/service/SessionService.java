@@ -39,14 +39,16 @@ public class SessionService {
     /**
      * This method will get the necessary attributes from the relevant tables and load the values to the specified table.
      * @param table - This is the table to which we will be loading the values
+     * @param moduleId
      */
-    public void fillSessionDetailsTable(JTable table)
+    public void fillSessionDetailsTable(JTable table, String moduleId)
     {
        
         DefaultTableModel tableModel= (DefaultTableModel) table.getModel();       
         try
         {             
-            preparedStatement = connection.prepareStatement("SELECT e.examId, e.moduleId, e.examDate,s.sessionId, s.examTime, s.examVenue FROM exam e, session s WHERE e.examId=s.examId");
+            preparedStatement = connection.prepareStatement("SELECT e.examId, e.moduleId, e.examDate,s.sessionId, s.examTime, s.examVenue FROM exam e, session s WHERE e.examId=s.examId AND e.moduleId=?");
+            preparedStatement.setString(1, moduleId);
             resultSet = preparedStatement.executeQuery();
             
             ResultSetMetaData resultMetaData = resultSet.getMetaData();
@@ -342,6 +344,28 @@ public class SessionService {
         return false;
 
     }
+    
+    public void addValueToComboBoxBasedOnField(JComboBox comboBox, String moduleId) {
+
+        String value = null;
+        try {
+            preparedStatement = connection.prepareStatement("SELECT DISTINCT s.examId FROM session s, exam e WHERE s.examId=e.examId AND e.moduleId=?");
+            preparedStatement.setString(1, moduleId);
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                value = resultSet.getString("examId");
+                if (value == null) {
+                    value = "-";
+                }
+                comboBox.addItem(value);
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+    }
+
 }
             
 
