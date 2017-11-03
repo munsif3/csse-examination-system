@@ -23,7 +23,7 @@ import java.util.Map;
 
 /**
  *
- * @author Neruppuda
+ * @author S.Sudheesan
  */
 public class ModuleService {
 
@@ -35,6 +35,10 @@ public class ModuleService {
 
     }
 
+    /**
+     * main method
+     * @param args 
+     */
     public static void main(String[] args) {
         ModuleService moduleService = new ModuleService();
         for (Map.Entry<String, String> modules : moduleService.getModulesByStudentId(User.getUserId()).entrySet()) {
@@ -42,7 +46,12 @@ public class ModuleService {
         }
         System.out.println(User.getUserId());
     }
-
+    
+    /**
+     * get modules according to studentid
+     * @param studentId
+     * @return 
+     */
     public HashMap<String, String> getModulesByStudentId(String studentId) {
         Map<String, String> moduleMap = new HashMap<String, String>();
         try (Connection dbConnection = DBConnection.getConnection()) {
@@ -57,6 +66,11 @@ public class ModuleService {
         return (HashMap<String, String>) moduleMap;
     }
 
+    /**
+     * get enrollment key for a given module
+     * @param module
+     * @return 
+     */
     public String getEnrollementKey(String module) {
         String enrollmentKey = null;
         try (Connection dbConnection = DBConnection.getConnection()) {
@@ -72,11 +86,22 @@ public class ModuleService {
 
         return enrollmentKey;
     }
-
+    
+    /**
+     * enrollment to a module
+     * @param enrollmentKey
+     * @param module
+     * @return 
+     */
     public boolean enrollToModule(String enrollmentKey, String module) {
         return enrollmentKey.equals(getEnrollementKey(module));
     }
 
+    /**
+     * get exams according to given module id
+     * @param moduleId
+     * @return 
+     */
     public ArrayList<Exam> getExamsByModuleId(String moduleId) {
 
         ArrayList<Exam> exams = new ArrayList<Exam>();
@@ -92,6 +117,10 @@ public class ModuleService {
         return (ArrayList<Exam>) exams;
     }
 
+    /**
+     * get exams according to student id
+     * @return 
+     */
     public ArrayList<Exam> getExamsByStudentId() {
         ArrayList<Exam> exams = new ArrayList<Exam>();
         try (Connection dbConnection = DBConnection.getConnection()) {
@@ -106,6 +135,10 @@ public class ModuleService {
         return (ArrayList<Exam>) exams;
     }
 
+    /**
+     * get all enrolled modules according to student id
+     * @return 
+     */
     public String getAllEnrolledModules() {
         String modules = null;
         try (Connection dbConnection = DBConnection.getConnection()) {
@@ -119,7 +152,11 @@ public class ModuleService {
         }
         return modules;
     }
-
+    /**
+     * check weather a student enrolled to a module 
+     * @param selectedModule
+     * @return 
+     */
     public boolean checkEnrolledModule(String selectedModule) {
         if (getAllEnrolledModules() != null || "".equals(getAllEnrolledModules())) {
             List<String> moduleList = Arrays.asList(getAllEnrolledModules().split(","));
@@ -130,6 +167,11 @@ public class ModuleService {
         return false;
     }
 
+    /**
+     * update student my the module he enrolled
+     * @param studentId
+     * @param module 
+     */
     public void updateEnrolledModules(String studentId, String module) {
         String modules = null;
         try (Connection dbConnection = DBConnection.getConnection()) {
