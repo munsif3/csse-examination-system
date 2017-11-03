@@ -58,7 +58,7 @@ public class ModuleEnrollment extends javax.swing.JFrame {
         jPanel4 = new javax.swing.JPanel();
         lblEnrollModule = new javax.swing.JLabel();
         jPanel9 = new javax.swing.JPanel();
-        txtEnrollModule = new javax.swing.JTextField();
+        txtEnrollModule = new javax.swing.JPasswordField();
         jLabel13 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -322,12 +322,6 @@ public class ModuleEnrollment extends javax.swing.JFrame {
 
         jPanel9.setBackground(new java.awt.Color(204, 217, 233));
         jPanel9.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        txtEnrollModule.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtEnrollModuleActionPerformed(evt);
-            }
-        });
         jPanel9.add(txtEnrollModule, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 120, 30));
 
         pnlAttemptQuizContent.add(jPanel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 130, 150, 50));
@@ -388,10 +382,6 @@ public class ModuleEnrollment extends javax.swing.JFrame {
         this.setVisible(false);
         login.setVisible(true);
     }//GEN-LAST:event_lblLogoutMouseClicked
-
-    private void txtEnrollModuleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEnrollModuleActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtEnrollModuleActionPerformed
 
     private void jLabel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MouseClicked
         ExamModuleContent examModuleContent = new ExamModuleContent();
@@ -530,6 +520,6 @@ public class ModuleEnrollment extends javax.swing.JFrame {
     private javax.swing.JPanel pnlAttemptQuizContent;
     private javax.swing.JPanel pnlHeader;
     private javax.swing.JPanel pnlNavigation;
-    private javax.swing.JTextField txtEnrollModule;
+    private javax.swing.JPasswordField txtEnrollModule;
     // End of variables declaration//GEN-END:variables
 }

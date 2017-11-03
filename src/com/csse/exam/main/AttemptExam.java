@@ -57,8 +57,10 @@ public class AttemptExam extends javax.swing.JFrame {
         jPanel4 = new javax.swing.JPanel();
         jLabel14 = new javax.swing.JLabel();
         jPanel9 = new javax.swing.JPanel();
-        txtExamPwd = new javax.swing.JTextField();
+        txtExamPwd = new javax.swing.JPasswordField();
         jLabel13 = new javax.swing.JLabel();
+        jPanel7 = new javax.swing.JPanel();
+        lblSelectedQuizDate = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("LECTURER DASHBOARD");
@@ -294,7 +296,7 @@ public class AttemptExam extends javax.swing.JFrame {
                 .addContainerGap(19, Short.MAX_VALUE))
         );
 
-        pnlAttemptQuizContent.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 30, 440, 60));
+        pnlAttemptQuizContent.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 30, 440, 60));
 
         jLabel14.setBackground(new java.awt.Color(70, 102, 144));
         jLabel14.setFont(new java.awt.Font("Segoe UI Light", 0, 36)); // NOI18N
@@ -327,12 +329,6 @@ public class AttemptExam extends javax.swing.JFrame {
 
         jPanel9.setBackground(new java.awt.Color(204, 217, 233));
         jPanel9.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        txtExamPwd.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtExamPwdActionPerformed(evt);
-            }
-        });
         jPanel9.add(txtExamPwd, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 120, 30));
 
         pnlAttemptQuizContent.add(jPanel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 140, 150, 50));
@@ -342,6 +338,29 @@ public class AttemptExam extends javax.swing.JFrame {
         jLabel13.setForeground(new java.awt.Color(51, 51, 51));
         jLabel13.setText("Quizz Password");
         pnlAttemptQuizContent.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 140, 200, 30));
+
+        jPanel7.setBackground(new java.awt.Color(51, 153, 255));
+
+        lblSelectedQuizDate.setBackground(new java.awt.Color(70, 102, 144));
+        lblSelectedQuizDate.setFont(new java.awt.Font("Segoe UI Light", 0, 36)); // NOI18N
+        lblSelectedQuizDate.setForeground(new java.awt.Color(51, 51, 51));
+        lblSelectedQuizDate.setText("Selected Quiz");
+
+        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
+        jPanel7.setLayout(jPanel7Layout);
+        jPanel7Layout.setHorizontalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lblSelectedQuizDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        jPanel7Layout.setVerticalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblSelectedQuizDate, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(18, Short.MAX_VALUE))
+        );
+
+        pnlAttemptQuizContent.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 30, 220, -1));
 
         getContentPane().add(pnlAttemptQuizContent, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 100, 830, 520));
 
@@ -391,10 +410,6 @@ public class AttemptExam extends javax.swing.JFrame {
         this.setVisible(false);
         login.setVisible(true);
     }//GEN-LAST:event_lblLogoutMouseClicked
-
-    private void txtExamPwdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtExamPwdActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtExamPwdActionPerformed
 
     private void jLabel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MouseClicked
         // TODO add your handling code here:
@@ -511,16 +526,18 @@ public class AttemptExam extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     public javax.swing.JPanel jPanel5;
     public javax.swing.JPanel jPanel6;
+    public javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel9;
     public javax.swing.JLabel lblHeaderAE;
     public javax.swing.JLabel lblHomeAE;
     private javax.swing.JLabel lblLogout;
     public javax.swing.JLabel lblModulesAE;
     public javax.swing.JLabel lblSelectedQuiz;
+    public javax.swing.JLabel lblSelectedQuizDate;
     private javax.swing.JLabel lblUser;
     private javax.swing.JPanel pnlAttemptQuizContent;
     private javax.swing.JPanel pnlHeader;
     private javax.swing.JPanel pnlNavigation;
-    private javax.swing.JTextField txtExamPwd;
+    private javax.swing.JPasswordField txtExamPwd;
     // End of variables declaration//GEN-END:variables
 }
