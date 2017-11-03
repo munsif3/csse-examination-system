@@ -6,6 +6,7 @@
 package com.csse.exam.service;
 
 import com.csse.exam.config.DBConnection;
+import com.csse.exam.main.LecturerSearchCourse;
 import com.csse.exam.model.Exam;
 import com.csse.exam.model.User;
 import java.sql.Connection;
@@ -81,7 +82,8 @@ public final class ExamService
         try {
             preparedStatement = connection.prepareStatement("SELECT MAX(examId)\n"
                     + "FROM exam\n"
-                    + "WHERE examId like'%" + examType + "%'");
+                    + "WHERE examId like'%" + examType + "%' AND moduleId=?");
+            preparedStatement.setString(1, LecturerSearchCourse.moduleCode);
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
@@ -113,6 +115,7 @@ public final class ExamService
      */
     public String getExamId(String examType, String moduleId)
     {
+        System.out.println("module id="+moduleId);
         String examId;
         String examNumber;
         String indexValue;
@@ -135,24 +138,26 @@ public final class ExamService
             {
                 indexValue = String.valueOf(newIndex);
             }                      
-            examId = moduleId+"-"+examType+"-E:"+indexValue;
+            examId =moduleId+"-"+examType+"-E:"+indexValue;
             return examId;           
         }  
         else
         {
-            examId = moduleId+"-"+examType+"-E:01";
+            examId =moduleId+"-"+examType+"-E:01";
         }
         return examId;
     }
     
-    public void fillExamDetailsTable(JTable table)
+    public void fillExamDetailsTable(JTable table, String moduleId)
     {
        
         tableModel= (DefaultTableModel) table.getModel();       
         try
         {
              
-            preparedStatement = connection.prepareStatement("SELECT examId,moduleId,examDate,examDuration,noOfQuestion,totalMarks FROM exam");
+            preparedStatement = connection.prepareStatement("SELECT examId,moduleId,examDate,examDuration,noOfQuestion,totalMarks FROM exam WHERE moduleId=?");
+            preparedStatement.setString(1, moduleId);
+            //System.out.println("from table"+ LecturerSearchCourse.moduleCode);
             resultSet = preparedStatement.executeQuery();
             
             ResultSetMetaData resultMetaData = resultSet.getMetaData();

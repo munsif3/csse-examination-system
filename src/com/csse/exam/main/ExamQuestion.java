@@ -485,6 +485,11 @@ public class ExamQuestion extends javax.swing.JFrame {
                 btnAddMouseClicked(evt);
             }
         });
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddActionPerformed(evt);
+            }
+        });
         pnlContent.add(btnAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 460, 180, 40));
 
         btnClear.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -622,36 +627,6 @@ public class ExamQuestion extends javax.swing.JFrame {
     private void btnAddMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddMouseClicked
         // TODO add your handling code here:
        
-        examId = cmbExamId.getSelectedItem().toString();
-        questionId = txtQuestionId.getText();
-        question = txtAreaQuestion.getText();
-        
-        option1 = txtOption1.getText();
-        option2 = txtOption2.getText();
-        option3 = txtOption3.getText();
-        option4 = txtOption4.getText();
-        option5 = txtOption5.getText();
-        
-        options = "a-"+option1+":"+"b-"+option2+":"+"c-"+option3+":"+"d-"+option4+":"+"e-"+option5;
-        System.out.println(options);
-        
-        boolean nullValue = validation.checkEmptyTextBox(pnlQuestions);
-        boolean checkBox = validation.checkComboBox(pnlExamDetails);
-
-        if((nullValue==true) && (checkBox==true))
-        {
-            boolean value = questionService.addQuestion(examId, questionId, question,options);
-            if(value)
-            {
-                JOptionPane.showMessageDialog(this, "Exam question was successfully added", "Success Message", 1);
-                listModel.addElement(questionId);           
-                listExamQuestionNo.setModel(listModel);                          
-            }
-        }
-        else
-        {
-            JOptionPane.showMessageDialog(this, "Please fill all the text boxes and select an exam ID from the drop down list.", "Error Message", 1);
-        }
     }//GEN-LAST:event_btnAddMouseClicked
 
     private void listExamQuestionNoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listExamQuestionNoMouseClicked
@@ -681,6 +656,56 @@ public class ExamQuestion extends javax.swing.JFrame {
             txtOption5.setText(option5);
         });
     }//GEN-LAST:event_listExamQuestionNoMouseClicked
+
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        // TODO add your handling code here:
+        
+        examId = cmbExamId.getSelectedItem().toString();
+        questionId = txtQuestionId.getText();
+        question = txtAreaQuestion.getText();
+        
+        option1 = txtOption1.getText();
+        option2 = txtOption2.getText();
+        option3 = txtOption3.getText();
+        option4 = txtOption4.getText();
+        option5 = txtOption5.getText();
+        
+        options = "a-"+option1+":"+"b-"+option2+":"+"c-"+option3+":"+"d-"+option4+":"+"e-"+option5;
+        System.out.println(options);
+        
+        boolean nullValue = validation.checkEmptyTextBox(pnlQuestions);
+        boolean checkBox = validation.checkComboBox(pnlExamDetails);
+
+        if((nullValue==true) && (checkBox==true))
+        {
+            boolean value = questionService.addQuestion(examId, questionId, question,options);
+            if(value)
+            {
+                JOptionPane.showMessageDialog(this, "Exam question was successfully added", "Success Message", 1);
+//                cmbExamIdActionPerformed(evt);
+                /*listModel.addElement(questionId);           
+                listExamQuestionNo.setModel(listModel);  */
+                
+                
+        
+            /*questionId =  questionService.getQuestionId(examId);
+           /* txtQuestionId.setText(questionId);*/
+            listModel.clear();
+                List<Question> questionById = examPaperService.getQuestionId(examId);
+                questionById.forEach((result) -> {
+
+                questionId = result.getQuestionId(); 
+                System.out.println(questionId);
+                listModel.addElement(questionId);
+            });
+            listExamQuestionNo.setModel(listModel);
+            }
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(this, "Please fill all the text boxes and select an exam ID from the drop down list.", "Error Message", 1);
+        }
+    }//GEN-LAST:event_btnAddActionPerformed
 
     /**
      * @param args the command line arguments
