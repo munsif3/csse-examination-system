@@ -33,18 +33,18 @@ public class ExamQuestion extends javax.swing.JFrame {
     private final CommonComponents commonComponents = new CommonComponents();
     private final QuestionService questionService = new QuestionService();
     Exam exam = new Exam();
-    Question questions =new Question();
+    Question questions = new Question();
     private final ExamService examService = new ExamService();
-    ExamPaperService examPaperService = new ExamPaperService();
-    
+    ExamPaperService examPaperService;
+
     private final Validation validation = new Validation();
     private final ClearComponents clear = new ClearComponents();
     DefaultListModel listModel = new DefaultListModel();
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-    
+
     ArrayList<Exam> examList = examService.getExam();
-    ArrayList<Question> questionList = examPaperService.getQuestions();
-    
+    ArrayList<Question> questionList;
+
     String examType;
     String examId;
     String moduleId = LecturerSearchCourse.moduleCode;
@@ -62,14 +62,15 @@ public class ExamQuestion extends javax.swing.JFrame {
     String option3;
     String option4;
     String option5;
-    
-    
+
     public ExamQuestion() {
         initComponents();
         lblUser.setText(User.getName());
+        examPaperService = new ExamPaperService();
+        questionList = examPaperService.getQuestions();
         //commonComponents.addValueToComboBox(cmbExamId, "exam", "examId");
         questionService.addValueToComboBoxBasedOnField(cmbExamId, moduleId);
-        
+
     }
 
     /**
@@ -621,24 +622,24 @@ public class ExamQuestion extends javax.swing.JFrame {
     private void cmbExamIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbExamIdActionPerformed
         // TODO add your handling code here:
         listModel.clear();
-        
+
         clear.clearTextFields(pnlExamDetails);
         listModel.clear();
-    
+
         examId = cmbExamId.getSelectedItem().toString();
-        if(cmbExamId.getSelectedIndex() !=0 )
-        {
-            
+        if (cmbExamId.getSelectedIndex() != 0) {
+
             examType = examId.split("-")[1];
-        
-            List<Exam> getExamByExamId = examService.getExamByExamId(examId);            
+
+           
+            List<Exam> getExamByExamId = examService.getExamByExamId(examId);
             getExamByExamId.forEach((result) -> {
-            
+
                 examDate = dateFormat.format(result.getExamDate());
                 examDuration = result.getExamDuration();
                 allocatedMarks = String.valueOf(result.getTotalMarks());
                 questionNo = String.valueOf(result.getNumberOfQuestions());
-            
+
                 txtExamType.setText(examType);
                 txtExamDate.setText(examDate);
                 txtExamDuration.setText(examDuration);
@@ -646,25 +647,15 @@ public class ExamQuestion extends javax.swing.JFrame {
                 txtAllocatedMarks.setText(allocatedMarks);
 
             });
-        
-            
-            List<Question> questionById = examPaperService.getQuestionId(examId);
-            questionById.forEach((result) -> {
-
-                questionId = result.getQuestionId(); 
-                System.out.println(questionId);
-                listModel.addElement(questionId);
-            });
-            listExamQuestionNo.setModel(listModel);
-        
-            questionId =  questionService.getQuestionId(examId, moduleId);
+            setListData(examId);
+            questionId = questionService.getQuestionId(examId, moduleId);
             txtQuestionId.setText(questionId);
         }
     }//GEN-LAST:event_cmbExamIdActionPerformed
 
     private void btnAddMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddMouseClicked
         // TODO add your handling code here:
-       
+
     }//GEN-LAST:event_btnAddMouseClicked
 
     private void listExamQuestionNoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listExamQuestionNoMouseClicked
@@ -673,10 +664,11 @@ public class ExamQuestion extends javax.swing.JFrame {
         System.out.println("clicked");
         examId = cmbExamId.getSelectedItem().toString();
         String selectedQuestionId = listExamQuestionNo.getSelectedValue();
-        
+
+        examPaperService = new ExamPaperService();
         List<Question> questionsByUniqueId = examPaperService.getQuestion(examId, selectedQuestionId);
         questionsByUniqueId.forEach((result) -> {
-            
+
             txtQuestionId.setText(result.getQuestionId());
             txtAreaQuestion.setText(result.getQuestion());
             options = result.getOptions();
@@ -698,50 +690,30 @@ public class ExamQuestion extends javax.swing.JFrame {
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         // TODO add your handling code here:
-        
+
         examId = cmbExamId.getSelectedItem().toString();
         questionId = txtQuestionId.getText();
         question = txtAreaQuestion.getText();
-        
+
         option1 = txtOption1.getText();
         option2 = txtOption2.getText();
         option3 = txtOption3.getText();
         option4 = txtOption4.getText();
         option5 = txtOption5.getText();
-        
-        options = "a-"+option1+":"+"b-"+option2+":"+"c-"+option3+":"+"d-"+option4+":"+"e-"+option5;
+
+        options = "a-" + option1 + ":" + "b-" + option2 + ":" + "c-" + option3 + ":" + "d-" + option4 + ":" + "e-" + option5;
         System.out.println(options);
-        
+
         boolean nullValue = validation.checkEmptyTextBox(pnlQuestions);
         boolean checkBox = validation.checkComboBox(pnlExamDetails);
 
-        if((nullValue==true) && (checkBox==true))
-        {
-            boolean value = questionService.addQuestion(examId, questionId, question,options);
-            if(value)
-            {
+        if ((nullValue == true) && (checkBox == true)) {
+            boolean value = questionService.addQuestion(examId, questionId, question, options);
+            if (value) {
                 JOptionPane.showMessageDialog(this, "Exam question was successfully added", "Success Message", 1);
-//                cmbExamIdActionPerformed(evt);
-                /*listModel.addElement(questionId);           
-                listExamQuestionNo.setModel(listModel);  */
-                
-                
-        
-            /*questionId =  questionService.getQuestionId(examId);
-           /* txtQuestionId.setText(questionId);*/
-            listModel.clear();
-                List<Question> questionById = examPaperService.getQuestionId(examId);
-                questionById.forEach((result) -> {
-
-                questionId = result.getQuestionId(); 
-                System.out.println(questionId);
-                listModel.addElement(questionId);
-            });
-            listExamQuestionNo.setModel(listModel);
+                setListData(examId);
             }
-        }
-        else
-        {
+        } else {
             JOptionPane.showMessageDialog(this, "Please fill all the text boxes and select an exam ID from the drop down list.", "Error Message", 1);
         }
     }//GEN-LAST:event_btnAddActionPerformed
@@ -787,35 +759,29 @@ public class ExamQuestion extends javax.swing.JFrame {
         examId = cmbExamId.getSelectedItem().toString();
         questionId = txtQuestionId.getText();
         question = txtAreaQuestion.getText();
-        
+
         option1 = txtOption1.getText();
         option2 = txtOption2.getText();
         option3 = txtOption3.getText();
         option4 = txtOption4.getText();
         option5 = txtOption5.getText();
-        
-        options = "a-"+option1+":"+"b-"+option2+":"+"c-"+option3+":"+"d-"+option4+":"+"e-"+option5;
+
+        options = "a-" + option1 + ":" + "b-" + option2 + ":" + "c-" + option3 + ":" + "d-" + option4 + ":" + "e-" + option5;
         System.out.println(options);
-        
+
         boolean nullValue = validation.checkEmptyTextBox(pnlQuestions);
         boolean checkBox = validation.checkComboBox(pnlExamDetails);
-        
-        if((nullValue==true) && (checkBox==true))
-        {
-            boolean value = questionService.updateQuestion(examId, questionId, question,options);
-            if(value)
-            {
+
+        if ((nullValue == true) && (checkBox == true)) {
+            boolean value = questionService.updateQuestion(examId, questionId, question, options);
+            if (value) {
                 JOptionPane.showMessageDialog(this, "Exam question was successfully updated", "Success Message", 1);
-//                cmbExamIdActionPerformed(evt);
-                /*listModel.addElement(questionId);           
-                listExamQuestionNo.setModel(listModel);  */
-            }  
-        }
-        else
-        {
+                setListData(examId);
+            }
+        } else {
             JOptionPane.showMessageDialog(this, "Please fill all the text boxes and select an exam ID from the drop down list.", "Error Message", 1);
         }
-        
+
     }//GEN-LAST:event_txtUpdateMouseClicked
 
     /**
@@ -907,4 +873,20 @@ public class ExamQuestion extends javax.swing.JFrame {
     private javax.swing.JTextField txtTotalQuestions;
     private javax.swing.JButton txtUpdate;
     // End of variables declaration//GEN-END:variables
+
+    /**
+     * Set the Jlist with updated data from database
+     * @param examId 
+     */
+    private void setListData(String examId) {
+        examPaperService = new ExamPaperService();
+        listModel.removeAllElements();
+        List<Question> questionById = examPaperService.getQuestionId(examId);
+        questionById.forEach((result) -> {
+            questionId = result.getQuestionId();
+            System.out.println(questionId);
+            listModel.addElement(questionId);
+        });
+        listExamQuestionNo.setModel(listModel);
+    }
 }
