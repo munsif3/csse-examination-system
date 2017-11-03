@@ -45,13 +45,13 @@
         <Component class="javax.swing.JLabel" name="lblLoginBackground">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/com/csse/exam/resource/loginBackground.jpg"/>
+              <Image iconType="3" name="/com/csse/exam/resource/sliit exam.jpg"/>
             </Property>
             <Property name="text" type="java.lang.String" value="jLabel1"/>
           </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="0" y="0" width="420" height="330"/>
+              <AbsoluteConstraints x="-10" y="-70" width="520" height="470"/>
             </Constraint>
           </Constraints>
         </Component>
