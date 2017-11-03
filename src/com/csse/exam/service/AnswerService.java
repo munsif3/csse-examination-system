@@ -149,14 +149,31 @@ public class AnswerService {
             preparedStatement.setString(2, examId);
             preparedStatement.setString(3, questionId);
             int updated = preparedStatement.executeUpdate();
-            System.out.println(updated + " Records Updated");
-            LOGGER.log(Level.INFO, "{0} Records Updated", updated);
+            System.out.println(updated + " Record Updated");
+            LOGGER.log(Level.INFO, "{0} Record Updated", updated);
             status = true;
         }
         catch (SQLException e) {
             LOGGER.log(Level.SEVERE, "Error occur in updateCorrectAnswer() : ", e);
         }
 
+        return status;
+    }
+
+    public boolean deleteQuestionById(String examId, String questionId) {
+        boolean status = false;
+        try {
+            preparedStatement = CONNECTION.prepareStatement("DELETE FROM question WHERE examId = ? AND questionId = ?");
+            preparedStatement.setString(1, examId);
+            preparedStatement.setString(2, questionId);
+            int deleted = preparedStatement.executeUpdate();
+            System.out.println(deleted + " Record Deleted");
+            LOGGER.log(Level.INFO, "{0} Record Deleted", deleted);
+            status = true;
+        }
+        catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "Error occur in deleteQuestionById() : ", e);
+        }
         return status;
     }
 }

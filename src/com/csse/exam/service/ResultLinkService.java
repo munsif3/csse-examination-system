@@ -21,6 +21,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 import java.util.stream.Collectors;
+import javax.swing.DefaultListModel;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -87,6 +88,30 @@ public class ResultLinkService {
 
     /**
      *
+     * @return ArrayList of type Exam and extraction of the specific fields
+     */
+    public ArrayList<Exam> getAllExamDetails() {
+        try {
+            preparedStatement = CONNECTION.prepareStatement("SELECT * FROM exam");
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                exam = new Exam();
+                exam.setExamDate(resultSet.getDate("examDate"));
+                exam.setExamId(resultSet.getString("examId"));
+                exam.setModuleId(resultSet.getString("moduleId"));
+                exam.setResultState(resultSet.getString("resultState"));
+                examList.add(exam);
+            }
+        }
+        catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "Error occured in getAllExamDetails() : ", e);
+        }
+        return examList;
+    }
+
+    /**
+     *
      * @param examId
      * @return List of Exams specific to that Id
      */
@@ -126,4 +151,24 @@ public class ResultLinkService {
 
         return table;
     }
+
+    public DefaultListModel fillEnabledResultLinks(String resultState) {
+        getAllExamDetails();
+        getEnabledLinks(resultState);
+
+        DefaultListModel<String> list = new DefaultListModel<>();
+
+        examList.forEach((result) -> {
+            list.addElement(result.getExamId());
+        });
+
+        return list;
+    }
+
+    public List<Exam> getEnabledLinks(String resultState) {
+        return examList.stream()
+                .filter(t -> t.getResultState() != null && t.getResultState().equals(resultState))
+                .collect(Collectors.toList());
+    }
+
 }

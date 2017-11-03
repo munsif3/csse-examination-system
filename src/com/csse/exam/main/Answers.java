@@ -22,7 +22,7 @@ import javax.swing.JOptionPane;
  */
 public class Answers extends javax.swing.JFrame {
 
-    private final AnswerService answerService = new AnswerService();
+    private AnswerService answerService ;
     private final List<Question> questionList = answerService.getDistinctExamId();
     ClearComponents clear;
     DefaultListModel questionIdList = new DefaultListModel();
@@ -65,6 +65,7 @@ public class Answers extends javax.swing.JFrame {
         jSeparator1 = new javax.swing.JSeparator();
         jLabel11 = new javax.swing.JLabel();
         cmbExamId = new javax.swing.JComboBox<>();
+        btnDeleteQuestion = new javax.swing.JButton();
         lblBack = new javax.swing.JLabel();
         pnlQuestionsAnswers = new javax.swing.JPanel();
         pnlQuestionNumbers = new javax.swing.JPanel();
@@ -320,6 +321,15 @@ public class Answers extends javax.swing.JFrame {
             }
         });
         jPanel3.add(cmbExamId, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 10, 300, 40));
+
+        btnDeleteQuestion.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnDeleteQuestion.setText("DELETE QUESTION");
+        btnDeleteQuestion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteQuestionActionPerformed(evt);
+            }
+        });
+        jPanel3.add(btnDeleteQuestion, new org.netbeans.lib.awtextra.AbsoluteConstraints(633, 10, 140, 40));
 
         pnlContent.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 780, 60));
 
@@ -600,6 +610,19 @@ public class Answers extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jLabel8MouseClicked
 
+    private void btnDeleteQuestionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteQuestionActionPerformed
+        if (!lstQuestionId.isSelectionEmpty()) {
+            String eid = cmbExamId.getSelectedItem().toString();
+            String qid = lstQuestionId.getSelectedValue();
+            deleteQuestionById(eid, qid);
+            setQuestionsOnListBox(eid);
+        }
+        else {
+            JOptionPane.showMessageDialog(this, "Please Select a Question from the List on the Left to Delete!");
+        }
+
+    }//GEN-LAST:event_btnDeleteQuestionActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -640,6 +663,7 @@ public class Answers extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnDeleteQuestion;
     private javax.swing.JButton btnSubmit;
     private javax.swing.JComboBox<String> cmbCorrectAns;
     private javax.swing.JComboBox<String> cmbExamId;
@@ -694,6 +718,7 @@ public class Answers extends javax.swing.JFrame {
     }
 
     private void setQuestionsOnListBox(String examId) {
+        answerService = new AnswerService();
         questionIdList.removeAllElements();
         List<Question> questionIdByExamId = answerService.getQuestionIdByExamId(examId);
         questionIdByExamId.forEach((result) -> {
@@ -748,5 +773,21 @@ public class Answers extends javax.swing.JFrame {
                 answerService.LOGGER.info("Failed to Update. Please try again");
             }
         }
+    }
+
+    private void deleteQuestionById(String eid, String qid) {
+        int answer = JOptionPane.showConfirmDialog(this, "Are you sure you want to Delete?");
+        if (answer == 0) {
+            boolean deleteQuestionById = answerService.deleteQuestionById(eid, qid);
+            if (deleteQuestionById) {
+                JOptionPane.showMessageDialog(this, "Deleted Question " + qid);
+                answerService.LOGGER.log(Level.INFO, "Deleted Question {0}", qid);
+            }
+            else {
+                JOptionPane.showMessageDialog(this, "Failed to Delete. Please try again");
+                answerService.LOGGER.info("Failed to Delete. Please try again");
+            }
+        }
+
     }
 }
