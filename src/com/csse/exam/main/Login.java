@@ -94,7 +94,9 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_txtUsernameMouseClicked
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
-
+        /**
+         * check the role of the user and open the correct dashboard
+         */
         Validation validation = new Validation();
         LoginService login = new LoginService();
 

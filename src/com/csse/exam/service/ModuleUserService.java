@@ -18,9 +18,15 @@ import javax.swing.JOptionPane;
  *
  * @author User
  */
-public class moduleUserService {
+public class ModuleUserService {
     private String moduleId;
     
+    /**
+     * This method will validate the module fields
+     * @param moduleName
+     * @param password
+     * @return 
+     */
     public boolean validateValues(String moduleName,String password)
     {
         Validation validation = new Validation();
@@ -33,6 +39,10 @@ public class moduleUserService {
         }
     }
     
+    /**
+     * This method will generate new module id
+     * @return 
+     */
     public String getNewModuleId(){
         String lastModuleId = null;
         String newModuleId = null;
@@ -60,6 +70,12 @@ public class moduleUserService {
         return newModuleId;
     }
     
+    /**
+     * this method will generate allocated year and semester
+     * @param year
+     * @param semester
+     * @return 
+     */
     public String getAllocatedYearAndSemester(int year, int semester){
         String yearPrefix = null;
         String semesterPrefix = null;
