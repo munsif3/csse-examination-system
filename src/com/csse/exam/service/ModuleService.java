@@ -9,6 +9,7 @@ import com.csse.exam.config.DBConnection;
 import com.csse.exam.model.Exam;
 import com.csse.exam.model.User;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DateFormat;
@@ -150,5 +151,24 @@ public class ModuleService {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public Map<String, String> getAllModules() {
+//        Connection connection = DBConnection.getConnection();
+        PreparedStatement preparedStatement;
+        ResultSet rs;
+        Map<String, String> moduleMap = new HashMap<>();
+        try (Connection connection = DBConnection.getConnection()) {
+            preparedStatement = connection.prepareStatement("SELECT moduleId, moduleName FROM module");
+
+            rs = preparedStatement.executeQuery();
+
+            while (rs.next()) {
+                moduleMap.put(rs.getString("moduleId"), rs.getString("moduleName"));
+            }
+        } catch (SQLException e) {
+
+        }
+        return moduleMap;
     }
 }

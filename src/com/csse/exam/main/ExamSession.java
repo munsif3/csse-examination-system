@@ -17,6 +17,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerDateModel;
@@ -363,10 +365,25 @@ public class ExamSession extends javax.swing.JFrame {
 
         btnUpdate.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnUpdate.setText("UPDATE");
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateActionPerformed(evt);
+            }
+        });
         pnlSessionDetails.add(btnUpdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 140, 110, 40));
 
         btnDelete.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnDelete.setText("DELETE");
+        btnDelete.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnDeleteMouseClicked(evt);
+            }
+        });
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
         pnlSessionDetails.add(btnDelete, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 140, 110, 40));
 
         lblSessionId.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -630,6 +647,83 @@ public class ExamSession extends javax.swing.JFrame {
         txtExamVenue.setText(examVenue);
         
     }//GEN-LAST:event_tblSessionMouseClicked
+
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        // TODO add your handling code here:
+        tableModel= (DefaultTableModel) tblSession.getModel();
+        examId = cmbExamId.getSelectedItem().toString();
+        sessionId = parseInt(txtSessionId.getText());
+        examTime = spinExamTime.getValue().toString().split(" ")[3].substring(0, 5);
+        examVenue = txtExamVenue.getText();
+        
+        boolean nullValue = validation.checkEmptyTextBox(pnlSessionDetails);  
+       
+        if(!nullValue)
+        {            
+            JOptionPane.showMessageDialog(null, "Please fill all the text boxes", "Failure Message", 1);
+        }
+        else
+        {
+            boolean updateValue = sessionService.updateSessionDetails(examId, sessionId, examTime, examVenue);
+            if(updateValue)
+            {
+                JOptionPane.showMessageDialog(this, "Exam details were successfully updated", "Success Message", 1);
+                
+                tableModel.setRowCount(0);
+                sessionService.fillSessionDetailsTable(tblSession);
+            }
+            else
+                JOptionPane.showMessageDialog(this, "Exam details were not updated", "Error Message", 1);
+        }
+    }//GEN-LAST:event_btnUpdateActionPerformed
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_btnDeleteActionPerformed
+
+    private void btnDeleteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDeleteMouseClicked
+        // TODO add your handling code here:
+        System.out.println("in");
+        
+        tableModel= (DefaultTableModel) tblSession.getModel();
+        boolean  val = false ;
+       
+        examId = cmbExamId.getSelectedItem().toString();
+        sessionId = parseInt(txtSessionId.getText());
+        System.out.println("sessionId "+sessionId);
+        examDate = txtExamDate.getText();
+         Date currentDate = new Date() ;
+        try{
+        currentDate = ((Date)dateFormat.parse(examDate));
+        
+        }
+        catch(Exception e)
+        {
+        
+        }
+        val= currentDate.after(date);
+            System.out.println("val "+val);
+        if(val)
+        {
+            boolean deleteValue = sessionService.deleteSessionDetails(examId, sessionId);
+            
+            if(deleteValue)
+            {
+                JOptionPane.showMessageDialog(this, "Exam details were successfully deleted", "Success Message", 1);
+                tableModel.setRowCount(0);
+                sessionService.fillSessionDetailsTable(tblSession);
+                
+            }
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(this, "Exam that you have selected is already done.\nYou cannot delete the exam history", "Fasilure Message", 1);
+
+        }
+       
+        
+    }//GEN-LAST:event_btnDeleteMouseClicked
 
     /**
      * @param args the command line arguments

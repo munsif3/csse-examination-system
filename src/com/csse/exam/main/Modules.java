@@ -5,17 +5,15 @@
  */
 package com.csse.exam.main;
 
-import com.csse.exam.common.Validation;
+
 import com.csse.exam.config.DBConnection;
 import com.csse.exam.model.User;
+import com.csse.exam.service.moduleUserService;
 import com.mysql.jdbc.PreparedStatement;
 import java.awt.Color;
-import java.awt.HeadlessException;
 import java.sql.Connection;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
@@ -28,7 +26,8 @@ public class Modules extends javax.swing.JFrame {
 
     Connection conn;
     private String moduleId;
-   
+    moduleUserService moduleService = new moduleUserService();
+    
     /**
      * Creates new form Dashboard
      */
@@ -38,72 +37,6 @@ public class Modules extends javax.swing.JFrame {
         lblUser.setText(User.getName());
         
     }
-    public boolean validateValues()
-    {
-        Validation validation = new Validation();
-        String password = new String(pwdModulePassword.getPassword());
-        String moduleName = txtModuleName.getText();
-        if (validation.checkTextNull(moduleName) || validation.checkTextNull(password)) {
-            JOptionPane.showMessageDialog(null, "You can't keep fields empty");
-            return false;
-        } 
-        else {
-            return true;
-        }
-    }
-    
-    public String getNewModuleId(){
-        String lastModuleId = null;
-        String newModuleId = null;
-
-        try {
-               
-                Connection con = DBConnection.getConnection();
-                String query = "SELECT moduleId FROM module\n" +
-                                "order by moduleId desc limit 1;";
-                PreparedStatement preparedStmt = (PreparedStatement) con.prepareStatement(query);
-                
-                // execute the preparedstatement
-                ResultSet rs = preparedStmt.executeQuery(); 
-                if(rs.next()){
-                    lastModuleId = rs.getString("moduleId");
-                }
-                String last3 = lastModuleId.substring(lastModuleId.length() - 3);
-                newModuleId = lastModuleId.substring(0,4)+String.valueOf(Integer.parseInt(last3) + 1);
-                
-                con.close();
-
-                } catch (SQLException | HeadlessException e) {
-                    JOptionPane.showMessageDialog(null, e);
-                }
-        return newModuleId;
-    }
-    
-    public String getAllocatedYearAndSemester(){
-        String yearPrefix = null;
-        String semesterPrefix = null;
-        String allocatedTo;
-        
-        int year = cmbYear.getSelectedIndex();
-        int semester = cmbSemester.getSelectedIndex();
-        
-        switch(year)
-        {
-            case(0):yearPrefix="Y1";break;
-            case(1):yearPrefix="Y2";break;
-            case(2):yearPrefix="Y3";break;
-            case(3):yearPrefix="Y4";break;
-        }
-       switch(semester)
-       {
-           case(0):semesterPrefix="S1";break;
-           case(1):semesterPrefix="S2";break;
-       }
-       
-       allocatedTo = yearPrefix+semesterPrefix;
-       return allocatedTo;
-    }
-
      public void executeQuery(String query){
         
         try{
@@ -147,13 +80,6 @@ public class Modules extends javax.swing.JFrame {
      {
          String query="select * from module";
          executeQuery(query);
-     }
-     public void setModuleID(String id)
-     {
-         moduleId = id;
-     }
-     public String getModuleID(){
-         return moduleId;
      }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -843,7 +769,7 @@ public class Modules extends javax.swing.JFrame {
 
     private void btnModuleDeleteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnModuleDeleteMouseClicked
         // TODO add your handling code here:
-        String moduleId = getModuleID();
+        String moduleId = moduleService.getModuleID();
         String query = "delete from module where moduleId='"+moduleId+"';";
         executeQuery(query);
         txtModuleName.setText("");
@@ -878,12 +804,15 @@ public class Modules extends javax.swing.JFrame {
 
     private void btnModuleUpdateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnModuleUpdateMouseClicked
         // TODO add your handling code here:
-        String moduleId = getModuleID();
+        String moduleId = moduleService.getModuleID();
         String moduleName = txtModuleName.getText();
         String password = new String(pwdModulePassword.getPassword());
-        String allocated = getAllocatedYearAndSemester();
+        int year = cmbYear.getSelectedIndex();
+        int semester = cmbSemester.getSelectedIndex();
+        String allocated = moduleService.getAllocatedYearAndSemester(year,semester);
         
-        if(validateValues())
+        
+        if(moduleService.validateValues(moduleName,password))
         {
             String query = "update module set moduleName ='"+moduleName+"',modulePassword='"+password+"',allocatedTo='"+allocated+"' where moduleId='"+moduleId+"';";
             executeQuery(query);
@@ -906,12 +835,16 @@ public class Modules extends javax.swing.JFrame {
     }//GEN-LAST:event_pnlModuleUpdateMouseReleased
 
     private void btnModuleAddMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnModuleAddMouseClicked
-        String newID = getNewModuleId();
+
+        String newID = moduleService.getNewModuleId();
         String moduleName = txtModuleName.getText();
         String password = new String(pwdModulePassword.getPassword());
-        String allocated = getAllocatedYearAndSemester();
+        int year = cmbYear.getSelectedIndex();
+        int semester = cmbSemester.getSelectedIndex();
         
-        if(validateValues())
+        String allocated = moduleService.getAllocatedYearAndSemester(year,semester);
+        
+        if(moduleService.validateValues(moduleName,password))
         {
             String query = "Insert into module values('"+newID+"','"+moduleName+"','"+password+"','"+allocated+"')";
             executeQuery(query);
@@ -943,7 +876,7 @@ public class Modules extends javax.swing.JFrame {
         // TODO add your handling code here:
         int i = tblModule.getSelectedRow();
         TableModel model = tblModule.getModel();
-        setModuleID(model.getValueAt(i, 0).toString());
+        moduleService.setModuleID(model.getValueAt(i, 0).toString());
         txtModuleName.setText(model.getValueAt(i, 1).toString());
         pwdModulePassword.setText(model.getValueAt(i, 2).toString());
        

@@ -5,16 +5,10 @@
  */
 package com.csse.exam.main;
 
-import com.csse.exam.common.Validation;
-import com.csse.exam.config.DBConnection;
+
 import com.csse.exam.model.User;
-import com.mysql.jdbc.PreparedStatement;
+import com.csse.exam.service.UserService;
 import java.awt.Color;
-import java.awt.HeadlessException;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -29,57 +23,7 @@ public class AddUser extends javax.swing.JFrame {
         initComponents();
         lblUser.setText(User.getName());
     }
-    public boolean validateValues()
-    {
-        String name = txtName.getText();
-        String username = txtUsername.getText();
-        String password = new String(pwdUserPassword.getPassword());
-           
-        Validation validation = new Validation();
-        if (validation.checkTextNull(name) || validation.checkTextNull(username) || validation.checkTextNull(password)) {
-            JOptionPane.showMessageDialog(null, "You can't keep fields empty");
-            return false;
-        } 
-        else {
-            return true;
-        }
-    }
-    
-    public String getNewId(boolean lecturer, boolean student){
-        String rolePrefix;
-        String lastUserId = null;
-        String newUserId = null;
-        if(lecturer)
-            rolePrefix = "LT%";
-        else
-            rolePrefix = "ST%";
-        try {
-               
-                Connection con = DBConnection.getConnection();
-                String query = " SELECT userId FROM user\n" +
-                                "where userId like ?\n" +
-                                "order by userId desc limit 1;";
-                PreparedStatement preparedStmt;
-                preparedStmt = (PreparedStatement) con.prepareStatement(query);
-                preparedStmt.setString (1, rolePrefix);
-                
-                // execute the preparedstatement
-                ResultSet rs; 
-                rs = preparedStmt.executeQuery();
-                if(rs.next()){
-                    lastUserId = rs.getString("userId");
-                }
-                String last3;
-                last3 = lastUserId.substring(lastUserId.length() - 3);
-                newUserId = lastUserId.substring(0,4)+String.valueOf(Integer.parseInt(last3) + 1);
-                
-                con.close();
-
-                } catch (SQLException | HeadlessException e) {
-                    JOptionPane.showMessageDialog(null, e);
-                }
-        return newUserId;
-    }
+   
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -628,49 +572,21 @@ public class AddUser extends javax.swing.JFrame {
 
     private void btnAddMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddMouseClicked
         // TODO add your handling code here:
-                
-        String role;
-        if(validateValues())
-        {
-           String name = txtName.getText();
-           String username = txtUsername.getText();
-           String password = new String(pwdUserPassword.getPassword());
-           boolean lecturer = rdoLecturer.isSelected();
-           boolean student = rdoStudent.isSelected();
-           
-           if(lecturer){
-               role = "lecturer";
-           }
-           else
-               role = "student";
-           
-           try {
-               
-                Connection con = DBConnection.getConnection();
-                String query = " insert into user (userId,name,role,username,userPassword)"
-                 + " values (?, ?, ?, ?, ?)";
-                PreparedStatement preparedStmt = (PreparedStatement) con.prepareStatement(query);
-                preparedStmt.setString(1,  getNewId(lecturer,student));
-                preparedStmt.setString(2, name);
-                preparedStmt.setString(3, role);
-                preparedStmt.setString(4, username);
-                preparedStmt.setString(5, password);
+        String name = txtName.getText();
+        String username = txtUsername.getText();
+        String password = new String(pwdUserPassword.getPassword());
 
-                // execute the preparedstatement
-                preparedStmt.execute();
+        boolean lecturer = rdoLecturer.isSelected();
+        boolean student = rdoStudent.isSelected();
+        
+        UserService userService = new UserService();
+        userService.addUser(name, username, password, lecturer, student);
+        
+        //clearing the fields
+        txtName.setText("");
+        txtUsername.setText("");
+        pwdUserPassword.setText("");
 
-                con.close();
-                JOptionPane.showMessageDialog(null, "Suceesfully Added!");
-                //clearing the fields
-                txtName.setText("");
-                txtUsername.setText("");
-                pwdUserPassword.setText("");
-                
-                } catch (SQLException | HeadlessException e) {
-                    JOptionPane.showMessageDialog(null, e);
-                }
-
-        }
     }//GEN-LAST:event_btnAddMouseClicked
 
     private void pnlAddMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlAddMousePressed

@@ -307,12 +307,41 @@ public class SessionService {
 
     }
     
-    /*public List<Question> getQuestion(String examId, String questionId) {
-        return questionList.stream()
-                .filter(t -> t.getExamId().equals(examId) && t.getQuestionId().equals(questionId))
-                .collect(Collectors.toList());
-    }*/
+    public boolean updateSessionDetails(String examId, int sessionId, String examTime, String examVenue){
+        try {
+            
+            preparedStatement = connection.prepareStatement("UPDATE session SET examTime=?, examVenue =? WHERE examId=? AND sessionId=?");         
+            
+            preparedStatement.setString(1, examTime);
+            preparedStatement.setString(2, examVenue);
+            preparedStatement.setString(3, examId);
+            preparedStatement.setInt(4, sessionId);
+                   
+            int i = preparedStatement.executeUpdate();
+            System.out.println(i + " records updated");            
+            return true;
+        } catch (SQLException e) {
+                System.out.println(e);
+        }        
+        return false;
+    }
     
+    public boolean deleteSessionDetails(String examId, int sessionId){
+        try {
+            
+            preparedStatement = connection.prepareStatement("DELETE FROM session WHERE examId=? AND sessionId=?");                     
+            preparedStatement.setString(1, examId);
+            preparedStatement.setInt(2, sessionId);
+            
+            int i = preparedStatement.executeUpdate();
+            System.out.println(i + " records deleted");            
+            return true;
+        } catch (SQLException e) {
+                System.out.println(e);
+        }        
+        return false;
+
+    }
 }
             
 
