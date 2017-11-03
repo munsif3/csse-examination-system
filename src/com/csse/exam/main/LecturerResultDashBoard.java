@@ -45,7 +45,9 @@ public class LecturerResultDashBoard extends javax.swing.JFrame {
         pnlHeader = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         lblUser = new javax.swing.JLabel();
+
         lblLogout = new javax.swing.JLabel();
+
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         pnlContent = new javax.swing.JPanel();
@@ -288,6 +290,7 @@ public class LecturerResultDashBoard extends javax.swing.JFrame {
             }
         });
         pnlHeader.add(lblLogout, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 30, -1, 20));
+
 
         jPanel2.setBackground(new java.awt.Color(70, 102, 144));
 
@@ -627,6 +630,7 @@ public class LecturerResultDashBoard extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel12MouseClicked
 
     private void lblLogoutMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblLogoutMouseClicked
+
         // TODO add your handling code here:
         User.logout();
         Login login = new Login();
@@ -661,6 +665,7 @@ public class LecturerResultDashBoard extends javax.swing.JFrame {
         contactUs.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jLabel8MouseClicked
+
 
     /**
      * @param args the command line arguments
@@ -707,6 +712,7 @@ public class LecturerResultDashBoard extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
+
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
@@ -719,7 +725,9 @@ public class LecturerResultDashBoard extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JLabel lblBack;
+
     private javax.swing.JLabel lblLogout;
+
     private javax.swing.JLabel lblUser;
     private javax.swing.JPanel pnlAnswerScheme;
     private javax.swing.JPanel pnlContent;

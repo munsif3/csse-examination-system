@@ -5,6 +5,7 @@
  */
 package com.csse.exam.main;
 
+import com.csse.exam.model.User;
 import com.csse.exam.service.ModuleService;
 import java.awt.Color;
 import java.util.Map;
@@ -23,6 +24,7 @@ public class LecturerSearchCourse extends javax.swing.JFrame {
      */
     public LecturerSearchCourse() {
         initComponents();
+        lblUser.setText(User.getName());
         loadModulesToList();
     }
 
@@ -91,7 +93,7 @@ public class LecturerSearchCourse extends javax.swing.JFrame {
 
         lblDashboard.setFont(new java.awt.Font("Segoe UI Light", 0, 16)); // NOI18N
         lblDashboard.setForeground(new java.awt.Color(255, 255, 255));
-        lblDashboard.setText("Dashboard");
+        lblDashboard.setText("Home");
 
         javax.swing.GroupLayout pnlDashboardLayout = new javax.swing.GroupLayout(pnlDashboard);
         pnlDashboard.setLayout(pnlDashboardLayout);
@@ -126,7 +128,7 @@ public class LecturerSearchCourse extends javax.swing.JFrame {
 
         lblCourse.setFont(new java.awt.Font("Segoe UI Light", 0, 16)); // NOI18N
         lblCourse.setForeground(new java.awt.Color(255, 255, 255));
-        lblCourse.setText("Course");
+        lblCourse.setText("About Us");
         lblCourse.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         javax.swing.GroupLayout pnlCourseLayout = new javax.swing.GroupLayout(pnlCourse);
@@ -162,7 +164,7 @@ public class LecturerSearchCourse extends javax.swing.JFrame {
 
         lblExam.setFont(new java.awt.Font("Segoe UI Light", 0, 16)); // NOI18N
         lblExam.setForeground(new java.awt.Color(255, 255, 255));
-        lblExam.setText("Exam");
+        lblExam.setText("Contact Us");
 
         javax.swing.GroupLayout pnlExamLayout = new javax.swing.GroupLayout(pnlExam);
         pnlExam.setLayout(pnlExamLayout);
@@ -262,6 +264,11 @@ public class LecturerSearchCourse extends javax.swing.JFrame {
         lblLogout.setForeground(new java.awt.Color(204, 217, 233));
         lblLogout.setText("(LOGOUT)");
         lblLogout.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lblLogout.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblLogoutMouseClicked(evt);
+            }
+        });
         pnlSystem.add(lblLogout, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 30, -1, 20));
 
         pnlTitle.setBackground(new java.awt.Color(70, 102, 144));
@@ -381,6 +388,14 @@ public class LecturerSearchCourse extends javax.swing.JFrame {
         this.dispose();
         
     }//GEN-LAST:event_lstModulesMouseClicked
+
+    private void lblLogoutMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblLogoutMouseClicked
+        // TODO add your handling code here:
+        User.logout();
+        Login login = new Login();
+        this.setVisible(false);
+        login.setVisible(true);
+    }//GEN-LAST:event_lblLogoutMouseClicked
 
     /**
      * @param args the command line arguments

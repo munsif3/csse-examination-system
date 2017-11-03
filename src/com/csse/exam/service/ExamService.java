@@ -157,7 +157,6 @@ public final class ExamService
              
             preparedStatement = connection.prepareStatement("SELECT examId,moduleId,examDate,examDuration,noOfQuestion,totalMarks FROM exam WHERE moduleId=?");
             preparedStatement.setString(1, moduleId);
-            //System.out.println("from table"+ LecturerSearchCourse.moduleCode);
             resultSet = preparedStatement.executeQuery();
             
             ResultSetMetaData resultMetaData = resultSet.getMetaData();
