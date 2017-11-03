@@ -617,9 +617,17 @@ public class ExamDetails extends javax.swing.JFrame {
             boolean moduleIdValue = validation.checkModuleId(moduleId);
             boolean examIdValue = validation.checkExamId(examId, moduleId,examType);
             boolean dateValue = examService.valaidateExamDate(dateString);   
-            
+            Date date = new Date();
+            boolean val = examdate.before(date);
         if(numberValue && moduleIdValue && examIdValue && dateValue==false)
         {
+            if(val)
+            {
+                JOptionPane.showMessageDialog(this, "Exam date is a past date.\nChoose a future date.", "Failure Message", 1);
+
+            }
+            else
+            {
             boolean value = examService.addExamdetails(examId, examDuration,moduleId, parseInt(questionNo), parseInt(allocatedMarks),dateString);
             
             if(value)
@@ -633,10 +641,12 @@ public class ExamDetails extends javax.swing.JFrame {
             }
             else
                 JOptionPane.showMessageDialog(this, "Exam details were not added", "Error Message", 1);
+            }
         }
         else
             JOptionPane.showMessageDialog(this, "Enter appropriate values with correct format", "Error Message", 1);                   
         }
+        
     }//GEN-LAST:event_btnAddMouseClicked
 
     private void cmbSearchExamIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbSearchExamIdActionPerformed

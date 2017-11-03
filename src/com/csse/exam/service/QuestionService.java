@@ -132,6 +132,25 @@ public class QuestionService
         return false;
     }
     
+    public boolean updateQuestion(String examId, String questionId, String question, String options){
+        try {
+            
+            preparedStatement = connection.prepareStatement("UPDATE question SET question=?, options =? WHERE examId=? AND questionId=?");         
+            
+            preparedStatement.setString(1, question);
+            preparedStatement.setString(2, options);
+            preparedStatement.setString(3, examId);
+            preparedStatement.setString(4, questionId);
+            
+            int i = preparedStatement.executeUpdate();
+            System.out.println(i + " records updated");            
+            return true;
+        } catch (SQLException e) {
+                System.out.println(e);
+        }        
+        return false;
+    }
+    
     public void addValueToComboBoxBasedOnField(JComboBox comboBox, String moduleId) {
 
         String value = null;

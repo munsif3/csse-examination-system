@@ -27,7 +27,7 @@ public class ExamPaperService
     private static PreparedStatement preparedStatement;
     private static ResultSet resultSet;
     Question question;
-    private final ArrayList<Question> questionList = new ArrayList<>();
+    private ArrayList<Question> questionList = new ArrayList<>();
        
     public ArrayList<Question> getQuestions() {
 

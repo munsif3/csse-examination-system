@@ -132,6 +132,7 @@ public class ExamQuestion extends javax.swing.JFrame {
         btnClear = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         listExamQuestionNo = new javax.swing.JList<>();
+        txtUpdate = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("EXAM");
@@ -540,6 +541,15 @@ public class ExamQuestion extends javax.swing.JFrame {
 
         pnlContent.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 100, 330));
 
+        txtUpdate.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtUpdate.setText("UPDATE");
+        txtUpdate.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txtUpdateMouseClicked(evt);
+            }
+        });
+        pnlContent.add(txtUpdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 460, 180, 40));
+
         getContentPane().add(pnlContent, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 100, 830, 520));
 
         pack();
@@ -663,6 +673,7 @@ public class ExamQuestion extends javax.swing.JFrame {
         System.out.println("clicked");
         examId = cmbExamId.getSelectedItem().toString();
         String selectedQuestionId = listExamQuestionNo.getSelectedValue();
+        
         List<Question> questionsByUniqueId = examPaperService.getQuestion(examId, selectedQuestionId);
         questionsByUniqueId.forEach((result) -> {
             
@@ -771,6 +782,42 @@ public class ExamQuestion extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_lblResultMouseClicked
 
+    private void txtUpdateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtUpdateMouseClicked
+        // TODO add your handling code here:
+        examId = cmbExamId.getSelectedItem().toString();
+        questionId = txtQuestionId.getText();
+        question = txtAreaQuestion.getText();
+        
+        option1 = txtOption1.getText();
+        option2 = txtOption2.getText();
+        option3 = txtOption3.getText();
+        option4 = txtOption4.getText();
+        option5 = txtOption5.getText();
+        
+        options = "a-"+option1+":"+"b-"+option2+":"+"c-"+option3+":"+"d-"+option4+":"+"e-"+option5;
+        System.out.println(options);
+        
+        boolean nullValue = validation.checkEmptyTextBox(pnlQuestions);
+        boolean checkBox = validation.checkComboBox(pnlExamDetails);
+        
+        if((nullValue==true) && (checkBox==true))
+        {
+            boolean value = questionService.updateQuestion(examId, questionId, question,options);
+            if(value)
+            {
+                JOptionPane.showMessageDialog(this, "Exam question was successfully updated", "Success Message", 1);
+//                cmbExamIdActionPerformed(evt);
+                /*listModel.addElement(questionId);           
+                listExamQuestionNo.setModel(listModel);  */
+            }  
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(this, "Please fill all the text boxes and select an exam ID from the drop down list.", "Error Message", 1);
+        }
+        
+    }//GEN-LAST:event_txtUpdateMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -858,5 +905,6 @@ public class ExamQuestion extends javax.swing.JFrame {
     private javax.swing.JTextField txtOption5;
     private javax.swing.JTextField txtQuestionId;
     private javax.swing.JTextField txtTotalQuestions;
+    private javax.swing.JButton txtUpdate;
     // End of variables declaration//GEN-END:variables
 }

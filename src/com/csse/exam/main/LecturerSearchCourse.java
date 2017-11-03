@@ -460,8 +460,7 @@ public class LecturerSearchCourse extends javax.swing.JFrame {
         Map<String, String> allModules = moduleService.getAllModules();
         DefaultListModel defaultListModel = new DefaultListModel();
         for (Map.Entry<String, String> modules : allModules.entrySet()) {
-            defaultListModel.addElement(modules.getKey() + "   →   " + modules.getValue());
-            
+            defaultListModel.addElement(modules.getKey() + "   →   " + modules.getValue());            
             lstModules.setModel(defaultListModel);
         }
     }
