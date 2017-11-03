@@ -8,6 +8,7 @@ package com.csse.exam.main;
 import com.csse.exam.model.Exam;
 import com.csse.exam.model.User;
 import com.csse.exam.service.ModuleService;
+import com.csse.exam.service.ResultLinkService;
 import java.awt.Color;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -24,19 +25,25 @@ public class DashboardStudent extends javax.swing.JFrame {
      */
     ModuleContent moduleContent = new ModuleContent();
     private ModuleService moduleService = new ModuleService();
-    private DefaultListModel lstUpComingEventsListModel = new  DefaultListModel();
+    private DefaultListModel lstUpComingEventsListModel = new DefaultListModel();
     private DateFormat oDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    private ResultLinkService resultLinkService;
+    private DefaultListModel enabledLinks;
+    String moduleId = LecturerSearchCourse.moduleCode;
     public DashboardStudent() {
         initComponents();
         lblUser.setText(User.getName());
+        
         loadUpComingExams();
+//        resultLinkService = new ResultLinkService();
+        loadOutExams("Enabled");
     }
-    
-    private void loadUpComingExams(){
+
+    private void loadUpComingExams() {
         if (moduleService.getExamsByStudentId() != null) {
             for (Exam exam : moduleService.getExamsByStudentId()) {
                 lstUpComingEventsListModel = (DefaultListModel) lstUpcomingEvents.getModel();
-                lstUpComingEventsListModel.addElement(exam.getExamId()+" - "+oDateFormat.format(exam.getExamDate()));
+                lstUpComingEventsListModel.addElement(exam.getExamId() + " - " + oDateFormat.format(exam.getExamDate()));
             }
         }
     }
@@ -54,6 +61,9 @@ public class DashboardStudent extends javax.swing.JFrame {
         lblUpcomingEvents = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         lstUpcomingEvents = new javax.swing.JList<>();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        lstResultsOut = new javax.swing.JList<>();
+        lblUpcomingEvents1 = new javax.swing.JLabel();
         pnlNavigation = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         lblHomeSD = new javax.swing.JLabel();
@@ -100,13 +110,28 @@ public class DashboardStudent extends javax.swing.JFrame {
         pnlContent.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         lblUpcomingEvents.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        lblUpcomingEvents.setText("Upcoming Events");
-        pnlContent.add(lblUpcomingEvents, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 30, -1, -1));
+        lblUpcomingEvents.setText("Results Out");
+        pnlContent.add(lblUpcomingEvents, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 20, -1, -1));
 
+        lstUpcomingEvents.setBackground(new java.awt.Color(204, 217, 233));
+        lstUpcomingEvents.setFont(new java.awt.Font("Segoe UI Light", 0, 18)); // NOI18N
         lstUpcomingEvents.setModel(new DefaultListModel<String>());
+        lstUpcomingEvents.setFixedCellHeight(50);
         jScrollPane1.setViewportView(lstUpcomingEvents);
 
-        pnlContent.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 70, 520, 280));
+        pnlContent.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 60, 410, 410));
+
+        lstResultsOut.setBackground(new java.awt.Color(204, 217, 233));
+        lstResultsOut.setFont(new java.awt.Font("Segoe UI Light", 0, 18)); // NOI18N
+        lstResultsOut.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        lstResultsOut.setFixedCellHeight(50);
+        jScrollPane2.setViewportView(lstResultsOut);
+
+        pnlContent.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 60, 280, 410));
+
+        lblUpcomingEvents1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblUpcomingEvents1.setText("Upcoming Events");
+        pnlContent.add(lblUpcomingEvents1, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 20, -1, -1));
 
         getContentPane().add(pnlContent, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 100, 820, 520));
 
@@ -682,13 +707,17 @@ public class DashboardStudent extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
+        }
+        catch (ClassNotFoundException ex) {
             java.util.logging.Logger.getLogger(DashboardStudent.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
+        }
+        catch (InstantiationException ex) {
             java.util.logging.Logger.getLogger(DashboardStudent.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
+        }
+        catch (IllegalAccessException ex) {
             java.util.logging.Logger.getLogger(DashboardStudent.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        }
+        catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(DashboardStudent.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
@@ -727,6 +756,7 @@ public class DashboardStudent extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JLabel lblContactUs;
@@ -737,10 +767,12 @@ public class DashboardStudent extends javax.swing.JFrame {
     private javax.swing.JLabel lblModulesSD;
     private javax.swing.JLabel lblSelectedQuiz;
     private javax.swing.JLabel lblUpcomingEvents;
+    private javax.swing.JLabel lblUpcomingEvents1;
     private javax.swing.JLabel lblUser;
     private javax.swing.JLabel lblViewHeading;
     private javax.swing.JList<String> lstModules;
     private javax.swing.JList<String> lstQuiz;
+    private javax.swing.JList<String> lstResultsOut;
     private javax.swing.JList<String> lstUpcomingEvents;
     private javax.swing.JPanel pnlAttemptQuizContent;
     private javax.swing.JPanel pnlContent;
@@ -749,4 +781,10 @@ public class DashboardStudent extends javax.swing.JFrame {
     private javax.swing.JPanel pnlNavigation;
     private javax.swing.JPanel pnlQuizContent;
     // End of variables declaration//GEN-END:variables
+
+    private void loadOutExams(String enabled) {
+        resultLinkService = new ResultLinkService();
+        enabledLinks = resultLinkService.fillEnabledResultLinks(enabled);
+        lstResultsOut.setModel(enabledLinks);
+    }
 }

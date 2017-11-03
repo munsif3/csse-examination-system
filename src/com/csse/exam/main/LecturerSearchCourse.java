@@ -44,8 +44,6 @@ public class LecturerSearchCourse extends javax.swing.JFrame {
         lblCourse = new javax.swing.JLabel();
         pnlExam = new javax.swing.JPanel();
         lblExam = new javax.swing.JLabel();
-        pnlResult = new javax.swing.JPanel();
-        lblResult = new javax.swing.JLabel();
         pnlLogo = new javax.swing.JPanel();
         lblLogo = new javax.swing.JLabel();
         pnlSystem = new javax.swing.JPanel();
@@ -94,6 +92,11 @@ public class LecturerSearchCourse extends javax.swing.JFrame {
         lblDashboard.setFont(new java.awt.Font("Segoe UI Light", 0, 16)); // NOI18N
         lblDashboard.setForeground(new java.awt.Color(255, 255, 255));
         lblDashboard.setText("Home");
+        lblDashboard.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblDashboardMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout pnlDashboardLayout = new javax.swing.GroupLayout(pnlDashboard);
         pnlDashboard.setLayout(pnlDashboardLayout);
@@ -130,6 +133,11 @@ public class LecturerSearchCourse extends javax.swing.JFrame {
         lblCourse.setForeground(new java.awt.Color(255, 255, 255));
         lblCourse.setText("About Us");
         lblCourse.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lblCourse.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblCourseMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout pnlCourseLayout = new javax.swing.GroupLayout(pnlCourse);
         pnlCourse.setLayout(pnlCourseLayout);
@@ -184,41 +192,6 @@ public class LecturerSearchCourse extends javax.swing.JFrame {
         );
 
         pnlNavigation.add(pnlExam, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 200, 130, 50));
-
-        pnlResult.setBackground(new java.awt.Color(70, 102, 144));
-        pnlResult.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        pnlResult.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        pnlResult.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                pnlResultMousePressed(evt);
-            }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                pnlResultMouseReleased(evt);
-            }
-        });
-
-        lblResult.setFont(new java.awt.Font("Segoe UI Light", 0, 16)); // NOI18N
-        lblResult.setForeground(new java.awt.Color(255, 255, 255));
-        lblResult.setText("Result");
-
-        javax.swing.GroupLayout pnlResultLayout = new javax.swing.GroupLayout(pnlResult);
-        pnlResult.setLayout(pnlResultLayout);
-        pnlResultLayout.setHorizontalGroup(
-            pnlResultLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlResultLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(lblResult, javax.swing.GroupLayout.DEFAULT_SIZE, 106, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        pnlResultLayout.setVerticalGroup(
-            pnlResultLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlResultLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(lblResult, javax.swing.GroupLayout.DEFAULT_SIZE, 24, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-
-        pnlNavigation.add(pnlResult, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 250, 130, 50));
 
         pnlLogo.setBackground(new java.awt.Color(204, 217, 233));
 
@@ -369,16 +342,6 @@ public class LecturerSearchCourse extends javax.swing.JFrame {
         pnlExam.setBackground(new Color(70, 102, 144));
     }//GEN-LAST:event_pnlExamMouseReleased
 
-    private void pnlResultMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlResultMousePressed
-        // TODO add your handling code here:
-        pnlResult.setBackground(new Color(204, 217, 233));
-    }//GEN-LAST:event_pnlResultMousePressed
-
-    private void pnlResultMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlResultMouseReleased
-        // TODO add your handling code here:
-        pnlResult.setBackground(new Color(70, 102, 144));
-    }//GEN-LAST:event_pnlResultMouseReleased
-
     private void lstModulesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lstModulesMouseClicked
         // TODO add your handling code here:
         //click and send the moduleid
@@ -396,6 +359,18 @@ public class LecturerSearchCourse extends javax.swing.JFrame {
         this.setVisible(false);
         login.setVisible(true);
     }//GEN-LAST:event_lblLogoutMouseClicked
+
+    private void lblDashboardMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblDashboardMouseClicked
+        // TODO add your handling code here:
+        DashboardLecturer lecturer = new DashboardLecturer();
+        lecturer.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_lblDashboardMouseClicked
+
+    private void lblCourseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCourseMouseClicked
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_lblCourseMouseClicked
 
     /**
      * @param args the command line arguments
@@ -439,7 +414,6 @@ public class LecturerSearchCourse extends javax.swing.JFrame {
     private javax.swing.JLabel lblExam;
     private javax.swing.JLabel lblLogo;
     private javax.swing.JLabel lblLogout;
-    private javax.swing.JLabel lblResult;
     private javax.swing.JLabel lblSystem;
     private javax.swing.JLabel lblTitle;
     private javax.swing.JLabel lblUser;
@@ -450,7 +424,6 @@ public class LecturerSearchCourse extends javax.swing.JFrame {
     private javax.swing.JPanel pnlExam;
     private javax.swing.JPanel pnlLogo;
     private javax.swing.JPanel pnlNavigation;
-    private javax.swing.JPanel pnlResult;
     private javax.swing.JPanel pnlSearchCourse;
     private javax.swing.JPanel pnlSystem;
     private javax.swing.JPanel pnlTitle;
