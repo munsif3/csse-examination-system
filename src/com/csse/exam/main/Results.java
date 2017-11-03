@@ -6,10 +6,12 @@
 package com.csse.exam.main;
 
 import com.csse.exam.common.ClearComponents;
+import com.csse.exam.common.Validation;
 import com.csse.exam.model.Result;
 import com.csse.exam.service.ResultService;
 import java.awt.Color;
 import java.util.List;
+import java.util.logging.Level;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -23,16 +25,18 @@ public class Results extends javax.swing.JFrame {
     private final ResultService resultService = new ResultService();
     private final List<Result> resultList = resultService.getDistinctStudentId();
     ClearComponents clear;
-    DefaultTableModel table = new DefaultTableModel();
+    Validation validate;
+    DefaultTableModel table;
 
     /**
      * Creates new form Result
      */
     public Results() {
         initComponents();
-        
+
         setStudentIdCombobox();
-        setResultTableModel();
+        table = resultService.fillResultsTable();
+        tblResults.setModel(table);
     }
 
     /**
@@ -66,8 +70,6 @@ public class Results extends javax.swing.JFrame {
         txtModuleCode = new javax.swing.JTextField();
         jLabel13 = new javax.swing.JLabel();
         txtMarks = new javax.swing.JTextField();
-        jLabel14 = new javax.swing.JLabel();
-        txtFinalContrib = new javax.swing.JTextField();
         btnReset = new javax.swing.JButton();
         btnUpdate = new javax.swing.JButton();
         jTextField4 = new javax.swing.JTextField();
@@ -247,6 +249,8 @@ public class Results extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(204, 217, 233));
 
+        jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/csse/exam/resource/SLIIT_Crest.png"))); // NOI18N
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -307,6 +311,7 @@ public class Results extends javax.swing.JFrame {
         jLabel12.setText("MODULE CODE");
         pnlDetails.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 110, -1, 40));
 
+        txtModuleCode.setEditable(false);
         txtModuleCode.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         pnlDetails.add(txtModuleCode, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 110, 190, 40));
 
@@ -316,13 +321,6 @@ public class Results extends javax.swing.JFrame {
 
         txtMarks.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         pnlDetails.add(txtMarks, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 10, 190, 40));
-
-        jLabel14.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel14.setText("CONTRIBUTION - FINAL");
-        pnlDetails.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 60, -1, 40));
-
-        txtFinalContrib.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        pnlDetails.add(txtFinalContrib, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 60, 190, 40));
 
         btnReset.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnReset.setText("RESET");
@@ -347,10 +345,11 @@ public class Results extends javax.swing.JFrame {
 
         jLabel15.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel15.setText("GRADE");
-        pnlDetails.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 110, -1, 40));
+        pnlDetails.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 60, -1, 40));
 
+        txtGrade.setEditable(false);
         txtGrade.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        pnlDetails.add(txtGrade, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 110, 190, 40));
+        pnlDetails.add(txtGrade, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 60, 190, 40));
 
         pnlContent.add(pnlDetails, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 780, 210));
 
@@ -512,7 +511,7 @@ public class Results extends javax.swing.JFrame {
 
         DefaultComboBoxModel comboBoxModel = new DefaultComboBoxModel();
         comboBoxModel.addElement("SELECT EXAMINATION ID");
-        
+
         for (int i = 0; i < examIdByStudentId.size(); i++) {
             comboBoxModel.addElement(examIdByStudentId.get(i).getExamId());
         }
@@ -535,31 +534,39 @@ public class Results extends javax.swing.JFrame {
         clear = new ClearComponents();
         clear.clearTextFields(pnlDetails);
         clear.resetComboBox(pnlDetails);
+
     }//GEN-LAST:event_btnResetActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-        txtGrade.setText(String.valueOf(resultService.getGrade(Integer.parseInt(txtMarks.getText()))));
-        String studentId = cmbStudentId.getSelectedItem().toString();
-        String examId = cmbExamId.getSelectedItem().toString();
-        int score = Integer.parseInt(txtMarks.getText());
-        String grade = txtGrade.getText();
+        validate = new Validation();
+        boolean checkComboBox = validate.checkComboBox(pnlDetails);
+        if (checkComboBox) {
+            char grading = resultService.getGrade(Integer.parseInt(txtMarks.getText()));
+            txtGrade.setText(String.valueOf(grading));
+            String studentId = cmbStudentId.getSelectedItem().toString();
+            String examId = cmbExamId.getSelectedItem().toString();
+            int score = Integer.parseInt(txtMarks.getText());
 
-        int answer = JOptionPane.showConfirmDialog(this, "Are you sure you want to Update?");
-        if (answer == 0) {
-            boolean updateScore = resultService.updateScore(studentId, examId, grade, score);
+            int answer = JOptionPane.showConfirmDialog(this, "Are you sure you want to Update?");
+            if (answer == 0) {
+                boolean updateScore = resultService.updateScore(studentId, examId, grading, score);
 
-            if (updateScore) {
-                JOptionPane.showMessageDialog(this, "Updated " + studentId + "'s " + examId.split("-")[1] + " score");
-                resultService.LOGGER.info("Updated " + studentId + "'s " + examId.split("-")[1] + " score");
+                if (updateScore) {
+                    JOptionPane.showMessageDialog(this, "Updated " + studentId + "'s " + examId.split("-")[1] + " score");
+                    resultService.LOGGER.log(Level.INFO, "Updated {0}''s {1} score", new Object[]{studentId, examId.split("-")[1]});
+                }
+                else {
+                    JOptionPane.showMessageDialog(this, "Failed to Update. Please try again");
+                    resultService.LOGGER.info("Failed to Update. Please try again");
+                }
             }
-            else {
-                JOptionPane.showMessageDialog(this, "Failed to Update. Please try again");
-                resultService.LOGGER.info("Failed to Update. Please try again");
-            }
+            btnResetActionPerformed(evt);
+
+        }
+        else {
+            JOptionPane.showMessageDialog(this, "Please Select a Record from the Dropdown to Update!");
         }
 
-        btnResetActionPerformed(evt);
-        setResultTableModel();
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     /**
@@ -606,7 +613,6 @@ public class Results extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -632,7 +638,6 @@ public class Results extends javax.swing.JFrame {
     private javax.swing.JPanel pnlNavigation;
     private javax.swing.JPanel pnlResultTable;
     private javax.swing.JTable tblResults;
-    private javax.swing.JTextField txtFinalContrib;
     private javax.swing.JTextField txtGrade;
     private javax.swing.JTextField txtMarks;
     private javax.swing.JTextField txtModuleCode;
@@ -646,7 +651,7 @@ public class Results extends javax.swing.JFrame {
     }
 
     private void setResultTableModel() {
-        table.getDataVector().removeAllElements();
+        table = (DefaultTableModel) tblResults.getModel();
         table = resultService.fillResultsTable();
         tblResults.setModel(table);
     }

@@ -27,7 +27,7 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author munsif
  */
-public class ResultLinkService {
+public class ExamSummaryService {
 
     private static final Connection CONNECTION = DBConnection.getConnection();
     public static final Logger LOGGER = Logger.getLogger(ResultService.class.getName());
@@ -40,10 +40,12 @@ public class ResultLinkService {
     private Exam exam;
     private ArrayList<Exam> examList = new ArrayList<>();
 
-    public ResultLinkService() {
+    //get passed student count
+    //get result state as out or not
+    public ExamSummaryService() {
         try {
             consoleHandler = new ConsoleHandler();
-            fileHandler = new FileHandler("./logs/answerlinkservice/log_answer_link_service.log", true);
+            fileHandler = new FileHandler("./logs/examsummaryservice/log_exam_summary_service.log", true);
 
             LOGGER.addHandler(consoleHandler);
             LOGGER.addHandler(fileHandler);
@@ -62,7 +64,7 @@ public class ResultLinkService {
 
     /**
      *
-     * @return ArrayList of type Exam and extraction of the specific fields
+     * @return ArrayList of type Exam and extraction all fields
      */
     public ArrayList<Exam> getExamDetails() {
         try {
@@ -75,6 +77,11 @@ public class ResultLinkService {
                 exam.setExamId(resultSet.getString("examId"));
                 exam.setModuleId(resultSet.getString("moduleId"));
                 exam.setResultState(resultSet.getString("resultState"));
+                exam.setExamDuration(resultSet.getString("examDuration"));
+                exam.setExamPassword(resultSet.getString("examPassword"));
+                exam.setExamState(resultSet.getString("examState"));
+                exam.setNumberOfQuestions(resultSet.getInt("noOfQuestion"));
+                exam.setTotalMarks(resultSet.getInt("totalMarks"));
                 examList.add(exam);
             }
         }
@@ -89,40 +96,56 @@ public class ResultLinkService {
      * @param examId
      * @return List of Exams specific to that Id
      */
-    public List<Exam> getResultLinkState(String examId) {
+    public List<Exam> getExamDetailsStream(String examId) {
         return examList.stream()
                 .filter(t -> t.getExamId().equals(examId))
                 .collect(Collectors.toList());
-    }
-
-    public boolean updateResultLinkStatus(String resultState, String examId) {
-        boolean status = false;
-        try {
-            preparedStatement = CONNECTION.prepareStatement("UPDATE exam SET resultState = ? WHERE examId = ? ");
-            preparedStatement.setString(1, resultState);
-            preparedStatement.setString(2, examId);
-            int updated = preparedStatement.executeUpdate();
-            System.out.println(updated + " Record Updated");
-            LOGGER.log(Level.INFO, "{0} Record Updated", updated);
-            status = true;
-        }
-        catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, "Error occur in updateResultLinkStatus() : ", e);
-        }
-        return status;
     }
 
     /**
      *
      * @return Default Table Model to populate the jTable in View
      */
-    public DefaultTableModel fillResultLinkTable() {
-        DefaultTableModel table = new DefaultTableModel(new Object[]{"Examination Code", "Module Id", "Examination Date", "Result Link Status"}, 0);
+    public DefaultTableModel fillExamSummaryTable() {
+        DefaultTableModel table = new DefaultTableModel(new Object[]{"Exam Id", "Module Id", "Exam Date", "Result"}, 0);
 
         examList.forEach((result) -> {
             table.addRow(new Object[]{result.getExamId(), result.getModuleId(), result.getExamDate(), result.getResultState()});
         });
 
         return table;
+    }
+
+    public int getStudentCountByExamId(String examId) {
+        //get student count for each exam SELECT count(userId) FROM answer WHERE examId = ?
+        int studentCount = 0;
+        try {
+            preparedStatement = CONNECTION.prepareStatement("SELECT count(userId) FROM answer WHERE examId = ?");
+            preparedStatement.setString(1, examId);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                studentCount = resultSet.getInt(1);
+            }
+        }
+        catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "Error occured in getStudentCountByExamId() : ", e);
+        }
+        return studentCount;
+    }
+
+    public int getPassedStudentCountByExamId(String examId) {
+        int passedCount = 0;
+        try {
+            preparedStatement = CONNECTION.prepareStatement("SELECT count(userId) FROM result WHERE examId = ? AND grade <> 'F'");
+            preparedStatement.setString(1, examId);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                passedCount = resultSet.getInt(1);
+            }
+        }
+        catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "Error occured in getPassedStudentCountByExamId() : ", e);
+        }
+        return passedCount;
     }
 }

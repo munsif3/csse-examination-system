@@ -96,7 +96,7 @@ public final class ResultService {
         }
         return resultList;
     }
-    
+
     /**
      *
      * @return Distinct ExamId from the ArrayList
@@ -106,7 +106,7 @@ public final class ResultService {
                 .filter(distinctByKey(p -> p.getUserId()))
                 .collect(Collectors.toList());
     }
-    
+
     /**
      *
      * @param <T>
@@ -161,13 +161,13 @@ public final class ResultService {
     public char getGrade(int score) {
 
         char grade;
-        if (score <= 100 && score > 75) {
+        if ((score > 75) && (score <= 100)) {
             grade = 'A';
         }
-        else if (score <= 75 && score > 50) {
+        else if ((score > 50) && (score <= 75)) {
             grade = 'B';
         }
-        else if (score <= 50 && score > 35) {
+        else if ((score > 35) && (score <= 50)) {
             grade = 'C';
         }
         else {
@@ -182,7 +182,7 @@ public final class ResultService {
      */
     public DefaultTableModel fillResultsTable() {
         DefaultTableModel table = new DefaultTableModel(new Object[]{"Student ID", "Exam ID", "Score", "Grade"}, 0);
-        
+
         resultList.forEach((result) -> {
             table.addRow(new Object[]{result.getUserId(), result.getExamId(), result.getScore(), result.getGrade()});
         });
@@ -190,13 +190,13 @@ public final class ResultService {
         return table;
     }
 
-    public boolean updateScore(String studentId, String examId, String grade, int score) {
+    public boolean updateScore(String studentId, String examId, char grade, int score) {
         boolean status = false;
 
         try {
             preparedStatement = CONNECTION.prepareStatement("UPDATE result SET score = ?, grade = ? WHERE userId = ? AND examId = ?");
             preparedStatement.setInt(1, score);
-            preparedStatement.setString(2, grade);
+            preparedStatement.setString(2, String.valueOf(grade));
             preparedStatement.setString(3, studentId);
             preparedStatement.setString(4, examId);
             int updated = preparedStatement.executeUpdate();

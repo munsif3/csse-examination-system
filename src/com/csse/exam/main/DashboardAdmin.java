@@ -148,7 +148,7 @@ public class DashboardAdmin extends javax.swing.JFrame {
 
         lblSearch.setFont(new java.awt.Font("Segoe UI Light", 0, 16)); // NOI18N
         lblSearch.setForeground(new java.awt.Color(255, 255, 255));
-        lblSearch.setText("        Search");
+        lblSearch.setText("          Search");
         lblSearch.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblSearchMouseClicked(evt);
