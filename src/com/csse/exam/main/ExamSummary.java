@@ -8,6 +8,7 @@ package com.csse.exam.main;
 import com.csse.exam.common.ClearComponents;
 import com.csse.exam.common.Validation;
 import com.csse.exam.model.Exam;
+import com.csse.exam.model.User;
 import com.csse.exam.service.ExamSummaryService;
 import java.awt.Color;
 import java.util.List;
@@ -36,6 +37,7 @@ public class ExamSummary extends javax.swing.JFrame {
      */
     public ExamSummary() {
         initComponents();
+        lblUser.setText(User.getName());
         setExamDetailsTable();
     }
 
@@ -290,6 +292,11 @@ public class ExamSummary extends javax.swing.JFrame {
         lblLogout.setForeground(new java.awt.Color(204, 217, 233));
         lblLogout.setText("(LOGOUT)");
         lblLogout.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lblLogout.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblLogoutMouseClicked(evt);
+            }
+        });
         pnlSystem.add(lblLogout, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 30, -1, 20));
 
         jPanel2.setBackground(new java.awt.Color(70, 102, 144));
@@ -324,15 +331,15 @@ public class ExamSummary extends javax.swing.JFrame {
         pnlExamLink.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         lblExamCode.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        lblExamCode.setText("EXAMINATION CODE :");
+        lblExamCode.setText(" ");
         pnlExamLink.add(lblExamCode, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 20, 220, 30));
 
         lblModuleId.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        lblModuleId.setText("MODULE ID:");
+        lblModuleId.setText(" ");
         pnlExamLink.add(lblModuleId, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 60, 220, 30));
 
         lblExamDate.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        lblExamDate.setText("EXAM DATE: ");
+        lblExamDate.setText(" ");
         pnlExamLink.add(lblExamDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 100, 220, 30));
 
         lblExamCode1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -344,7 +351,7 @@ public class ExamSummary extends javax.swing.JFrame {
         pnlExamLink.add(lblExamLink1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 60, -1, 30));
 
         lblStudentsCount.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        lblStudentsCount.setText("TOTAL STUDENTS:");
+        lblStudentsCount.setText(" ");
         pnlExamLink.add(lblStudentsCount, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 20, 130, 30));
 
         lblLinkStatus2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -356,11 +363,11 @@ public class ExamSummary extends javax.swing.JFrame {
         pnlExamLink.add(lblLinkStatus3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 140, -1, 30));
 
         lblTotalDuration.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        lblTotalDuration.setText("TOTAL DURATION:");
+        lblTotalDuration.setText(" ");
         pnlExamLink.add(lblTotalDuration, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 140, 220, 30));
 
         lblPassedCount.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        lblPassedCount.setText("PASSED STUDENTS:");
+        lblPassedCount.setText(" ");
         pnlExamLink.add(lblPassedCount, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 60, 130, 30));
 
         lblDuration3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -368,7 +375,7 @@ public class ExamSummary extends javax.swing.JFrame {
         pnlExamLink.add(lblDuration3, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 20, -1, 30));
 
         lblResultState.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        lblResultState.setText("RESULT STATE:");
+        lblResultState.setText(" ");
         pnlExamLink.add(lblResultState, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 100, 130, 30));
 
         lblDuration5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -480,13 +487,18 @@ public class ExamSummary extends javax.swing.JFrame {
         examId = tModel.getValueAt(selectedRow, 0).toString();
         moduleId = tModel.getValueAt(selectedRow, 1).toString();
         examDate = tModel.getValueAt(selectedRow, 2).toString();
-        resultState = tModel.getValueAt(selectedRow, 3).toString();
-
-        if (resultState.equals("Enabled")) {
-            result = "Result is Out";
+        resultState = (String) tModel.getValueAt(selectedRow, 3);
+        if (resultState == null) {
+            result = "Exam not Started";
         }
         else {
-            result = "Result is Pending";
+            resultState = tModel.getValueAt(selectedRow, 3).toString();
+            if (resultState.equals("Enabled")) {
+                result = "Result is Out";
+            }
+            else if (resultState.equals("Disabled")) {
+                result = "Result is Pending";
+            }
         }
 
         setExamLinkDetails(examId);
@@ -500,6 +512,13 @@ public class ExamSummary extends javax.swing.JFrame {
         lblExamDate.setText(examDate);
         lblResultState.setText(result);
     }//GEN-LAST:event_tblExamSummaryMouseClicked
+
+    private void lblLogoutMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblLogoutMouseClicked
+        User.logout();
+        Login login = new Login();
+        this.setVisible(false);
+        login.setVisible(true);        // TODO add your handling code here:
+    }//GEN-LAST:event_lblLogoutMouseClicked
 
     /**
      * @param args the command line arguments
@@ -579,15 +598,23 @@ public class ExamSummary extends javax.swing.JFrame {
     private javax.swing.JTable tblExamSummary;
     // End of variables declaration//GEN-END:variables
 
+    /**
+     * Set exam details details
+     */
     private void setExamDetailsTable() {
         table = examSummaryService.fillExamSummaryTable();
         tblExamSummary.setModel(table);
     }
 
+    /**
+     * Set label with duration
+     *
+     * @param examId
+     */
     public void setExamLinkDetails(String examId) {
         List<Exam> resultLinkList = examSummaryService.getExamDetailsStream(examId);
-        resultLinkList.forEach((result) -> {
-            lblTotalDuration.setText(result.getExamDuration());
+        resultLinkList.forEach((res) -> {
+            lblTotalDuration.setText(res.getExamDuration());
         });
     }
 }

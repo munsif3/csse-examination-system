@@ -8,6 +8,7 @@ package com.csse.exam.main;
 import com.csse.exam.common.ClearComponents;
 import com.csse.exam.common.Validation;
 import com.csse.exam.model.Exam;
+import com.csse.exam.model.User;
 import com.csse.exam.service.ResultLinkService;
 import java.awt.Color;
 import java.text.DateFormat;
@@ -27,8 +28,8 @@ public class ResultLink extends javax.swing.JFrame {
 
     ClearComponents clear;
     Validation validate;
-    private final ResultLinkService resultLinkService = new ResultLinkService();
-    private final List<Exam> examsList = resultLinkService.getExamDetails();
+    private ResultLinkService resultLinkService;
+    private List<Exam> examsList;
     DefaultTableModel table;
 
     /**
@@ -36,6 +37,9 @@ public class ResultLink extends javax.swing.JFrame {
      */
     public ResultLink() {
         initComponents();
+        lblUser.setText(User.getName());
+        resultLinkService = new ResultLinkService();
+        examsList = resultLinkService.getExamDetails();
         lblHiddenExamDate.setVisible(false);
         setExamIdComboBox();
         setResultTable();
@@ -290,6 +294,11 @@ public class ResultLink extends javax.swing.JFrame {
         lblLogout.setForeground(new java.awt.Color(204, 217, 233));
         lblLogout.setText("(LOGOUT)");
         lblLogout.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lblLogout.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblLogoutMouseClicked(evt);
+            }
+        });
         pnlSystem.add(lblLogout, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 30, -1, 20));
 
         jPanel2.setBackground(new java.awt.Color(70, 102, 144));
@@ -580,6 +589,7 @@ public class ResultLink extends javax.swing.JFrame {
                         }
                     }
                     btnClearAllActionPerformed(evt);
+                    setResultTable();
                 }
                 else {
                     JOptionPane.showMessageDialog(this, "You cannot Enable the Exam Link before the Exam Finishes");
@@ -620,12 +630,20 @@ public class ResultLink extends javax.swing.JFrame {
                 }
             }
             btnClearAllActionPerformed(evt);
+            setResultTable();
         }
         else {
             JOptionPane.showMessageDialog(this, "Please Select an Exam from the Dropdown to Update!");
         }
 
     }//GEN-LAST:event_btnBlockLinkActionPerformed
+
+    private void lblLogoutMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblLogoutMouseClicked
+        User.logout();
+        Login login = new Login();
+        this.setVisible(false);
+        login.setVisible(true);         // TODO add your handling code here:
+    }//GEN-LAST:event_lblLogoutMouseClicked
 
     /**
      * @param args the command line arguments
@@ -704,7 +722,9 @@ public class ResultLink extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     private void setResultTable() {
-//        table.getDataVector().removeAllElements();
+        resultLinkService = new ResultLinkService();
+        examsList = resultLinkService.getExamDetails();
+        table = (DefaultTableModel) tblExamLink.getModel();
         table = resultLinkService.fillResultLinkTable();
         tblExamLink.setModel(table);
     }
