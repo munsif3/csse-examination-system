@@ -16,38 +16,58 @@ import javax.swing.JComboBox;
  *
  * @author Saranki
  */
-public class CommonComponents 
-{
+public class CommonComponents {
+
     Connection connection = DBConnection.getConnection();
     PreparedStatement preparedStatement;
     ResultSet resultSet;
+
     /**
-     * 
+     *
      * @param comboBox
      * @param table
-     * @param column  
+     * @param column
      */
     public void addValueToComboBox(JComboBox comboBox, String table, String column) {
-        
+
         String value = null;
         try {
             preparedStatement = connection.prepareStatement("SELECT DISTINCT " + column + " FROM " + table);
             resultSet = preparedStatement.executeQuery();
 
-            while(resultSet.next())
-            {
-               value =  resultSet.getString(column); 
-               if(value == null)
-               {
-                   value = "-";
-               }
-               comboBox.addItem(value);                
+            while (resultSet.next()) {
+                value = resultSet.getString(column);
+                if (value == null) {
+                    value = "-";
+                }
+                comboBox.addItem(value);
             }
 
         } catch (SQLException e) {
             System.out.println(e);
         }
     }
-    
-    
+
+    public void addValueToComboBoxBasedOnField(JComboBox comboBox, String table, String column, String checkCol, String check) {
+
+        String value = null;
+        try {
+//            preparedStatement = connection.prepareStatement("SELECT DISTINCT " + column + " FROM " + table + " WHERE " + checkCol + "=" + check);
+            preparedStatement = connection.prepareStatement("SELECT DISTINCT '" + column + "'  FROM '" + table + "' WHERE '" + checkCol + "'= '" + check + "'");
+
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                value = resultSet.getString(column);
+                if (value == null) {
+                    value = "-";
+                }
+                comboBox.addItem(value);
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+    }
+
 }

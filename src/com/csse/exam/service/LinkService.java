@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import javax.swing.JComboBox;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
@@ -23,6 +24,8 @@ public class LinkService
      * 
      */
     Connection con = DBConnection.getConnection();
+    PreparedStatement preparedStatement ;
+    ResultSet result;
     
     /**
      * 
@@ -32,8 +35,8 @@ public class LinkService
         int rowCount = 0;
 
         try {
-            PreparedStatement statement = con.prepareStatement("SELECT COUNT(examId) FROM exam");
-            ResultSet result = statement.executeQuery();
+            preparedStatement = con.prepareStatement("SELECT COUNT(examId) FROM exam");
+             result = preparedStatement.executeQuery();
 
             while (result.next()) {
                 rowCount = Integer.parseInt(result.getString(1));
@@ -55,9 +58,9 @@ public class LinkService
     public String getExamLinkStatus(String examId) {
         String state = null;
         try {
-            PreparedStatement statement = con.prepareStatement("SELECT examState FROM exam WHERE examId=?");
-            statement.setString(1, examId);
-            ResultSet result = statement.executeQuery();
+            preparedStatement = con.prepareStatement("SELECT examState FROM exam WHERE examId=?");
+            preparedStatement.setString(1, examId);
+            result = preparedStatement.executeQuery();
 
             while (result.next()) {
                 state = result.getString(1);
@@ -79,10 +82,10 @@ public class LinkService
 
         try {
 
-            PreparedStatement statement = con.prepareStatement("SELECT examId,examDate FROM exam WHERE examId =?");
-            statement.setString(1, examId);
+            preparedStatement = con.prepareStatement("SELECT examId,examDate FROM exam WHERE examId =?");
+            preparedStatement.setString(1, examId);
 
-            ResultSet result = statement.executeQuery();
+            result = preparedStatement.executeQuery();
 
             while (result.next()) {
                 examLink[0] = result.getString(1);
@@ -109,14 +112,15 @@ public class LinkService
     
     }
     
-    public void fillExamLinkTable(JTable table)
+    public void fillExamLinkTable(JTable table, String moduleId)
     {
-       
+        System.out.println("from table "+moduleId);
         DefaultTableModel tableModel = (DefaultTableModel) table.getModel();       
         try
         {
-            PreparedStatement statement = con.prepareStatement("SELECT examId, moduleId, examDate, examState FROM exam");
-            ResultSet result = statement.executeQuery();
+            preparedStatement = con.prepareStatement("SELECT examId, moduleId, examDate, examState FROM exam WHERE moduleId=?");
+            preparedStatement.setString(1, moduleId);
+            result = preparedStatement.executeQuery();
             
             ResultSetMetaData resultMetaData = result.getMetaData();
             int columnCount=resultMetaData.getColumnCount();
@@ -143,15 +147,37 @@ public class LinkService
     
     public boolean updateExamLinkStatus(String examId, String examState) {
         try {
-            PreparedStatement statement = con.prepareStatement("UPDATE exam SET examState=? WHERE examId=?");         
-            statement.setString(1, examState);
-            statement.setString(2, examId);
-            int i = statement.executeUpdate();
+            preparedStatement = con.prepareStatement("UPDATE exam SET examState=? WHERE examId=?");         
+            preparedStatement.setString(1, examState);
+            preparedStatement.setString(2, examId);
+            int i = preparedStatement.executeUpdate();
             System.out.println(i + " records updated");            
             return true;
         } catch (SQLException e) {
 
         }
         return false;
+    }
+    
+    public void addValueToComboBoxBasedOnField(JComboBox comboBox, String moduleId) {
+
+        String examId = null;
+        try {
+            preparedStatement = con.prepareStatement("SELECT DISTINCT examId FROM exam WHERE moduleId=?");
+            preparedStatement.setString(1, moduleId);
+            result = preparedStatement.executeQuery();
+
+            while (result.next()) {
+                examId = result.getString("examId");
+                if (examId == null) {
+                    examId = "-";
+                }
+                comboBox.addItem(examId);
+            }
+
+        } catch (SQLException e) {
+            System.out.println("from link table");
+            System.out.println(e);
+        }
     }
 }

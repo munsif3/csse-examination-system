@@ -36,7 +36,7 @@ public class ExamDetails extends javax.swing.JFrame {
 
     String examType;
     String examId;
-    String moduleId;
+    String moduleId = LecturerSearchCourse.moduleCode;   
     Date examdate;
     String examTime;
     String examTimeUnit;
@@ -49,8 +49,11 @@ public class ExamDetails extends javax.swing.JFrame {
      */
     public ExamDetails() {
         initComponents();
-        examService.fillExamDetailsTable(tblExamDetails);
+        examService.fillExamDetailsTable(tblExamDetails,moduleId);
+        cmbSearchExamId.setVisible(false);
+        lblExamId1.setVisible(false);
         commonComponents.addValueToComboBox(cmbSearchExamId, "exam", "examId");     
+        System.out.println("module code = "+moduleId);
         
     }
 
@@ -173,6 +176,11 @@ public class ExamDetails extends javax.swing.JFrame {
         lblCourse.setForeground(new java.awt.Color(255, 255, 255));
         lblCourse.setText("Course");
         lblCourse.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lblCourse.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblCourseMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout pnlCourseLayout = new javax.swing.GroupLayout(pnlCourse);
         pnlCourse.setLayout(pnlCourseLayout);
@@ -539,16 +547,14 @@ public class ExamDetails extends javax.swing.JFrame {
     private void cmbExamTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbExamTypeActionPerformed
         // TODO add your handling code here:
 
-        examType = cmbExamType.getSelectedItem().toString();
-        
-        moduleId = "MO001";
+        examType = cmbExamType.getSelectedItem().toString();       
         clear.clearTextFields(pnlExamDetails);
         clear.clearTextFields(pnlExamDetailTable);
         clear.resetSingleComboBox(cmbDurationUnit);
         
         if((cmbExamType.getSelectedIndex() != 0) && (cmbSearchExamId.getSelectedIndex() == 0))
         {
-            txtExamCode.setText(examService.getExamId(examType, moduleId));            
+            txtExamCode.setText(examService.getExamId(examType,moduleId));            
             txtModuleId.setText(moduleId);              
         }             
         
@@ -601,7 +607,7 @@ public class ExamDetails extends javax.swing.JFrame {
                 
                 tableModel= (DefaultTableModel) tblExamDetails.getModel();
                 tableModel.setRowCount(0);
-                examService.fillExamDetailsTable(tblExamDetails);
+                examService.fillExamDetailsTable(tblExamDetails,moduleId);
             }
             else
                 JOptionPane.showMessageDialog(this, "Exam details were not added", "Error Message", 1);
@@ -679,7 +685,7 @@ public class ExamDetails extends javax.swing.JFrame {
         datePickExamDate.setDate(null);
         tableModel = (DefaultTableModel) tblExamDetails.getModel(); 
         tableModel.setRowCount(0);           
-        examService.fillExamDetailsTable(tblExamDetails);
+        examService.fillExamDetailsTable(tblExamDetails,moduleId);
         
         
     }//GEN-LAST:event_btnClearMouseClicked
@@ -699,18 +705,27 @@ public class ExamDetails extends javax.swing.JFrame {
             questionNo  = txtQuestionNo.getText();
             allocatedMarks = txtMarks.getText();
             
+            
+        boolean nullValue = validation.checkEmptyTextBox(pnlExamDetails);  
+       
+        if(!nullValue)
+        {            
+            JOptionPane.showMessageDialog(null, "Please fill all the text boxes", "Failure Message", 1);
+        }
+        else
+        {
             boolean updateValue = examService.updateExamDetails(examDuration, parseInt(questionNo),parseInt(allocatedMarks), examId,dateString);
             System.out.println("update value " + updateValue);
-            
             if(updateValue)
             {
                 JOptionPane.showMessageDialog(this, "Exam details were successfully updated", "Success Message", 1);
                 
                 tableModel.setRowCount(0);
-                examService.fillExamDetailsTable(tblExamDetails);
+                examService.fillExamDetailsTable(tblExamDetails, moduleId);
             }
             else
                 JOptionPane.showMessageDialog(this, "Exam details were not updated", "Error Message", 1);
+        }
     }//GEN-LAST:event_btnUpdateMouseClicked
 
     private void cmbSearchExamIdPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_cmbSearchExamIdPropertyChange
@@ -765,7 +780,7 @@ public class ExamDetails extends javax.swing.JFrame {
             {
                 JOptionPane.showMessageDialog(this, "Exam details were successfully deleted", "Success Message", 1);
                 tableModel.setRowCount(0);
-                examService.fillExamDetailsTable(tblExamDetails);
+                examService.fillExamDetailsTable(tblExamDetails, moduleId);
                 cmbSearchExamId.removeItem(examId);
             }
         }
@@ -776,6 +791,13 @@ public class ExamDetails extends javax.swing.JFrame {
         }
        
     }//GEN-LAST:event_btnDeleteMouseClicked
+
+    private void lblCourseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCourseMouseClicked
+        // TODO add your handling code here:
+        LecturerSearchCourse lecturerSearchCourse = new LecturerSearchCourse();
+        lecturerSearchCourse.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_lblCourseMouseClicked
 
     /**
      * @param args the command line arguments
