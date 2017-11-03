@@ -44,19 +44,6 @@ public class ModuleServiceTest {
     }
 
     /**
-     * Test of main method, of class ModuleService.
-     */
-    @Test
-    public void testMain() {
-        System.out.println("main");
-        String[] args = null;
-        ModuleService.main(args);
-        // TODO review the generated test code and remove the default call to fail.
-    }
-
-   
-
-    /**
      * Test of enrollToModule method, of class ModuleService.
      */
     @Test

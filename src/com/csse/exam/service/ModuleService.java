@@ -35,17 +35,8 @@ public class ModuleService {
 
     }
 
-    /**
-     * main method
-     * @param args 
-     */
-    public static void main(String[] args) {
-        ModuleService moduleService = new ModuleService();
-        for (Map.Entry<String, String> modules : moduleService.getModulesByStudentId(User.getUserId()).entrySet()) {
-            System.out.println(modules.getKey() + " " + modules.getValue());
-        }
-        System.out.println(User.getUserId());
-    }
+   
+   
     
     /**
      * get modules according to studentid
