@@ -59,15 +59,16 @@ public class QuestionService
         return objects;
     }
     
-    public String getLatestQuestionId(String examId)
+    public String getLatestQuestionId(String examId, String moduleId)
     {
         String questionId = null;
 
         try {
-            preparedStatement = connection.prepareStatement("SELECT MAX(questionId)\n"
-                    + "FROM question\n"
-                    + "WHERE examId=?");
+            preparedStatement = connection.prepareStatement("SELECT MAX(q.questionId)\n"
+                    + "FROM question q, exam e\n"
+                    + "WHERE q.examId=e.examId AND e.examId=? AND e.moduleId=?");
             preparedStatement.setString(1, examId);
+            preparedStatement.setString(2, moduleId);
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
@@ -80,14 +81,14 @@ public class QuestionService
         
     }
     
-    public String getQuestionId(String examId)
+    public String getQuestionId(String examId, String moduleId)
     {
         String questionId=null;
         String maxQuestionNo=null;
         int number = 0;
         
-        maxQuestionNo = getLatestQuestionId(examId);
-        
+        maxQuestionNo = getLatestQuestionId(examId, moduleId);
+        System.out.println("max no from get question id ="+maxQuestionNo);
         if(maxQuestionNo == null)
         {
             questionId = "Q01";

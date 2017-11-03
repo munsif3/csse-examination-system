@@ -365,7 +365,7 @@ public class ExamLink extends javax.swing.JFrame {
                 cmbExaminationCodePropertyChange(evt);
             }
         });
-        pnlExamLink.add(cmbExaminationCode, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 10, 220, 30));
+        pnlExamLink.add(cmbExaminationCode, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 10, 280, 30));
 
         btnEnableLink.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnEnableLink.setText("ENABLE LINK");
@@ -398,8 +398,8 @@ public class ExamLink extends javax.swing.JFrame {
             }
         });
         pnlExamLink.add(btnBlockLink, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 140, 180, 40));
-        pnlExamLink.add(txtExamLinkAvailable, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 50, 220, 30));
-        pnlExamLink.add(txtExamState, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 90, 220, 30));
+        pnlExamLink.add(txtExamLinkAvailable, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 50, 280, 30));
+        pnlExamLink.add(txtExamState, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 90, 280, 30));
 
         pnlContent.add(pnlExamLink, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 780, 190));
 

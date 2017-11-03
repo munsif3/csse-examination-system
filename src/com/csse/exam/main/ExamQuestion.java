@@ -46,7 +46,7 @@ public class ExamQuestion extends javax.swing.JFrame {
     
     String examType;
     String examId;
-    String moduleId;
+    String moduleId = LecturerSearchCourse.moduleCode;
     String examDate;
     String examTime;
     String examTimeUnit;
@@ -619,7 +619,7 @@ public class ExamQuestion extends javax.swing.JFrame {
             });
             listExamQuestionNo.setModel(listModel);
         
-            questionId =  questionService.getQuestionId(examId);
+            questionId =  questionService.getQuestionId(examId, moduleId);
             txtQuestionId.setText(questionId);
         }
     }//GEN-LAST:event_cmbExamIdActionPerformed
