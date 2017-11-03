@@ -137,15 +137,15 @@ public class SetExamPassword extends javax.swing.JFrame {
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         lblExamPassword.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        lblExamPassword.setText("Password");
-        jPanel3.add(lblExamPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 90, -1, -1));
+        lblExamPassword.setText("Password:");
+        jPanel3.add(lblExamPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 90, -1, 40));
 
         lblExamID.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        lblExamID.setText("Exam ID");
-        jPanel3.add(lblExamID, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 30, -1, -1));
-        jPanel3.add(pwdExamPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 90, 250, -1));
+        lblExamID.setText("Exam ID: ");
+        jPanel3.add(lblExamID, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 30, -1, 40));
+        jPanel3.add(pwdExamPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 90, 250, 40));
 
-        jPanel3.add(cmbExamID, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 30, 250, -1));
+        jPanel3.add(cmbExamID, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 30, 250, 40));
 
         pnlUpdate.setBackground(new java.awt.Color(70, 102, 144));
         pnlUpdate.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -188,9 +188,9 @@ public class SetExamPassword extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jPanel3.add(pnlUpdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 160, -1, -1));
+        jPanel3.add(pnlUpdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 180, -1, -1));
 
-        pnlContent.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 40, 650, 350));
+        pnlContent.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 40, 650, 280));
 
         getContentPane().add(pnlContent, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 100, 820, 520));
 
@@ -328,6 +328,8 @@ public class SetExamPassword extends javax.swing.JFrame {
         pnlNavigation.add(jPanel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 350, 130, 50));
 
         jPanel1.setBackground(new java.awt.Color(204, 217, 233));
+
+        jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/csse/exam/resource/SLIIT_Crest.png"))); // NOI18N
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);

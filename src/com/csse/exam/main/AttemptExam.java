@@ -301,7 +301,7 @@ public class AttemptExam extends javax.swing.JFrame {
         jLabel14.setBackground(new java.awt.Color(70, 102, 144));
         jLabel14.setFont(new java.awt.Font("Segoe UI Light", 0, 36)); // NOI18N
         jLabel14.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel14.setText("Attemp Quiz");
+        jLabel14.setText("Attempt Quiz");
         jLabel14.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLabel14MouseClicked(evt);
@@ -313,8 +313,8 @@ public class AttemptExam extends javax.swing.JFrame {
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addContainerGap(27, Short.MAX_VALUE)
-                .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(23, 23, 23))
         );
         jPanel4Layout.setVerticalGroup(
@@ -325,7 +325,7 @@ public class AttemptExam extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        pnlAttemptQuizContent.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 240, 250, 70));
+        pnlAttemptQuizContent.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 240, 240, 70));
 
         jPanel9.setBackground(new java.awt.Color(204, 217, 233));
         jPanel9.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -336,8 +336,8 @@ public class AttemptExam extends javax.swing.JFrame {
         jLabel13.setBackground(new java.awt.Color(70, 102, 144));
         jLabel13.setFont(new java.awt.Font("Segoe UI Light", 0, 24)); // NOI18N
         jLabel13.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel13.setText("Quizz Password");
-        pnlAttemptQuizContent.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 140, 200, 30));
+        jLabel13.setText("Quiz Password:");
+        pnlAttemptQuizContent.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 150, 200, 30));
 
         jPanel7.setBackground(new java.awt.Color(51, 153, 255));
 
@@ -356,7 +356,7 @@ public class AttemptExam extends javax.swing.JFrame {
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lblSelectedQuizDate, javax.swing.GroupLayout.PREFERRED_SIZE, 46, Short.MAX_VALUE)
+                .addComponent(lblSelectedQuizDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 

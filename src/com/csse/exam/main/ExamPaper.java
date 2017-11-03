@@ -473,31 +473,31 @@ public class ExamPaper extends javax.swing.JFrame {
         pnlQuestions.add(lblQuestion1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 60, 90, 30));
 
         lblExamQuestionId.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        lblExamQuestionId.setText("jLabel1");
+        lblExamQuestionId.setText(" ");
         pnlQuestions.add(lblExamQuestionId, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 10, 150, 30));
 
         lblExamQuestion.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        lblExamQuestion.setText("jLabel1");
+        lblExamQuestion.setText(" ");
         pnlQuestions.add(lblExamQuestion, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 60, 540, 30));
 
         lblOption5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        lblOption5.setText("jLabel1");
+        lblOption5.setText(" ");
         pnlQuestions.add(lblOption5, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 260, 330, 30));
 
         lblOption1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        lblOption1.setText("jLabel1");
+        lblOption1.setText(" ");
         pnlQuestions.add(lblOption1, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 140, 330, 30));
 
         lblOption2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        lblOption2.setText("jLabel1");
+        lblOption2.setText(" ");
         pnlQuestions.add(lblOption2, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 170, 330, 30));
 
         lblOption3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        lblOption3.setText("jLabel1");
+        lblOption3.setText(" ");
         pnlQuestions.add(lblOption3, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 200, 330, 30));
 
         lblOption4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        lblOption4.setText("jLabel1");
+        lblOption4.setText(" ");
         pnlQuestions.add(lblOption4, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 230, 330, 30));
 
         pnlContent.add(pnlQuestions, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 10, 680, 410));
@@ -532,7 +532,9 @@ public class ExamPaper extends javax.swing.JFrame {
 
         lblResult1.setFont(new java.awt.Font("Segoe UI Light", 0, 16)); // NOI18N
         lblResult1.setForeground(new java.awt.Color(255, 255, 255));
+        lblResult1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblResult1.setText("Finish Attempt");
+        lblResult1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblResult1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblResult1MouseClicked(evt);
@@ -543,18 +545,17 @@ public class ExamPaper extends javax.swing.JFrame {
         pnlResult1.setLayout(pnlResult1Layout);
         pnlResult1Layout.setHorizontalGroup(
             pnlResult1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(lblResult1, javax.swing.GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE)
+            .addComponent(lblResult1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 246, Short.MAX_VALUE)
         );
         pnlResult1Layout.setVerticalGroup(
             pnlResult1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(lblResult1, javax.swing.GroupLayout.DEFAULT_SIZE, 46, Short.MAX_VALUE)
         );
 
-        pnlContent.add(pnlResult1, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 430, 130, 50));
+        pnlContent.add(pnlResult1, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 440, 250, 50));
 
         jLabel1.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel1.setText("jLabel1");
+        jLabel1.setText(" ");
         pnlContent.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 440, 120, 30));
 
         getContentPane().add(pnlContent, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 100, 830, 520));

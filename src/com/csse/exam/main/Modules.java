@@ -159,7 +159,7 @@ public class Modules extends javax.swing.JFrame {
         lblModuleName.setText("Name");
         jPanel3.add(lblModuleName, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, -1, -1));
         jPanel3.add(txtModuleName, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 30, 180, 30));
-        jPanel3.add(pwdModulePassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 100, 180, -1));
+        jPanel3.add(pwdModulePassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 90, 180, 30));
 
         pnlModuleDelete.setBackground(new java.awt.Color(70, 102, 144));
         pnlModuleDelete.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -199,21 +199,21 @@ public class Modules extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jPanel3.add(pnlModuleDelete, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 260, 110, -1));
+        jPanel3.add(pnlModuleDelete, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 380, 110, -1));
 
         lblModulePassword1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblModulePassword1.setText("Password");
-        jPanel3.add(lblModulePassword1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 100, -1, -1));
+        jPanel3.add(lblModulePassword1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, -1, 30));
 
         cmbSemester.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Semester 1", "Semester 2", " " }));
-        jPanel3.add(cmbSemester, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 200, 130, 30));
+        jPanel3.add(cmbSemester, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 200, 180, 30));
 
         lblModuleYear1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblModuleYear1.setText("Year");
-        jPanel3.add(lblModuleYear1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 150, -1, -1));
+        jPanel3.add(lblModuleYear1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 150, -1, 30));
 
         cmbYear.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Year 1", "Year 2", "Year 3", "Year 4" }));
-        jPanel3.add(cmbYear, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 150, 130, 30));
+        jPanel3.add(cmbYear, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 150, 180, 30));
 
         pnlModuleUpdate.setBackground(new java.awt.Color(70, 102, 144));
         pnlModuleUpdate.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -253,7 +253,7 @@ public class Modules extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jPanel3.add(pnlModuleUpdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 260, -1, -1));
+        jPanel3.add(pnlModuleUpdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 380, -1, -1));
 
         pnlModuleAdd.setBackground(new java.awt.Color(70, 102, 144));
         pnlModuleAdd.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -293,7 +293,7 @@ public class Modules extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jPanel3.add(pnlModuleAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 260, 110, -1));
+        jPanel3.add(pnlModuleAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 380, 110, -1));
 
         tblModule.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -350,9 +350,9 @@ public class Modules extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jPanel3.add(pnlModuleClear, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 260, -1, -1));
+        jPanel3.add(pnlModuleClear, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 380, -1, -1));
 
-        pnlContent.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 790, 370));
+        pnlContent.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 790, 470));
 
         getContentPane().add(pnlContent, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 100, 820, 520));
 
@@ -491,6 +491,8 @@ public class Modules extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(204, 217, 233));
 
+        jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/csse/exam/resource/SLIIT_Crest.png"))); // NOI18N
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -549,7 +551,7 @@ public class Modules extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        pnlNavigation.add(pnlModule, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 200, -1, -1));
+        pnlNavigation.add(pnlModule, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 200, 130, 50));
 
         jPanel7.setBackground(new java.awt.Color(70, 102, 144));
         jPanel7.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -589,7 +591,7 @@ public class Modules extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        pnlNavigation.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 300, -1, -1));
+        pnlNavigation.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 300, 130, 50));
 
         jPanel9.setBackground(new java.awt.Color(70, 102, 144));
         jPanel9.setBorder(javax.swing.BorderFactory.createEtchedBorder());
