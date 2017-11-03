@@ -14,6 +14,7 @@ import com.csse.exam.common.CommonComponents;
 import com.csse.exam.common.Validation;
 import com.csse.exam.model.Exam;
 import com.csse.exam.model.Question;
+import com.csse.exam.model.User;
 import com.csse.exam.service.ExamPaperService;
 import com.csse.exam.service.ExamService;
 import com.csse.exam.service.QuestionService;
@@ -65,7 +66,9 @@ public class ExamQuestion extends javax.swing.JFrame {
     
     public ExamQuestion() {
         initComponents();
-        commonComponents.addValueToComboBox(cmbExamId, "exam", "examId");
+        lblUser.setText(User.getName());
+        //commonComponents.addValueToComboBox(cmbExamId, "exam", "examId");
+        questionService.addValueToComboBoxBasedOnField(cmbExamId, moduleId);
         
     }
 
@@ -161,7 +164,12 @@ public class ExamQuestion extends javax.swing.JFrame {
 
         lblDashboard.setFont(new java.awt.Font("Segoe UI Light", 0, 16)); // NOI18N
         lblDashboard.setForeground(new java.awt.Color(255, 255, 255));
-        lblDashboard.setText("Dashboard");
+        lblDashboard.setText("Home");
+        lblDashboard.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblDashboardMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout pnlDashboardLayout = new javax.swing.GroupLayout(pnlDashboard);
         pnlDashboard.setLayout(pnlDashboardLayout);
@@ -196,8 +204,13 @@ public class ExamQuestion extends javax.swing.JFrame {
 
         lblCourse.setFont(new java.awt.Font("Segoe UI Light", 0, 16)); // NOI18N
         lblCourse.setForeground(new java.awt.Color(255, 255, 255));
-        lblCourse.setText("Course");
+        lblCourse.setText("Modules");
         lblCourse.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lblCourse.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblCourseMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout pnlCourseLayout = new javax.swing.GroupLayout(pnlCourse);
         pnlCourse.setLayout(pnlCourseLayout);
@@ -232,7 +245,12 @@ public class ExamQuestion extends javax.swing.JFrame {
 
         lblExam.setFont(new java.awt.Font("Segoe UI Light", 0, 16)); // NOI18N
         lblExam.setForeground(new java.awt.Color(255, 255, 255));
-        lblExam.setText("Exam");
+        lblExam.setText("About Us");
+        lblExam.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblExamMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout pnlExamLayout = new javax.swing.GroupLayout(pnlExam);
         pnlExam.setLayout(pnlExamLayout);
@@ -267,7 +285,12 @@ public class ExamQuestion extends javax.swing.JFrame {
 
         lblResult.setFont(new java.awt.Font("Segoe UI Light", 0, 16)); // NOI18N
         lblResult.setForeground(new java.awt.Color(255, 255, 255));
-        lblResult.setText("Result");
+        lblResult.setText("Contact Us");
+        lblResult.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblResultMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout pnlResultLayout = new javax.swing.GroupLayout(pnlResult);
         pnlResult.setLayout(pnlResultLayout);
@@ -332,6 +355,11 @@ public class ExamQuestion extends javax.swing.JFrame {
         lblLogout.setForeground(new java.awt.Color(204, 217, 233));
         lblLogout.setText("(LOGOUT)");
         lblLogout.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lblLogout.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblLogoutMouseClicked(evt);
+            }
+        });
         pnlHeader.add(lblLogout, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 30, -1, 20));
 
         pnlTitle.setBackground(new java.awt.Color(70, 102, 144));
@@ -706,6 +734,42 @@ public class ExamQuestion extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Please fill all the text boxes and select an exam ID from the drop down list.", "Error Message", 1);
         }
     }//GEN-LAST:event_btnAddActionPerformed
+
+    private void lblLogoutMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblLogoutMouseClicked
+        // TODO add your handling code here:
+        User.logout();
+        Login login = new Login();
+        this.setVisible(false);
+        login.setVisible(true);
+    }//GEN-LAST:event_lblLogoutMouseClicked
+
+    private void lblDashboardMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblDashboardMouseClicked
+        // TODO add your handling code here:
+        DashboardLecturer dashboardLecturer = new DashboardLecturer();
+        dashboardLecturer.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_lblDashboardMouseClicked
+
+    private void lblCourseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCourseMouseClicked
+        // TODO add your handling code here:
+        LecturerSearchCourse lecturerSearch = new LecturerSearchCourse();
+        lecturerSearch.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_lblCourseMouseClicked
+
+    private void lblExamMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblExamMouseClicked
+        // TODO add your handling code here:
+        AboutUs aboutUs = new AboutUs();
+        aboutUs.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_lblExamMouseClicked
+
+    private void lblResultMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblResultMouseClicked
+        // TODO add your handling code here:
+        ContactUs contactUs = new ContactUs();
+        contactUs.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_lblResultMouseClicked
 
     /**
      * @param args the command line arguments

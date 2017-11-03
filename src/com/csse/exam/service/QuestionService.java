@@ -11,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import javax.swing.JComboBox;
 
 /**
  *
@@ -131,5 +132,25 @@ public class QuestionService
         return false;
     }
     
+    public void addValueToComboBoxBasedOnField(JComboBox comboBox, String moduleId) {
+
+        String value = null;
+        try {
+            preparedStatement = connection.prepareStatement("SELECT DISTINCT examId FROM exam WHERE moduleId=?");
+            preparedStatement.setString(1, moduleId);
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                value = resultSet.getString("examId");
+                if (value == null) {
+                    value = "-";
+                }
+                comboBox.addItem(value);
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+    }
    
 }

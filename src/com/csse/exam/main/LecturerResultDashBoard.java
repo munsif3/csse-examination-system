@@ -6,6 +6,7 @@
 
 package com.csse.exam.main;
 
+import com.csse.exam.model.User;
 import java.awt.Color;
 
 /**
@@ -41,7 +42,7 @@ public class LecturerResultDashBoard extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         pnlHeader = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
+        lblUser = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
@@ -248,17 +249,22 @@ public class LecturerResultDashBoard extends javax.swing.JFrame {
         jLabel1.setText("MCQ EXAM SYSTEM");
         pnlHeader.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, -1));
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel3.setText("BobTheBuilder");
-        jLabel3.setToolTipText("");
-        pnlHeader.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(351, 10, 460, 20));
+        lblUser.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        lblUser.setForeground(new java.awt.Color(255, 255, 255));
+        lblUser.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblUser.setText("BobTheBuilder");
+        lblUser.setToolTipText("");
+        pnlHeader.add(lblUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(351, 10, 460, 20));
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(204, 217, 233));
         jLabel4.setText("(LOGOUT)");
         jLabel4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabel4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel4MouseClicked(evt);
+            }
+        });
         pnlHeader.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 30, -1, 20));
 
         jPanel2.setBackground(new java.awt.Color(70, 102, 144));
@@ -562,6 +568,14 @@ public class LecturerResultDashBoard extends javax.swing.JFrame {
         pnlAnswerScheme.setBackground(new Color(70, 102, 144));
     }//GEN-LAST:event_pnlAnswerSchemeMouseReleased
 
+    private void jLabel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel4MouseClicked
+        // TODO add your handling code here:
+        User.logout();
+        Login login = new Login();
+        this.setVisible(false);
+        login.setVisible(true);
+    }//GEN-LAST:event_jLabel4MouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -603,7 +617,6 @@ public class LecturerResultDashBoard extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -617,6 +630,7 @@ public class LecturerResultDashBoard extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JLabel lblBack;
+    private javax.swing.JLabel lblUser;
     private javax.swing.JPanel pnlAnswerScheme;
     private javax.swing.JPanel pnlContent;
     private javax.swing.JPanel pnlExamDetails;
