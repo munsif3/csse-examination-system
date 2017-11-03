@@ -19,7 +19,13 @@ import javax.swing.JOptionPane;
  * @author User
  */
 public class UserService {
-    
+    /**
+     * This method is used to validate the username password fields
+     * @param name
+     * @param username
+     * @param password
+     * @return 
+     */
      public boolean validateValues(String name,String username,String password)
     {           
         Validation validation = new Validation();
@@ -32,6 +38,12 @@ public class UserService {
         }
     }
     
+     /**
+      * This method will generate newId for the created user
+      * @param lecturer
+      * @param student
+      * @return 
+      */
     public String getNewId(boolean lecturer, boolean student){
         String rolePrefix;
         String lastUserId = null;
@@ -68,6 +80,14 @@ public class UserService {
         return newUserId;
     }
     
+    /**
+     * This method will add new user
+     * @param name
+     * @param username
+     * @param password
+     * @param lecturer
+     * @param student 
+     */
     public void addUser(String name,String username,String password,boolean lecturer,boolean student)
     {
         String role;

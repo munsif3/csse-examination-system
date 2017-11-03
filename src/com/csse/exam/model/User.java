@@ -6,7 +6,7 @@
 package com.csse.exam.model;
 
 /**
- *
+ * this class is used to save and get all the details of the logged user
  * @author User
  */
 public class User {

@@ -8,7 +8,7 @@ package com.csse.exam.main;
 
 import com.csse.exam.config.DBConnection;
 import com.csse.exam.model.User;
-import com.csse.exam.service.moduleUserService;
+import com.csse.exam.service.ModuleUserService;
 import com.mysql.jdbc.PreparedStatement;
 import java.awt.Color;
 import java.sql.Connection;
@@ -26,7 +26,7 @@ public class Modules extends javax.swing.JFrame {
 
     Connection conn;
     private String moduleId;
-    moduleUserService moduleService = new moduleUserService();
+    ModuleUserService moduleService = new ModuleUserService();
     
     /**
      * Creates new form Dashboard
@@ -38,7 +38,9 @@ public class Modules extends javax.swing.JFrame {
         
     }
      public void executeQuery(String query){
-        
+        /**
+         * this method is used to execute all db queries and show the updated table
+         */
         try{
                conn = (Connection) DBConnection.getConnection();
                Statement st=conn.createStatement();
@@ -78,6 +80,9 @@ public class Modules extends javax.swing.JFrame {
      
      public void displayModules()
      {
+        /**
+        *This method will display the values in the table. 
+        */
          String query="select * from module";
          executeQuery(query);
      }
@@ -740,7 +745,7 @@ public class Modules extends javax.swing.JFrame {
     }//GEN-LAST:event_jPanel8MouseReleased
 
     private void lblLogoutMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblLogoutMouseClicked
-        // TODO add your handling code here:
+        // call logout method
         User.logout();
         Login login = new Login();
         this.setVisible(false);
@@ -768,7 +773,7 @@ public class Modules extends javax.swing.JFrame {
     }//GEN-LAST:event_lblContactUsMouseClicked
 
     private void btnModuleDeleteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnModuleDeleteMouseClicked
-        // TODO add your handling code here:
+        // delete the selected module
         String moduleId = moduleService.getModuleID();
         String query = "delete from module where moduleId='"+moduleId+"';";
         executeQuery(query);
@@ -803,7 +808,7 @@ public class Modules extends javax.swing.JFrame {
     }//GEN-LAST:event_pnlModuleMouseReleased
 
     private void btnModuleUpdateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnModuleUpdateMouseClicked
-        // TODO add your handling code here:
+        //This method will update the module details
         String moduleId = moduleService.getModuleID();
         String moduleName = txtModuleName.getText();
         String password = new String(pwdModulePassword.getPassword());
@@ -835,7 +840,9 @@ public class Modules extends javax.swing.JFrame {
     }//GEN-LAST:event_pnlModuleUpdateMouseReleased
 
     private void btnModuleAddMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnModuleAddMouseClicked
-
+        /**
+         * This method will add the module
+         */
         String newID = moduleService.getNewModuleId();
         String moduleName = txtModuleName.getText();
         String password = new String(pwdModulePassword.getPassword());
@@ -873,7 +880,7 @@ public class Modules extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel6MouseClicked
 
     private void tblModuleMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblModuleMouseClicked
-        // TODO add your handling code here:
+        // get the data of selected row from the table
         int i = tblModule.getSelectedRow();
         TableModel model = tblModule.getModel();
         moduleService.setModuleID(model.getValueAt(i, 0).toString());
@@ -898,6 +905,9 @@ public class Modules extends javax.swing.JFrame {
     }//GEN-LAST:event_jPanel9MouseReleased
 
     private void btnModuleClearMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnModuleClearMouseClicked
+        /**
+         * clearing the fields
+         */
         txtModuleName.setText("");
         pwdModulePassword.setText("");
         
