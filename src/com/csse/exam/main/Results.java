@@ -8,6 +8,7 @@ package com.csse.exam.main;
 import com.csse.exam.common.ClearComponents;
 import com.csse.exam.common.Validation;
 import com.csse.exam.model.Result;
+import com.csse.exam.model.User;
 import com.csse.exam.service.ResultService;
 import java.awt.Color;
 import java.util.List;
@@ -22,8 +23,8 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Results extends javax.swing.JFrame {
 
-    private final ResultService resultService = new ResultService();
-    private final List<Result> resultList = resultService.getDistinctStudentId();
+    private ResultService resultService;
+    private List<Result> resultList;
     ClearComponents clear;
     Validation validate;
     DefaultTableModel table;
@@ -33,10 +34,11 @@ public class Results extends javax.swing.JFrame {
      */
     public Results() {
         initComponents();
-
+        lblUser.setText(User.getName());
+        resultService = new ResultService();
+        resultList = resultService.getDistinctStudentId();
         setStudentIdCombobox();
-        table = resultService.fillResultsTable();
-        tblResults.setModel(table);
+        setResultTableModel();
     }
 
     /**
@@ -81,8 +83,8 @@ public class Results extends javax.swing.JFrame {
         tblResults = new javax.swing.JTable();
         pnlHeader = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
+        lblUser = new javax.swing.JLabel();
+        lblLogout = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
 
@@ -406,18 +408,23 @@ public class Results extends javax.swing.JFrame {
         jLabel1.setText("MCQ EXAM SYSTEM");
         pnlHeader.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, -1));
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel3.setText("BobTheBuilder");
-        jLabel3.setToolTipText("");
-        pnlHeader.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(351, 10, 460, 20));
+        lblUser.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        lblUser.setForeground(new java.awt.Color(255, 255, 255));
+        lblUser.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblUser.setText("BobTheBuilder");
+        lblUser.setToolTipText("");
+        pnlHeader.add(lblUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(351, 10, 460, 20));
 
-        jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(204, 217, 233));
-        jLabel4.setText("(LOGOUT)");
-        jLabel4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        pnlHeader.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 30, -1, 20));
+        lblLogout.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        lblLogout.setForeground(new java.awt.Color(204, 217, 233));
+        lblLogout.setText("(LOGOUT)");
+        lblLogout.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lblLogout.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblLogoutMouseClicked(evt);
+            }
+        });
+        pnlHeader.add(lblLogout, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 30, -1, 20));
 
         jPanel2.setBackground(new java.awt.Color(70, 102, 144));
 
@@ -561,13 +568,20 @@ public class Results extends javax.swing.JFrame {
                 }
             }
             btnResetActionPerformed(evt);
-
+            setResultTableModel();
         }
         else {
             JOptionPane.showMessageDialog(this, "Please Select a Record from the Dropdown to Update!");
         }
 
     }//GEN-LAST:event_btnUpdateActionPerformed
+
+    private void lblLogoutMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblLogoutMouseClicked
+        User.logout();
+        Login login = new Login();
+        this.setVisible(false);
+        login.setVisible(true);         // TODO add your handling code here:
+    }//GEN-LAST:event_lblLogoutMouseClicked
 
     /**
      * @param args the command line arguments
@@ -583,11 +597,13 @@ public class Results extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         }
         catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Results.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Results.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>
@@ -615,8 +631,6 @@ public class Results extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
@@ -632,6 +646,8 @@ public class Results extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTextField jTextField4;
     private javax.swing.JLabel lblBack;
+    private javax.swing.JLabel lblLogout;
+    private javax.swing.JLabel lblUser;
     private javax.swing.JPanel pnlContent;
     private javax.swing.JPanel pnlDetails;
     private javax.swing.JPanel pnlHeader;
@@ -643,6 +659,9 @@ public class Results extends javax.swing.JFrame {
     private javax.swing.JTextField txtModuleCode;
     // End of variables declaration//GEN-END:variables
 
+    /**
+     * Set the List of StudentID in the Combo Box
+     */
     private void setStudentIdCombobox() {
         for (int i = 0; i < resultList.size(); i++) {
             String userId = resultList.get(i).getUserId();
@@ -650,7 +669,12 @@ public class Results extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Set the Results Table Data
+     */
     private void setResultTableModel() {
+        resultService = new ResultService();
+        resultList = resultService.getDistinctStudentId();
         table = (DefaultTableModel) tblResults.getModel();
         table = resultService.fillResultsTable();
         tblResults.setModel(table);

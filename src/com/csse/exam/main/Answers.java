@@ -7,9 +7,11 @@ package com.csse.exam.main;
 
 import com.csse.exam.common.ClearComponents;
 import com.csse.exam.model.Question;
+import com.csse.exam.model.User;
 import com.csse.exam.service.AnswerService;
 import java.awt.Color;
 import java.util.List;
+import java.util.logging.Level;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
@@ -34,8 +36,8 @@ public class Answers extends javax.swing.JFrame {
      */
     public Answers() {
         initComponents();
+        lblUser.setText(User.getName());
         setExamIdCombobox();
-
     }
 
     /**
@@ -87,7 +89,7 @@ public class Answers extends javax.swing.JFrame {
         btnSubmit = new javax.swing.JButton();
         pnlHeader = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
+        lblUser = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
@@ -287,7 +289,7 @@ public class Answers extends javax.swing.JFrame {
         jPanel3.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 90, -1, -1));
 
         jLabel11.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel11.setText("EXAMINATION ID");
+        jLabel11.setText("EXAMINATION ID: ");
         jPanel3.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, 40));
 
         cmbExamId.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -347,11 +349,11 @@ public class Answers extends javax.swing.JFrame {
         pnlQuestion.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 240, -1, -1));
 
         lblQuestionDesc.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        lblQuestionDesc.setText("Question Desc");
+        lblQuestionDesc.setText(" ");
         pnlQuestion.add(lblQuestionDesc, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, 610, 30));
 
         lblOpt5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        lblOpt5.setText("Option 1:  ");
+        lblOpt5.setText(" ");
         pnlQuestion.add(lblOpt5, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 240, 550, -1));
 
         jLabel15.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -371,7 +373,7 @@ public class Answers extends javax.swing.JFrame {
         pnlQuestion.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, -1, -1));
 
         lblQuestionId.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        lblQuestionId.setText("Question ID ");
+        lblQuestionId.setText(" ");
         pnlQuestion.add(lblQuestionId, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 20, 250, -1));
 
         jLabel19.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -379,19 +381,19 @@ public class Answers extends javax.swing.JFrame {
         pnlQuestion.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 120, -1, -1));
 
         lblOpt1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        lblOpt1.setText("Option 1:  ");
+        lblOpt1.setText(" ");
         pnlQuestion.add(lblOpt1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 120, 550, -1));
 
         lblOpt2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        lblOpt2.setText("Option 1:  ");
+        lblOpt2.setText(" ");
         pnlQuestion.add(lblOpt2, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 150, 550, -1));
 
         lblOpt3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        lblOpt3.setText("Option 1:  ");
+        lblOpt3.setText(" ");
         pnlQuestion.add(lblOpt3, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 180, 550, -1));
 
         lblOpt4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        lblOpt4.setText("Option 1:  ");
+        lblOpt4.setText(" ");
         pnlQuestion.add(lblOpt4, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 210, 550, -1));
 
         pnlQuestionsAnswers.add(pnlQuestion, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 10, 650, 270));
@@ -421,24 +423,29 @@ public class Answers extends javax.swing.JFrame {
         jLabel1.setText("MCQ EXAM SYSTEM");
         pnlHeader.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, -1));
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel3.setText("BobTheBuilder");
-        jLabel3.setToolTipText("");
-        pnlHeader.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(351, 10, 460, 20));
+        lblUser.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        lblUser.setForeground(new java.awt.Color(255, 255, 255));
+        lblUser.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblUser.setText("BobTheBuilder");
+        lblUser.setToolTipText("");
+        pnlHeader.add(lblUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(351, 10, 460, 20));
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(204, 217, 233));
         jLabel4.setText("(LOGOUT)");
         jLabel4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabel4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel4MouseClicked(evt);
+            }
+        });
         pnlHeader.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 30, -1, 20));
 
         jPanel2.setBackground(new java.awt.Color(70, 102, 144));
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("Answers - <ModuleId>");
+        jLabel2.setText("Set Correct Answer");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -538,6 +545,13 @@ public class Answers extends javax.swing.JFrame {
         updateCorrectAnswer();
     }//GEN-LAST:event_btnSubmitActionPerformed
 
+    private void jLabel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel4MouseClicked
+        User.logout();
+        Login login = new Login();
+        this.setVisible(false);
+        login.setVisible(true);        // TODO add your handling code here:
+    }//GEN-LAST:event_jLabel4MouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -591,7 +605,6 @@ public class Answers extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -615,6 +628,7 @@ public class Answers extends javax.swing.JFrame {
     private javax.swing.JLabel lblOpt5;
     private javax.swing.JLabel lblQuestionDesc;
     private javax.swing.JLabel lblQuestionId;
+    private javax.swing.JLabel lblUser;
     private javax.swing.JList<String> lstQuestionId;
     private javax.swing.JPanel pnlContent;
     private javax.swing.JPanel pnlHeader;
@@ -679,7 +693,7 @@ public class Answers extends javax.swing.JFrame {
 
             if (updateScore) {
                 JOptionPane.showMessageDialog(this, "Updated the Correct Answer for question " + qid);
-                answerService.LOGGER.info("Updated the Correct Answer for question " + qid);
+                answerService.LOGGER.log(Level.INFO, "Updated the Correct Answer for question {0}", qid);
             }
             else {
                 JOptionPane.showMessageDialog(this, "Failed to Update. Please try again");
