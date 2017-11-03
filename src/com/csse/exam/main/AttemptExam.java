@@ -356,11 +356,11 @@ public class AttemptExam extends javax.swing.JFrame {
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lblSelectedQuizDate, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addComponent(lblSelectedQuizDate, javax.swing.GroupLayout.PREFERRED_SIZE, 46, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
-        pnlAttemptQuizContent.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 30, 220, -1));
+        pnlAttemptQuizContent.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 30, 220, 70));
 
         getContentPane().add(pnlAttemptQuizContent, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 100, 830, 520));
 

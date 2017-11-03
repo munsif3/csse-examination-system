@@ -44,7 +44,6 @@ public class Exam {
         this.totalMarks = totalMarks;
         this.examState = examState;
         this.examPassword = examPassword;
-
     }
 
     public String getExamId() {
@@ -109,6 +108,16 @@ public class Exam {
 
     public void setExamPassword(String examPassword) {
         this.examPassword = examPassword;
+    }
+    
+    @Override
+     public boolean equals(Object obj){
+        Exam emp = (Exam) obj;
+        boolean status = false;
+        if(this.examId.equals(emp.examId)){
+            status = true;
+        }
+        return status;
     }
 
 }

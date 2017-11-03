@@ -57,7 +57,7 @@ public class ModuleService {
         return (HashMap<String, String>) moduleMap;
     }
 
-    private String getEnrollementKey(String module) {
+    public String getEnrollementKey(String module) {
         String enrollmentKey = null;
         try (Connection dbConnection = DBConnection.getConnection()) {
             resultSet = dbConnection.createStatement().executeQuery("select modulePassword from module where moduleId='" + module + "'");
