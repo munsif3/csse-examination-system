@@ -160,7 +160,7 @@ public class DashboardLecturer extends javax.swing.JFrame {
 
         jLabel6.setFont(new java.awt.Font("Segoe UI Light", 0, 16)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel6.setText("Course");
+        jLabel6.setText("Modules");
         jLabel6.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jLabel6.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -201,7 +201,7 @@ public class DashboardLecturer extends javax.swing.JFrame {
 
         jLabel7.setFont(new java.awt.Font("Segoe UI Light", 0, 16)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel7.setText("About");
+        jLabel7.setText("About Us");
         jLabel7.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLabel7MouseClicked(evt);
