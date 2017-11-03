@@ -80,9 +80,9 @@ public class Login extends javax.swing.JFrame {
         pnlAbout.setBackground(new java.awt.Color(116, 153, 197));
         pnlAbout.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        lblLoginBackground.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/csse/exam/resource/loginBackground.jpg"))); // NOI18N
+        lblLoginBackground.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/csse/exam/resource/sliit exam.jpg"))); // NOI18N
         lblLoginBackground.setText("jLabel1");
-        pnlAbout.add(lblLoginBackground, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 420, 330));
+        pnlAbout.add(lblLoginBackground, new org.netbeans.lib.awtextra.AbsoluteConstraints(-10, -70, 520, 470));
 
         getContentPane().add(pnlAbout, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 420, 330));
 
