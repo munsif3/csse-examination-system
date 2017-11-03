@@ -53,8 +53,8 @@ public class ExamSession extends javax.swing.JFrame {
      */
     public ExamSession() {
         initComponents();
-        cmbSearchExamId.setVisible(true);
-        lblSearchExamId.setVisible(true);
+        cmbSearchExamId.setVisible(false);
+        lblSearchExamId.setVisible(false);
         sessionService.addValueToComboBoxBasedOnField(cmbExamId, moduleId);
         //Load examination id from database to cmbExamId, cmbSearchExamId comboboxes.
         //commonComponents.addValueToComboBox(cmbExamId, "exam", "examId");
