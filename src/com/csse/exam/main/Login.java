@@ -7,10 +7,7 @@ package com.csse.exam.main;
 
 import com.csse.exam.model.User;
 import com.csse.exam.common.Validation;
-import com.csse.exam.config.DBConnection;
-import com.mysql.jdbc.Connection;
-import com.mysql.jdbc.PreparedStatement;
-import java.sql.ResultSet;
+import com.csse.exam.service.LoginService;
 import javax.swing.JOptionPane;
 
 /**
@@ -18,43 +15,12 @@ import javax.swing.JOptionPane;
  * @author user
  */
 public class Login extends javax.swing.JFrame {
-
-    Connection conn = null;
-    public User user;
-
     /**
      * Creates new form Login
      */
     public Login() {
         initComponents();
     }
-
-    //to check the login credentials 
-    public User getUser() {
-        return user;
-    }
-
-    public boolean validateLogin(String username, String password) {
-        PreparedStatement pst;
-        ResultSet rs;
-        try {
-            conn = (Connection) DBConnection.getConnection();            
-            pst = (PreparedStatement) conn.prepareStatement("Select * from user where username=? and userPassword=?");
-            pst.setString(1, username);
-            pst.setString(2, password);
-            rs = pst.executeQuery();
-
-            if (rs.next()) {
-                user = new User(rs.getString("userId"), rs.getString("name"), rs.getString("role"), rs.getString("username"), rs.getString("userPassword"));
-                return true;
-            } else {
-                return false;
-            }
-        } catch (Exception e) {
-            return false;
-        }
-    }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -129,10 +95,8 @@ public class Login extends javax.swing.JFrame {
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
 
-        DashboardAdmin adminHome = null;
-        DashboardLecturer lecturerHome = null;
-        DashboardStudent studentHome = null;
         Validation validation = new Validation();
+        LoginService login = new LoginService();
 
         // Collecting the input
         String username = txtUsername.getText();
@@ -145,20 +109,20 @@ public class Login extends javax.swing.JFrame {
         {
             JOptionPane.showMessageDialog(null, "Please enter your password");
         } else {
-            if (validateLogin(username, password)) {
+            if (login.validateLogin(username, password)) {
                 switch (User.checkRole()) {
                     case 0:
-                        adminHome = new DashboardAdmin();
+                        DashboardAdmin adminHome = new DashboardAdmin();
                         this.setVisible(false);
                         adminHome.setVisible(true);
                         break;
                     case 1:
-                        lecturerHome = new DashboardLecturer();
+                        DashboardLecturer lecturerHome = new DashboardLecturer();
                         this.setVisible(false);
                         lecturerHome.setVisible(true);
                         break;
                     default:
-                        studentHome = new DashboardStudent();
+                        DashboardStudent studentHome = new DashboardStudent();
                         this.setVisible(false);
                         studentHome.setVisible(true);
                         break;
