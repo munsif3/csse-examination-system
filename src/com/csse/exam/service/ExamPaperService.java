@@ -19,45 +19,46 @@ import java.util.stream.Collectors;
  *
  * @author Saranki
  */
+public class ExamPaperService {
 
- 
-public class ExamPaperService 
-{
     private static final Connection connection = DBConnection.getConnection();
     private static PreparedStatement preparedStatement;
     private static ResultSet resultSet;
     Question question;
     private ArrayList<Question> questionList = new ArrayList<>();
-       
+
+    public ExamPaperService() {
+        getQuestions();
+    }
+
     public ArrayList<Question> getQuestions() {
 
         try {
             preparedStatement = connection.prepareStatement("SELECT * FROM question");
-            resultSet = preparedStatement.executeQuery();  
+            resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
                 question = new Question();
                 question.setExamId(resultSet.getString("examId"));
                 question.setQuestionId(resultSet.getString("questionId"));
-                question.setQuestion(resultSet.getString("question"));                        
+                question.setQuestion(resultSet.getString("question"));
                 question.setOptions(resultSet.getString("options"));
                 questionList.add(question);
             }
 
-        }
-        catch (SQLException e) {
-            
+        } catch (SQLException e) {
+
         }
         return questionList;
     }
-    
+
     public List<Question> getQuestionId(String examId) {
         return questionList.stream()
                 .filter(t -> t.getExamId().equals(examId))
                 .collect(Collectors.toList());
 
     }
-    
+
     public List<Question> getQuestion(String examId, String questionId) {
         return questionList.stream()
                 .filter(t -> t.getExamId().equals(examId) && t.getQuestionId().equals(questionId))

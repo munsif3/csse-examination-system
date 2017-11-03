@@ -6,11 +6,13 @@
 package com.csse.exam.service;
 
 import com.csse.exam.config.DBConnection;
+import com.csse.exam.model.Question;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import javax.swing.JComboBox;
 
 /**
@@ -22,6 +24,8 @@ public class QuestionService
     private static final Connection connection = DBConnection.getConnection();    
     PreparedStatement preparedStatement;
     private static ResultSet resultSet;
+    Question question;
+    ArrayList<Question> list = new ArrayList<>();
   
     public Object[] getExamDetailsById(String examId)
     {
@@ -171,5 +175,4 @@ public class QuestionService
             System.out.println(e);
         }
     }
-   
 }
