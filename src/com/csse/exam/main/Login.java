@@ -40,7 +40,7 @@ public class Login extends javax.swing.JFrame {
         txtPassword = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("ONLINE MCQ EXAMINATION SYSTEM");
+        setTitle("MCQ EXAMINATION SYSTEM");
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         pnlAbout.setBackground(new java.awt.Color(116, 153, 197));
