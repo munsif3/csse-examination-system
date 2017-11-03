@@ -26,7 +26,7 @@ public class Results extends javax.swing.JFrame {
     private final List<Result> resultList = resultService.getDistinctStudentId();
     ClearComponents clear;
     Validation validate;
-    DefaultTableModel table = new DefaultTableModel();
+    DefaultTableModel table;
 
     /**
      * Creates new form Result
@@ -35,7 +35,8 @@ public class Results extends javax.swing.JFrame {
         initComponents();
 
         setStudentIdCombobox();
-        setResultTableModel();
+        table = resultService.fillResultsTable();
+        tblResults.setModel(table);
     }
 
     /**
@@ -533,22 +534,22 @@ public class Results extends javax.swing.JFrame {
         clear = new ClearComponents();
         clear.clearTextFields(pnlDetails);
         clear.resetComboBox(pnlDetails);
-        setResultTableModel();
+
     }//GEN-LAST:event_btnResetActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         validate = new Validation();
-        boolean checkTextBox = validate.checkEmptyTextBox(pnlDetails);
-        if (checkTextBox) {
-            txtGrade.setText(String.valueOf(resultService.getGrade(Integer.parseInt(txtMarks.getText()))));
+        boolean checkComboBox = validate.checkComboBox(pnlDetails);
+        if (checkComboBox) {
+            char grading = resultService.getGrade(Integer.parseInt(txtMarks.getText()));
+            txtGrade.setText(String.valueOf(grading));
             String studentId = cmbStudentId.getSelectedItem().toString();
             String examId = cmbExamId.getSelectedItem().toString();
             int score = Integer.parseInt(txtMarks.getText());
-            String grade = txtGrade.getText();
 
             int answer = JOptionPane.showConfirmDialog(this, "Are you sure you want to Update?");
             if (answer == 0) {
-                boolean updateScore = resultService.updateScore(studentId, examId, grade, score);
+                boolean updateScore = resultService.updateScore(studentId, examId, grading, score);
 
                 if (updateScore) {
                     JOptionPane.showMessageDialog(this, "Updated " + studentId + "'s " + examId.split("-")[1] + " score");
@@ -560,6 +561,7 @@ public class Results extends javax.swing.JFrame {
                 }
             }
             btnResetActionPerformed(evt);
+
         }
         else {
             JOptionPane.showMessageDialog(this, "Please Select a Record from the Dropdown to Update!");
@@ -649,8 +651,7 @@ public class Results extends javax.swing.JFrame {
     }
 
     private void setResultTableModel() {
-//        table = (DefaultTableModel) tblResults.getModel();
-        table.fireTableDataChanged();
+        table = (DefaultTableModel) tblResults.getModel();
         table = resultService.fillResultsTable();
         tblResults.setModel(table);
     }
