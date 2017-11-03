@@ -8,6 +8,9 @@ package com.csse.exam.main;
 import com.csse.exam.model.User;
 import com.csse.exam.service.ModuleService;
 import java.awt.Color;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.swing.DefaultListModel;
 
 /**
@@ -22,7 +25,7 @@ public class QuizContent extends javax.swing.JFrame {
     DashboardStudent dashboardStudent = new DashboardStudent();
     ExamModuleContent examModuleContent = new ExamModuleContent();
     ModuleService moduleService = new ModuleService();
-    
+    DateFormat oDateFormat = new SimpleDateFormat("yyyy-MM-dd");
     
     public QuizContent() {
         initComponents();
@@ -386,6 +389,7 @@ public class QuizContent extends javax.swing.JFrame {
         attemptExam.setVisible(true);
         attemptExam.lblHeaderAE.setText(lblSelectedModule.getText() + " - " + lstQuiz.getSelectedValue());
         attemptExam.lblSelectedQuiz.setText(lstQuiz.getSelectedValue());
+        attemptExam.lblSelectedQuizDate.setText(oDateFormat.format(new Date()));
     }//GEN-LAST:event_lstQuizMouseClicked
 
     /**
