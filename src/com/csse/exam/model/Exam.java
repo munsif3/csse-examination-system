@@ -9,7 +9,7 @@ import java.util.Date;
 
 /**
  *
- * @author Neruppuda
+ * @author S.Sudheesan
  */
 public class Exam {
 

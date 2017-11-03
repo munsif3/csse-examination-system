@@ -274,7 +274,13 @@ public final class ExamService
         return false;
 
     }
-
+   
+    /**
+     * submit the answers after student done with exam
+     * @author S.Sudheesan
+     * @param examID
+     * @param answerSet 
+     */
    public void submitAnswers(String examID,String answerSet){
         try (Connection dbConnection = DBConnection.getConnection()) {
              dbConnection.createStatement().executeUpdate("insert into  answer values('" + User.getUserId() + "','" + examID + "','" + answerSet +"')");
