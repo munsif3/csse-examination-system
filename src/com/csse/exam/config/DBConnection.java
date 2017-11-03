@@ -23,7 +23,7 @@ public class DBConnection {
 
         try {
             Class.forName(driver);
-            Connection connection = DriverManager.getConnection(url);
+            Connection connection = DriverManager.getConnection(url, username, password);
             return connection;
         } catch (ClassNotFoundException | SQLException e) {
             JOptionPane.showMessageDialog(null, e);
