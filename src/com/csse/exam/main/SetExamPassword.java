@@ -34,6 +34,9 @@ public class SetExamPassword extends javax.swing.JFrame {
         fillCombo();
     }
 
+    /**
+     * this method will fill the combo box from db
+     */
     public void fillCombo()
     {
         try{

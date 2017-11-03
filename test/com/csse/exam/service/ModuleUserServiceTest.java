@@ -16,9 +16,9 @@ import static org.junit.Assert.*;
  *
  * @author User
  */
-public class moduleUserServiceTest {
+public class ModuleUserServiceTest {
     
-    public moduleUserServiceTest() {
+    public ModuleUserServiceTest() {
     }
     
     @BeforeClass
@@ -41,7 +41,7 @@ public class moduleUserServiceTest {
     @Test
     public void testGetNewModuleId() {
         System.out.println("getNewModuleId");
-        moduleUserService instance = new moduleUserService();
+        ModuleUserService instance = new ModuleUserService();
         String expResult = "MO003";
         String result = instance.getNewModuleId();
         assertEquals(expResult, result);

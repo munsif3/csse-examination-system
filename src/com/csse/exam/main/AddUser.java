@@ -571,7 +571,7 @@ public class AddUser extends javax.swing.JFrame {
     }//GEN-LAST:event_lblContactUsMouseClicked
 
     private void btnAddMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddMouseClicked
-        // TODO add your handling code here:
+        // this event will call the user service method.
         String name = txtName.getText();
         String username = txtUsername.getText();
         String password = new String(pwdUserPassword.getPassword());

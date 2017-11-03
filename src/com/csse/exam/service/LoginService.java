@@ -19,7 +19,12 @@ public class LoginService {
     
     Connection conn = null;
     User user;
-    
+    /**
+     * This method is used to validate the login. Check the username and password entered an validate. 
+     * @param username
+     * @param password
+     * @return 
+     */
     public boolean validateLogin(String username, String password) {
         
         PreparedStatement pst;
