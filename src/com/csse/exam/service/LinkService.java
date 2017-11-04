@@ -16,20 +16,20 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author user
+ * @author saranki
  */
 public class LinkService 
 {
     /**
-     * 
+     * Declare variables 
      */
     Connection con = DBConnection.getConnection();
     PreparedStatement preparedStatement ;
     ResultSet result;
     
     /**
-     * 
-     * @return 
+     * Get exam id count 
+     * @return row count
      */
     public int getRowCount() {
         int rowCount = 0;
@@ -76,6 +76,13 @@ public class LinkService
 
         return state;
     }
+    
+    /**
+     * Get exam Link for an exam based on exam id
+     * @param examId
+     * @param table
+     * @return examLink
+     */
 
     public String[] getExamLink(String examId, String table) {
         String examLink[] = new String[2];
@@ -99,6 +106,11 @@ public class LinkService
         return examLink;
     }
     
+    /**
+     * Show exam link based on exam id
+     * @param examId
+     * @return 
+     */
     public String showExamLink(String examId)
     {
         String linkName[] = getExamLink(examId, "exam");
@@ -112,6 +124,11 @@ public class LinkService
     
     }
     
+    /**
+     * Fill exam link table based on module id
+     * @param table
+     * @param moduleId 
+     */
     public void fillExamLinkTable(JTable table, String moduleId)
     {
         System.out.println("from table "+moduleId);
@@ -145,6 +162,12 @@ public class LinkService
         }        
     }
     
+    /**
+     * update exam link status
+     * @param examId
+     * @param examState
+     * @return boolean value
+     */
     public boolean updateExamLinkStatus(String examId, String examState) {
         try {
             preparedStatement = con.prepareStatement("UPDATE exam SET examState=? WHERE examId=?");         
@@ -159,6 +182,11 @@ public class LinkService
         return false;
     }
     
+    /**
+     * Add exam id to combo box based on exam module
+     * @param comboBox
+     * @param moduleId 
+     */
     public void addValueToComboBoxBasedOnField(JComboBox comboBox, String moduleId) {
 
         String examId = null;
