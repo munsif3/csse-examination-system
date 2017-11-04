@@ -617,6 +617,12 @@ public class Answers extends javax.swing.JFrame {
             String eid = cmbExamId.getSelectedItem().toString();
             String qid = lstQuestionId.getSelectedValue();
             deleteQuestionById(eid, qid);
+            lblOpt1.setText("");
+            lblOpt2.setText("");
+            lblOpt3.setText("");
+            lblOpt4.setText("");
+            lblOpt5.setText("");
+            lblQuestionDesc.setText("");
             setQuestionsOnListBox(eid);
         }
         else {

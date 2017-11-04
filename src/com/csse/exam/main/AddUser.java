@@ -91,11 +91,13 @@ public class AddUser extends javax.swing.JFrame {
         lblName1.setText("Name");
         jPanel3.add(lblName1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 30, -1, -1));
 
+        rdoStudent.setBackground(new java.awt.Color(204, 217, 233));
         rdoButtonGroup.add(rdoStudent);
         rdoStudent.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         rdoStudent.setText("Student");
         jPanel3.add(rdoStudent, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 90, -1, -1));
 
+        rdoLecturer.setBackground(new java.awt.Color(204, 217, 233));
         rdoButtonGroup.add(rdoLecturer);
         rdoLecturer.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         rdoLecturer.setSelected(true);
@@ -324,7 +326,7 @@ public class AddUser extends javax.swing.JFrame {
 
         lblAbout.setFont(new java.awt.Font("Segoe UI Light", 0, 16)); // NOI18N
         lblAbout.setForeground(new java.awt.Color(255, 255, 255));
-        lblAbout.setText("About");
+        lblAbout.setText("About Us");
         lblAbout.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblAboutMouseClicked(evt);
@@ -348,7 +350,7 @@ public class AddUser extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        pnlNavigation.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 300, -1, -1));
+        pnlNavigation.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 300, 130, 50));
 
         pnlModule.setBackground(new java.awt.Color(70, 102, 144));
         pnlModule.setBorder(javax.swing.BorderFactory.createEtchedBorder());

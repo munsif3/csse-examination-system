@@ -388,7 +388,7 @@ public class SetExamPassword extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        pnlNavigation.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 300, -1, -1));
+        pnlNavigation.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 300, 130, 50));
 
         pnlModule.setBackground(new java.awt.Color(70, 102, 144));
         pnlModule.setBorder(javax.swing.BorderFactory.createEtchedBorder());

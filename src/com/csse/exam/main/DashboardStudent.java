@@ -101,7 +101,7 @@ public class DashboardStudent extends javax.swing.JFrame {
         jLabel13 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("LECTURER DASHBOARD");
+        setTitle("STUDENT DASHBOARD");
         setMinimumSize(new java.awt.Dimension(950, 600));
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());

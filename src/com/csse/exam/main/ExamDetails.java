@@ -113,6 +113,9 @@ public class ExamDetails extends javax.swing.JFrame {
         cmbSearchExamId = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("EXAM DETAILS");
+        setMaximumSize(new java.awt.Dimension(960, 620));
+        setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         pnlNavigation.setBackground(new java.awt.Color(105, 135, 170));
@@ -510,7 +513,8 @@ public class ExamDetails extends javax.swing.JFrame {
 
         getContentPane().add(pnlContent, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 100, 830, 520));
 
-        pack();
+        setSize(new java.awt.Dimension(966, 639));
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void pnlDashboardMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlDashboardMouseClicked
