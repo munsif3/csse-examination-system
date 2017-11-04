@@ -14,10 +14,10 @@ public class DBConnection {
     //Initializing the driver
     static String driver = "com.mysql.jdbc.Driver";
     // Initializing the path to the database
-    static String url = "jdbc:mysql://sql12.freemysqlhosting.net:3306/sql12196110";
+    static String url = "jdbc:mysql://127.0.0.1:3306/examsystem?";//jdbc:mysql://sql12.freemysqlhosting.net:3306/sql12196110
     //database username and password
-    static String username = "sql12196110";
-    static String password = "ZmI6UAuyYA";
+    static String username = "root";//sql12196110
+    static String password = "";//ZmI6UAuyYA
 
     public static Connection getConnection() {
 

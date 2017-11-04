@@ -49,23 +49,12 @@ public class ExamPaper extends javax.swing.JFrame {
         initComponents();
         lblUser.setText(User.getName());
         lblTitleExamPaper.setText(AttemptExam.examinationCode);
-
         List<Question> questionsByExamId = examPaperService.getQuestionId(AttemptExam.examinationCode);
         questionsByExamId.forEach((result) -> {
 
             questionId = result.getQuestionId();
             question = result.getQuestion();
             answerMap.put(questionId, "NA");
-            /*JButton button = new JButton();
-                button.setLocation(x,y);
-                button.setSize(60, 40);
-                button.setText(questionId);
-                button.setVisible(true);    
-                
-                //listQuestionNo.add(button);
-                //System.out.println(question);
-                //System.out.println(questionId);
-                y = y+45;*/
             listModel.addElement(questionId);
         });
         listQuestionNo.setModel(listModel);
@@ -99,7 +88,6 @@ public class ExamPaper extends javax.swing.JFrame {
             buttonGroup1.clearSelection();
         } else if ("1".equals(answerMap.get(listQuestionNo.getSelectedValue()))) {
             rdbOption1.setSelected(true);
-
         } else if ("2".equals(answerMap.get(listQuestionNo.getSelectedValue()))) {
             rdbOption2.setSelected(true);
         } else if ("3".equals(answerMap.get(listQuestionNo.getSelectedValue()))) {
@@ -170,6 +158,9 @@ public class ExamPaper extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("EXAM PAPER");
+        setMaximumSize(new java.awt.Dimension(960, 620));
+        setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         pnlNavigation.setBackground(new java.awt.Color(105, 135, 170));
@@ -422,7 +413,7 @@ public class ExamPaper extends javax.swing.JFrame {
                 rdbOption1ItemStateChanged(evt);
             }
         });
-        pnlQuestions.add(rdbOption1, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 140, -1, -1));
+        pnlQuestions.add(rdbOption1, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 160, -1, -1));
 
         buttonGroup1.add(rdbOption2);
         rdbOption2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -433,7 +424,7 @@ public class ExamPaper extends javax.swing.JFrame {
                 rdbOption2ItemStateChanged(evt);
             }
         });
-        pnlQuestions.add(rdbOption2, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 170, -1, -1));
+        pnlQuestions.add(rdbOption2, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 190, -1, -1));
 
         buttonGroup1.add(rdbOption3);
         rdbOption3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -444,7 +435,7 @@ public class ExamPaper extends javax.swing.JFrame {
                 rdbOption3ItemStateChanged(evt);
             }
         });
-        pnlQuestions.add(rdbOption3, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 200, -1, -1));
+        pnlQuestions.add(rdbOption3, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 220, -1, -1));
 
         buttonGroup1.add(rdbOption4);
         rdbOption4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -455,7 +446,7 @@ public class ExamPaper extends javax.swing.JFrame {
                 rdbOption4ItemStateChanged(evt);
             }
         });
-        pnlQuestions.add(rdbOption4, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 230, -1, -1));
+        pnlQuestions.add(rdbOption4, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 250, -1, -1));
 
         buttonGroup1.add(rdbOption5);
         rdbOption5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -466,7 +457,7 @@ public class ExamPaper extends javax.swing.JFrame {
                 rdbOption5ItemStateChanged(evt);
             }
         });
-        pnlQuestions.add(rdbOption5, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 260, -1, -1));
+        pnlQuestions.add(rdbOption5, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 280, -1, -1));
 
         lblQuestion1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblQuestion1.setText("QUESTION : ");
@@ -481,29 +472,30 @@ public class ExamPaper extends javax.swing.JFrame {
         pnlQuestions.add(lblExamQuestion, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 60, 540, 30));
 
         lblOption5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        lblOption5.setText(" ");
-        pnlQuestions.add(lblOption5, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 260, 330, 30));
+        lblOption5.setText("sdfsfdsfs");
+        pnlQuestions.add(lblOption5, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 280, 330, 30));
 
         lblOption1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        lblOption1.setText(" ");
-        pnlQuestions.add(lblOption1, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 140, 330, 30));
+        lblOption1.setText("sdfsfdsfs");
+        pnlQuestions.add(lblOption1, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 160, 330, 30));
 
         lblOption2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        lblOption2.setText(" ");
-        pnlQuestions.add(lblOption2, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 170, 330, 30));
+        lblOption2.setText("sdfsfdsfs");
+        pnlQuestions.add(lblOption2, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 190, 330, 30));
 
         lblOption3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        lblOption3.setText(" ");
-        pnlQuestions.add(lblOption3, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 200, 330, 30));
+        lblOption3.setText("sdfsfdsfs");
+        pnlQuestions.add(lblOption3, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 220, 330, 30));
 
         lblOption4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        lblOption4.setText(" ");
-        pnlQuestions.add(lblOption4, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 230, 330, 30));
+        lblOption4.setText("sdfsfdsfs");
+        pnlQuestions.add(lblOption4, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 250, 330, 30));
 
         pnlContent.add(pnlQuestions, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 10, 680, 410));
 
         listQuestionNo.setBackground(new java.awt.Color(204, 204, 255));
         listQuestionNo.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        listQuestionNo.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         listQuestionNo.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 listQuestionNoMouseClicked(evt);
@@ -545,14 +537,16 @@ public class ExamPaper extends javax.swing.JFrame {
         pnlResult1.setLayout(pnlResult1Layout);
         pnlResult1Layout.setHorizontalGroup(
             pnlResult1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(lblResult1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 246, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlResult1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblResult1, javax.swing.GroupLayout.DEFAULT_SIZE, 236, Short.MAX_VALUE))
         );
         pnlResult1Layout.setVerticalGroup(
             pnlResult1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(lblResult1, javax.swing.GroupLayout.DEFAULT_SIZE, 46, Short.MAX_VALUE)
         );
 
-        pnlContent.add(pnlResult1, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 440, 250, 50));
+        pnlContent.add(pnlResult1, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 440, 250, 50));
 
         jLabel1.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         jLabel1.setText(" ");
@@ -560,7 +554,8 @@ public class ExamPaper extends javax.swing.JFrame {
 
         getContentPane().add(pnlContent, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 100, 830, 520));
 
-        pack();
+        setSize(new java.awt.Dimension(966, 639));
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void pnlDashboardMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlDashboardMouseClicked
@@ -625,7 +620,6 @@ public class ExamPaper extends javax.swing.JFrame {
     }//GEN-LAST:event_lblLogoutMouseClicked
 
     private void listQuestionNoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listQuestionNoMouseClicked
-        // TODO add your handling code here:
         System.out.println("clicked");
         String selectedQuestionId = listQuestionNo.getSelectedValue();
         List<Question> questionsByUniqueId = examPaperService.getQuestion(AttemptExam.examinationCode, selectedQuestionId);
@@ -634,13 +628,11 @@ public class ExamPaper extends javax.swing.JFrame {
             lblExamQuestion.setText(result.getQuestion());
             String options = result.getOptions();
             System.out.println(options);
-
             String option1 = options.split(":")[0].split("-")[1];
             String option2 = options.split(":")[1].split("-")[1];
             String option3 = options.split(":")[2].split("-")[1];
             String option4 = options.split(":")[3].split("-")[1];
             String option5 = options.split(":")[4].split("-")[1];
-
             lblOption1.setText(option1);
             lblOption2.setText(option2);
             lblOption3.setText(option3);

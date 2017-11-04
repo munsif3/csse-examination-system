@@ -67,10 +67,11 @@ public class DashboardLecturer extends javax.swing.JFrame {
         pnlContent.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         lblUpcomingEvents.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        lblUpcomingEvents.setText("Upcoming Events");
+        lblUpcomingEvents.setText("RECENTLY FINISHED");
         pnlContent.add(lblUpcomingEvents, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 30, -1, -1));
 
         lstUpcomingEvents.setBackground(new java.awt.Color(204, 217, 233));
+        lstUpcomingEvents.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         lstUpcomingEvents.setFont(new java.awt.Font("Segoe UI Light", 0, 20)); // NOI18N
         lstUpcomingEvents.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "MO001-ASSIGNMENT-E:01", "MO001-ASSIGNMENT-E:02", "MO001-ASSIGNMENT-E:03", "MO002-ASSIGNMENT-E:01", "MO002-ASSIGNMENT-E:02" };
@@ -81,16 +82,17 @@ public class DashboardLecturer extends javax.swing.JFrame {
         lstUpcomingEvents.setSelectionBackground(new java.awt.Color(204, 217, 233));
         jScrollPane1.setViewportView(lstUpcomingEvents);
 
-        pnlContent.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 60, 270, 280));
+        pnlContent.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 60, 250, 280));
 
         lblRecentActivity.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        lblRecentActivity.setText("Recent Activity");
-        pnlContent.add(lblRecentActivity, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 30, -1, -1));
+        lblRecentActivity.setText("UPCOMING EXAMS");
+        pnlContent.add(lblRecentActivity, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 30, -1, -1));
 
         jList1.setBackground(new java.awt.Color(204, 217, 233));
+        jList1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         jList1.setFont(new java.awt.Font("Segoe UI Light", 0, 20)); // NOI18N
         jList1.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            String[] strings = { "MO001-ASSIGNMENT-E:04", "MO001-ASSIGNMENT-E:05", "MO002-ASSIGNMENT-E:04", "MO002-ASSIGNMENT-E:05", "MO003-ASSIGNMENT-E:06" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
@@ -98,7 +100,7 @@ public class DashboardLecturer extends javax.swing.JFrame {
         jList1.setSelectionBackground(new java.awt.Color(204, 217, 233));
         jScrollPane2.setViewportView(jList1);
 
-        pnlContent.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 60, 210, 280));
+        pnlContent.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 60, 260, 280));
 
         getContentPane().add(pnlContent, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 100, 820, 520));
 

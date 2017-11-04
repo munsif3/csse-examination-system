@@ -272,11 +272,11 @@ public class AttemptExam extends javax.swing.JFrame {
         pnlAttemptQuizContent.setBackground(new java.awt.Color(204, 217, 233));
         pnlAttemptQuizContent.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel3.setBackground(new java.awt.Color(51, 153, 255));
+        jPanel3.setBackground(new java.awt.Color(105, 135, 170));
 
         lblSelectedQuiz.setBackground(new java.awt.Color(70, 102, 144));
         lblSelectedQuiz.setFont(new java.awt.Font("Segoe UI Light", 0, 36)); // NOI18N
-        lblSelectedQuiz.setForeground(new java.awt.Color(51, 51, 51));
+        lblSelectedQuiz.setForeground(new java.awt.Color(255, 255, 255));
         lblSelectedQuiz.setText("Selected Quiz");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -292,15 +292,17 @@ public class AttemptExam extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lblSelectedQuiz, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addComponent(lblSelectedQuiz, javax.swing.GroupLayout.PREFERRED_SIZE, 38, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pnlAttemptQuizContent.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 30, 440, 60));
 
+        jPanel4.setBackground(new java.awt.Color(105, 135, 170));
+
         jLabel14.setBackground(new java.awt.Color(70, 102, 144));
         jLabel14.setFont(new java.awt.Font("Segoe UI Light", 0, 36)); // NOI18N
-        jLabel14.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel14.setForeground(new java.awt.Color(255, 255, 255));
         jLabel14.setText("Attempt Quiz");
         jLabel14.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -339,12 +341,12 @@ public class AttemptExam extends javax.swing.JFrame {
         jLabel13.setText("Quiz Password:");
         pnlAttemptQuizContent.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 150, 200, 30));
 
-        jPanel7.setBackground(new java.awt.Color(51, 153, 255));
+        jPanel7.setBackground(new java.awt.Color(105, 135, 170));
 
         lblSelectedQuizDate.setBackground(new java.awt.Color(70, 102, 144));
         lblSelectedQuizDate.setFont(new java.awt.Font("Segoe UI Light", 0, 36)); // NOI18N
-        lblSelectedQuizDate.setForeground(new java.awt.Color(51, 51, 51));
-        lblSelectedQuizDate.setText("Selected Quiz");
+        lblSelectedQuizDate.setForeground(new java.awt.Color(255, 255, 255));
+        lblSelectedQuizDate.setText("Date");
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
@@ -354,13 +356,13 @@ public class AttemptExam extends javax.swing.JFrame {
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel7Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lblSelectedQuizDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lblSelectedQuizDate, javax.swing.GroupLayout.PREFERRED_SIZE, 38, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
-        pnlAttemptQuizContent.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 30, 220, 70));
+        pnlAttemptQuizContent.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 30, 220, 60));
 
         getContentPane().add(pnlAttemptQuizContent, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 100, 830, 520));
 
@@ -453,7 +455,7 @@ public class AttemptExam extends javax.swing.JFrame {
                         examPaper.closeUi();
                     }
                 },
-                        5000
+                        3000
                 );
                 
             } else {

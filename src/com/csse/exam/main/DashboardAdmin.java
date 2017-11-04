@@ -7,17 +7,12 @@ package com.csse.exam.main;
 
 import com.csse.exam.config.DBConnection;
 import com.csse.exam.model.User;
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -411,7 +406,7 @@ public class DashboardAdmin extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        pnlNavigation.add(pnlModule, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 200, -1, -1));
+        pnlNavigation.add(pnlModule, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 200, 130, 50));
 
         jPanel9.setBackground(new java.awt.Color(70, 102, 144));
         jPanel9.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -669,7 +664,7 @@ public class DashboardAdmin extends javax.swing.JFrame {
                 conn = (Connection) DBConnection.getConnection();
                 Statement st=conn.createStatement();
 
-                String sqlst="delete from sql12196110.user where userId=?";
+                String sqlst="delete from user where userId=?";
                 PreparedStatement pst = (PreparedStatement) conn.prepareStatement(sqlst);
                 pst.setString(1, userId); 
                 pst.execute();
