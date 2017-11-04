@@ -43,6 +43,10 @@ public final class ExamService
         
     }
     
+    /**
+     * Get exam details from exam table in database and set it to an array list
+     * @return examList 
+     */
     public ArrayList<Exam> getExam() {
 
         try {
@@ -70,12 +74,12 @@ public final class ExamService
         }
         return examList;
     }
-    /**
-     * 
-     * @param examType
-     * @return 
-     */
     
+    /**
+     * Get the latest exam code
+     * @param examType
+     * @return examCode
+     */    
     public String getLatestExamCode(String examType) {
         String examCode = null;
 
@@ -98,7 +102,7 @@ public final class ExamService
     /**
      * Get all the examId which contains the specified exam type.
      * @param examType
-     * @return 
+     * @return list
      */
     public List<Exam> getExamByExamId(String examType) {
         return examList.stream()
@@ -108,10 +112,10 @@ public final class ExamService
 
     }
     /**
-     * 
+     * Get exam id based on exam type and module id
      * @param examType
      * @param moduleId
-     * @return 
+     * @return examId
      */
     public String getExamId(String examType, String moduleId)
     {
@@ -148,6 +152,11 @@ public final class ExamService
         return examId;
     }
     
+    /** 
+     * Fill exam details table based on module id
+     * @param table
+     * @param moduleId 
+     */
     public void fillExamDetailsTable(JTable table, String moduleId)
     {
        
@@ -183,6 +192,16 @@ public final class ExamService
         }        
     }
     
+    /**
+     * Add exam details
+     * @param examId
+     * @param examDuration
+     * @param moduleId
+     * @param noOfQuestion
+     * @param totalMarks
+     * @param dateString
+     * @return boolean value
+     */
     public boolean addExamdetails(String examId, String examDuration, String moduleId, int noOfQuestion, int totalMarks, String dateString) {
         try {
             preparedStatement = connection.prepareStatement("INSERT INTO exam (examId, examDuration, moduleId, examDate, noOfQuestion, totalMarks)" + "VALUES(?,?,?,?,?,?)");
@@ -206,6 +225,15 @@ public final class ExamService
         return false;
     }
     
+    /**
+     * Update Exam details
+     * @param examDuration
+     * @param noOfQuestion
+     * @param totalMarks
+     * @param examId
+     * @param dateString
+     * @return boolean value
+     */
     public boolean updateExamDetails(String examDuration, int noOfQuestion, int totalMarks,String examId, String dateString){
         try {
             
@@ -226,6 +254,11 @@ public final class ExamService
         return false;
     }
   
+    /**
+     * Get exam details by exam id
+     * @param examID
+     * @return exam
+     */
     public Exam getExam(String examID){
         Exam exam = new Exam();
         try (Connection dbConnection = DBConnection.getConnection()) {
@@ -248,16 +281,31 @@ public final class ExamService
         return exam;
     }
     
+    /**
+     * Validate exam password
+     * @param examId
+     * @param password
+     * @return boolean value
+     */
     public boolean validateExamPassword(String examId , String password){
         return password.equals(getExam(examId).getExamPassword());
     }
     
-
+    /**
+     * Validate exam date whether it is null
+     * @param examDate
+     * @return boolean value
+     */
     public boolean valaidateExamDate(String examDate)
     {       
         return examDate == null;
     }
     
+    /**
+     * Delete exam details based on exam id
+     * @param examId
+     * @return boolean value
+     */
     public boolean deleteExamDetails(String examId){
         try {
             

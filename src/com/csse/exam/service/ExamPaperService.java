@@ -27,10 +27,17 @@ public class ExamPaperService {
     Question question;
     private ArrayList<Question> questionList = new ArrayList<>();
 
+    /**
+     * Constructor
+     */
     public ExamPaperService() {
         getQuestions();
     }
 
+    /**
+     * Get all the details from question table from database and assign it to an array list
+     * @return questionList
+     */
     public ArrayList<Question> getQuestions() {
 
         try {
@@ -52,6 +59,11 @@ public class ExamPaperService {
         return questionList;
     }
 
+    /**
+     * Filter question id by exam id
+     * @param examId
+     * @return list
+     */
     public List<Question> getQuestionId(String examId) {
         return questionList.stream()
                 .filter(t -> t.getExamId().equals(examId))
@@ -59,6 +71,12 @@ public class ExamPaperService {
 
     }
 
+    /**
+     * Filter question based on exam id and question id
+     * @param examId
+     * @param questionId
+     * @return list
+     */
     public List<Question> getQuestion(String examId, String questionId) {
         return questionList.stream()
                 .filter(t -> t.getExamId().equals(examId) && t.getQuestionId().equals(questionId))

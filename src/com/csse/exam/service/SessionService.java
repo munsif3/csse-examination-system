@@ -75,8 +75,8 @@ public class SessionService {
     }
     
     /**
-     *
-     * @return
+     *Get all the session details
+     * @return array list
      */
     public ArrayList<Session> getSession() 
     {
@@ -105,18 +105,10 @@ public class SessionService {
         return sessionList;
     }
    
-   public DefaultTableModel fillSessionTable() {
-        DefaultTableModel tableModel = new DefaultTableModel(new Object[]{"EXAMINATION ID", "MODULE ID", "EXAMINATION DATE" ,"SESSION ID", "EXAMINATION TIME", "EXAMINATION VENUE"}, 0);
-
-        sessionList.forEach((result) -> {
-            tableModel.addRow(new Object[]{result.getExamId(), result.getModuleId(), result.getExamDate(), result.getSessionId(),result.getExamTime(), result.getExamVenue()});
-        });
-
-        return tableModel;
-    }
+   
    
    /**
-    * 
+    * Get exam details by exam Id
     * @param examId
     * @param module
     * @param examDate
@@ -145,6 +137,11 @@ public class SessionService {
         }           
     }
    
+   /**
+    * Check if the exam id is existing
+    * @param examId
+    * @return boolean value
+    */
    public String isExamIdExisting(String examId)
    {
        String id = null;
@@ -166,6 +163,13 @@ public class SessionService {
        return id;
    }
    
+   /**
+    * Get session details by exam id and session id
+    * @param examId
+    * @param sessionId
+    * @param examTime
+    * @param examVenue 
+    */
    public void getSessionDetailsById(String examId, int sessionId, JSpinner examTime, JTextField examVenue) 
     {
         try
@@ -188,6 +192,11 @@ public class SessionService {
         }           
     }
    
+   /**
+    * Get latest session id by exam id in db
+    * @param examId
+    * @return 
+    */
    public String getLatestSessionId(String examId)
     {
         String sessionId = null;
@@ -209,6 +218,11 @@ public class SessionService {
         
     }
    
+   /**
+    * Get the session id for the  next question
+    * @param examId
+    * @return sessionId
+    */
    public String getSessionId(String examId)
     {
         String sessionId;
@@ -229,8 +243,12 @@ public class SessionService {
         return sessionId;
     }       
     
+   /**
+    * Add session id to combo box based on exam id
+    * @param comboBox
+    * @param examId 
+    */
     public void getSessionIdByExamId(JComboBox comboBox, String examId) {
-        //this is a test comment2
         String value = null;
         try {
             preparedStatement = connection.prepareStatement("SELECT DISTINCT sessionId FROM session WHERE examId=?");
@@ -252,6 +270,14 @@ public class SessionService {
         }
     }
     
+    /**
+     * Add exam details
+     * @param examId
+     * @param sessionId
+     * @param examTime
+     * @param examVenue
+     * @return boolean value
+     */
     public boolean addExamSessionDetails(String examId, int sessionId ,String examTime, String examVenue)
     {
         try {
@@ -275,6 +301,14 @@ public class SessionService {
         return false;
     }
     
+    /**
+     * Check whether an exam is already booked on same date, time and venue
+     * @param examDate
+     * @param examTime
+     * @param examVenue
+     * @param examId
+     * @return exam id count
+     */
     public int checkSessionAvailability(String examDate,String examTime, String examVenue, String examId)
     {       
         int value = 0;
@@ -302,6 +336,11 @@ public class SessionService {
         return value;
     }
     
+    /**
+     * Filter session details based on exam id
+     * @param examId
+     * @return 
+     */
     public List<Session> getSessionDetailsById(String examId) {
         return sessionList.stream()
                 .filter(t -> t.getExamId().equals(examId))
@@ -309,6 +348,14 @@ public class SessionService {
 
     }
     
+    /**
+     * Update session details
+     * @param examId
+     * @param sessionId
+     * @param examTime
+     * @param examVenue
+     * @return boolean value
+     */
     public boolean updateSessionDetails(String examId, int sessionId, String examTime, String examVenue){
         try {
             
@@ -328,6 +375,12 @@ public class SessionService {
         return false;
     }
     
+    /**
+     * Delete session details
+     * @param examId
+     * @param sessionId
+     * @return boolean value
+     */
     public boolean deleteSessionDetails(String examId, int sessionId){
         try {
             
@@ -345,6 +398,11 @@ public class SessionService {
 
     }
     
+    /**
+     * Add exam id to combo box based on module id
+     * @param comboBox
+     * @param moduleId 
+     */
     public void addValueToComboBoxBasedOnField(JComboBox comboBox, String moduleId) {
 
         String value = null;
